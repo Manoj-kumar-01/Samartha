@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMARTHA 2026 // 24-Hour Hackathon - Department of CSE, VIIT</title>
+  <meta name="description"
+    content="SAMARTHA: Indian Ingenuity. AI Innovation. Global Impact. 24 hrs Hackathon Assembled by Dept of CSE, Vignan's Institute of Information Technology (Autonomous), Visakhapatnam. ₹30,000+ Prize Pool.">
+  <link rel="icon" type="image/jpeg" href="assets/samartha_logo.jpg">
+
+  <!-- Google Fonts for Tactical Marvel / Avengers & Cyberpunk Aesthetics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css?v=3.7">
+
+  <!-- Google Model Viewer for 3D GLB Assets -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+  <style>
+    @media (max-width: 992px) {
+      .institution-accreditation-bar {
+        display: none !important;
+      }
+
+      .nav-container {
+        padding: 0 1rem !important;
+        gap: 0.5rem !important;
+        justify-content: space-between !important;
+      }
+
+      .brand-link {
+        width: auto !important;
+        justify-content: flex-start !important;
+      }
+
+      .brand-logo-img {
+        width: 38px !important;
+        height: 38px !important;
+      }
+
+      .brand-title-img {
+        height: 28px !important;
+      }
+
+      #view-poster-btn {
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+      }
+
+      body {
+        overflow-x: hidden !important;
+      }
+
+      .hero-background-image {
+        background: radial-gradient(circle at center, #1a050d 0%, #0d0205 60%, #000000 100%) !important;
+      }
+
+      .main-header {
+        background: rgba(2, 18, 9, 0.98) !important;
+        border-bottom: 2px solid rgba(0, 255, 136, 0.8) !important;
+        box-shadow: 0 5px 30px rgba(0, 255, 136, 0.35) !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-emerald gateway-mode">
+  <!-- Fallout Ash / Emerald Energy Canvas -->
+  <canvas id="fallout-canvas"></canvas>
+
+  <!-- CRT Monitor Scanline & Vignette Overlay -->
+  <div class="crt-overlay" id="crt-overlay"></div>
+  <div class="vignette-overlay"></div>
+
+  <!-- Institution & Department Accreditation Banner -->
+  <div class="institution-accreditation-bar">
+    <div class="inst-title">
+      <span>🏛️ VIGNAN'S INSTITUTE OF INFORMATION TECHNOLOGY (AUTONOMOUS)</span>
+      <span class="hud-divider">|</span>
+      <span class="inst-dept">ORGANISED BY DEPARTMENT OF CSE</span>
+    </div>
+    <div class="accreditation-badges">
+      <span class="inst-badge gold-badge">NAAC A+ (3.40 / 4.00)</span>
+      <span class="inst-badge">NBA ACCREDITED</span>
+      <span class="inst-badge">NIRF 2025 (201-300)</span>
+      <span class="inst-badge">IIC MOE INITIATIVE</span>
+      <span class="inst-badge">DUVVADA, VISAKHAPATNAM</span>
+    </div>
+  </div>
+
+  <!-- Expanded Primary Navigation -->
+  <header class="main-header" id="site-header">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-link" aria-label="SAMARTHA 2026 Home">
+        <div class="brand-logo-frame">
+          <img src="assets/samartha_logo.jpg" alt="SAMARTHA Emblem" class="brand-logo-img">
+        </div>
+        <div class="brand-text-block">
+          <img src="assets/samartha_title_hd.png" alt="SAMARTHA" class="brand-title-img">
+        </div>
+      </a>
+
+      <!-- Expanded Spacious Navigation Links -->
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#hero" class="nav-item">MISSION</a>
+        <a href="#poster-spotlight" class="nav-item highlight-poster">OFFICIAL POSTER</a>
+        <a href="#promo-video" class="nav-item">PROMO VIDEO</a>
+        <a href="#themes" class="nav-item">6 THEMES</a>
+        <a href="#timeline" class="nav-item">24H TIMELINE</a>
+        <a href="#prizes" class="nav-item">₹30K+ PRIZES</a>
+        <a href="#coordinators" class="nav-item">CONTACTS</a>
+        <a href="#sponsors" class="nav-item">SPONSORS</a>
+        <a href="#faq" class="nav-item">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: DOCTOR DOOM / AVENGERS DOOMSDAY THEME -->
+    <section class="hero-section" id="hero">
+      <div class="hero-background-image" style="background-image: url('assets/doom_hero.jpg');"></div>
+      <div class="hero-overlay-gradient"></div>
+
+      <div class="container hero-content">
+        <!-- Prize Badge & Status -->
+        <div class="hero-badge-container">
+          <div class="prize-banner-pill">
+            <span>🏆</span> ₹30,000+ CASH PRIZE POOL GUARANTEED
+          </div>
+          <div class="hero-status-pill">
+            <span class="status-indicator"></span> 24H NON-STOP SPRINT // DEPT OF CSE
+          </div>
+        </div>
+
+        <!-- SAMARTHA Title with Spider-Man 3D Model Resting on Top -->
+        <div class="hero-title-wrapper" id="hero-title-wrapper">
+          <div class="spiderman-resting-scene" id="spiderman-scene">
+            <model-viewer id="spiderman-viewer" src="assets/spiderman.glb" alt="Spider-Man resting on SAMARTHA"
+              interaction-prompt="none" interpolation-decay="0" shadow-intensity="1.2" shadow-softness="0.5"
+              exposure="1.3" animation-name="Spidey" autoplay camera-orbit="5deg 88deg 5.6m"
+              camera-target="0m 0.05m -1.25m"
+              style="width: 100%; height: 100%; --poster-color: transparent; pointer-events: none;"
+              class="spiderman-model-viewer"></model-viewer>
+          </div>
+          <h1 class="hero-samartha-title" aria-label="SAMARTHA">
+            <img src="assets/samartha_title_true_transparent.png" alt="SAMARTHA" class="hero-title-img">
+          </h1>
+        </div>
+
+        <div class="hero-subtitle-tagline">
+          INDIAN INGENUITY. <span class="highlight-gold">AI INNOVATION.</span> GLOBAL IMPACT.
+        </div>
+        <div class="hero-sub-sub-tagline">
+          SAME MINDS • BIGGER IMPACT // HACK THE FUTURE
+        </div>
+
+        <!-- Gateway Portal Trigger: "BEYOND THE MULTIVERSE" -->
+        <div class="enter-world-gate-wrapper" id="enter-world-gate">
+          <button class="enter-world-btn" id="enter-world-btn" aria-label="Beyond the Multiverse">
+            <span class="enter-world-btn-glow"></span>
+            <span class="enter-world-btn-icon">⚡</span>
+            <span class="enter-world-btn-label">BEYOND THE MULTIVERSE</span>
+            <span class="enter-world-btn-arrow">➔</span>
+          </button>
+        </div>
+
+        <p class="hero-description">
+          The Council of Doom has summoned the most ambitious engineering minds. Students, creators, and developers
+          gather for an intense <strong>24-Hour Hackathon</strong> Assembled by the Department of Computer Science &
+          Engineering at Vignan's Institute of Information Technology. Harness generative AI, agentic architectures, and
+          modern software engineering to build transformative solutions.
+        </p>
+
+        <!-- Vital Logistics Pills -->
+        <div class="hackathon-logistics-bar">
+          <div class="logistics-pill">
+            <span class="pill-icon">📅</span>
+            <div>
+              <span class="pill-label">SCREENING ROUND</span>
+              <span class="pill-val">26 - 27 SEPT</span>
+              <span class="pill-sub">Idea Presentation & Triage</span>
+            </div>
+          </div>
+
+          <div class="logistics-pill">
+            <span class="pill-icon">⚡</span>
+            <div>
+              <span class="pill-label">24H MAIN EVENT</span>
+              <span class="pill-val">10 - 11 OCT</span>
+              <span class="pill-sub">Non-Stop Physical Sprint</span>
+            </div>
+          </div>
+
+          <div class="logistics-pill">
+            <span class="pill-icon">👥</span>
+            <div>
+              <span class="pill-label">TEAM SIZE</span>
+              <span class="pill-val">4 MEMBERS</span>
+              <span class="pill-sub">Strictly 4 per Squad</span>
+            </div>
+          </div>
+
+          <div class="logistics-pill">
+            <span class="pill-icon">💰</span>
+            <div>
+              <span class="pill-label">REGISTRATION FEE</span>
+              <span class="pill-val gold">₹1,000 / TEAM</span>
+              <span class="pill-sub">Food & Kit Included</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Countdown HUD Panel -->
+        <div class="countdown-hud-panel">
+          <div class="hud-panel-header">
+            <span class="panel-label">[ COUNTDOWN TO ZERO HOUR // SAMARTHA FINALS ]</span>
+            <span class="countdown-target-label">EVENT LAUNCH: OCTOBER 10, 2026</span>
+          </div>
+
+          <div class="countdown-grid" id="countdown-timer">
+            <div class="countdown-card">
+              <div class="countdown-val" id="timer-days">14</div>
+              <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-card">
+              <div class="countdown-val" id="timer-hours">08</div>
+              <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-card">
+              <div class="countdown-val" id="timer-minutes">22</div>
+              <div class="countdown-label">MINUTES</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-card">
+              <div class="countdown-val" id="timer-seconds">49</div>
+              <div class="countdown-label">SECONDS</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-card millis-card">
+              <div class="countdown-val" id="timer-millis">72</div>
+              <div class="countdown-label">MS</div>
+            </div>
+          </div>
+
+          <div class="hud-panel-footer">
+            <span>VENUE: CSE TECH LABS, VIGNAN'S INSTITUTE OF INFORMATION TECHNOLOGY</span>
+            <span>DUVVADA, VISAKHAPATNAM, ANDHRA PRADESH</span>
+          </div>
+        </div>
+
+        <!-- Hero Actions -->
+        <div class="hero-actions-row">
+          <button class="btn btn-gold btn-large pulse-btn" id="hero-view-poster-btn">
+            <span>📜 VIEW POSTER & SCAN REGISTRATION QR</span>
+          </button>
+          <a href="#promo-video" class="btn btn-secondary btn-large">
+            <span>▶ WATCH PROMO VIDEO</span>
+          </a>
+          <a href="#coordinators" class="btn btn-outline btn-large">
+            <span>📞 CONTACT COORDINATORS</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICIAL POSTER SPOTLIGHT SECTION -->
+    <section class="section-container" id="poster-spotlight">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ OFFICIAL DISPATCH ]</div>
+          <h2 class="section-title">THE SAMARTHA POSTER DOSSIER</h2>
+          <p class="section-desc">Official promotional poster released by the Department of CSE, VIIT. Scan the QR code
+            on the bottom right of the poster to complete your team registration.</p>
+        </div>
+
+        <div class="poster-spotlight-wrapper">
+          <!-- Poster Image with interactive zoom trigger -->
+          <div class="poster-frame-container" id="open-poster-lightbox">
+            <img src="assets/samartha_poster.jpg" alt="Official Samartha Hackathon Poster" class="poster-img"
+              id="main-poster-thumbnail">
+            <div class="poster-hover-overlay">
+              <span class="zoom-icon">🔍</span>
+              <span class="zoom-text">CLICK FOR ULTRA HIGH-RES VIEW & SCAN QR</span>
+            </div>
+          </div>
+
+          <!-- Extracted Key Highlights -->
+          <div class="poster-details-content">
+            <div class="status-pill status-active" style="width: fit-content;">VERIFIED ACADEMIC BROADCAST</div>
+            <h3>SAMARTHA: 24 HRS HACKATHON</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              Assembled by the <strong>Department of Computer Science & Engineering</strong> at <strong>Vignan's
+                Institute of Information Technology (Autonomous)</strong>. Backed by NAAC A+ accreditation, NBA
+              recognized branches, and NIRF 2025 engineering standing.
+            </p>
+
+            <div class="poster-points-grid">
+              <div class="poster-point-card">
+                <span class="point-label">HACKATHON PRIZE POOL</span>
+                <span class="point-val gold">₹30,000+ CASH</span>
+              </div>
+              <div class="poster-point-card">
+                <span class="point-label">SCREENING ROUND</span>
+                <span class="point-val highlight">26 - 27 SEPT</span>
+              </div>
+              <div class="poster-point-card">
+                <span class="point-label">EVENT FINALS</span>
+                <span class="point-val highlight">10 - 11 OCT</span>
+              </div>
+              <div class="poster-point-card">
+                <span class="point-label">TEAM SQUAD SIZE</span>
+                <span class="point-val">STRICTLY 4 MEMBERS</span>
+              </div>
+            </div>
+
+            <div
+              style="background: rgba(0,255,136,0.06); border: 1px solid var(--border-subtle); padding: 0.9rem 1.2rem; border-radius: var(--radius-sm);">
+              <span
+                style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--gold-accent); font-weight: 700;">REGISTRATION
+                PROCEDURE:</span>
+              <p style="font-size: 0.88rem; color: #fff; margin-top: 0.2rem;">
+                Open the high-resolution poster using the button below and scan the official QR code at the bottom right
+                corner to submit team details and ₹1,000 registration fee.
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn btn-gold" id="btn-enlarge-poster">🔍 EXPAND POSTER (FULLSCREEN / SCAN QR)</button>
+              <button class="btn btn-outline" id="btn-download-poster">⬇️ DOWNLOAD POSTER COPY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMOTIONAL VIDEO SECTION (EMBEDDED VIDEO) -->
+    <section class="section-container bg-darker" id="promo-video">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ OFFICIAL PROMOTIONAL STREAM ]</div>
+          <h2 class="section-title">HACKATHON PROMOTIONAL VIDEO</h2>
+          <p class="section-desc">Experience the energy of Samartha 2026. Official teaser reel showcasing the vision,
+            the themes, and the 24-hour sprint.</p>
+        </div>
+
+        <div class="promo-video-wrapper">
+          <div class="video-frame-cyber tactical-border">
+            <div class="video-hud-status-bar">
+              <span>● HOLO-FEED: SAMARTHA_OFFICIAL_TEASER</span>
+              <span>FORMAT: 1080p MP4 // SOUND STEREO</span>
+            </div>
+
+            <!-- Embedded Actual Promotional Video -->
+            <video controls poster="assets/samartha_logo.jpg" class="actual-promo-video" id="hackathon-video-player"
+              playsinline>
+              <source src="assets/samartha_promo.mp4" type="video/mp4">
+              Your browser does not support HTML5 video playback.
+            </video>
+
+            <div class="video-footer-info">
+              <span>ASSEMBLED BY: DEPARTMENT OF CSE, VIIT (AUTONOMOUS)</span>
+              <span>TRANSMISSION: READY FOR BROADCAST</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE 6 OFFICIAL HACKATHON THEMES -->
+    <section class="section-container" id="themes">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ 6 CORE SECTORS ]</div>
+          <h2 class="section-title">OFFICIAL HACKATHON THEMES</h2>
+          <p class="section-desc">Select your domain of innovation from the 6 official themes designated on the Samartha
+            hackathon poster.</p>
+        </div>
+
+        <div class="themes-grid">
+          <!-- Theme 01 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">01</span>
+              <span class="theme-category-tag">INTELLIGENT SYSTEMS</span>
+            </div>
+            <h3 class="theme-card-title">AGENTIC AI IN TRAVEL TECH</h3>
+            <p class="theme-card-desc">
+              Develop autonomous, multi-agent AI workflows that plan itineraries, handle real-time crisis delays,
+              automate multi-modal transit bookings, and act as personalized digital travel concierge agents.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">LangChain / LlamaIndex</span>
+              <span class="theme-tech-pill">Autonomous Agents</span>
+              <span class="theme-tech-pill">Dynamic Re-routing</span>
+              <span class="theme-tech-pill">Voice & Chat UI</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+
+          <!-- Theme 02 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">02</span>
+              <span class="theme-category-tag">PEDAGOGICAL TECH</span>
+            </div>
+            <h3 class="theme-card-title">INNOVATION IN EDUCATION</h3>
+            <p class="theme-card-desc">
+              Reinvent the learning experience using AI personalized tutors, automated code assessment sandboxes,
+              gamified STEM simulations, and accessible vernacular learning tools for rural students.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">Adaptive Learning</span>
+              <span class="theme-tech-pill">AI Code Evaluator</span>
+              <span class="theme-tech-pill">Vernacular Audio</span>
+              <span class="theme-tech-pill">AR/VR Classrooms</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+
+          <!-- Theme 03 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">03</span>
+              <span class="theme-category-tag">COMMERCE & ANALYTICS</span>
+            </div>
+            <h3 class="theme-card-title">BRAND MARKET</h3>
+            <p class="theme-card-desc">
+              Build next-generation marketing intelligence tools: automated programmatic ad creatives, predictive
+              influencer ROI engines, live sentiment analytics, and hyper-personalized retail engagement.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">Sentiment Analytics</span>
+              <span class="theme-tech-pill">GenAI Creatives</span>
+              <span class="theme-tech-pill">Consumer Trend AI</span>
+              <span class="theme-tech-pill">Conversion Funnels</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+
+          <!-- Theme 04 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">04</span>
+              <span class="theme-category-tag">TRAVEL INFRASTRUCTURE</span>
+            </div>
+            <h3 class="theme-card-title">TRAVEL TECH SOFTWARE ENHANCEMENT</h3>
+            <p class="theme-card-desc">
+              Harden travel platforms with offline caching, low-bandwidth navigation algorithms, train & flight delay
+              prediction systems, smart baggage tracking, and seamless group expense reconciliation.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">Offline First PWA</span>
+              <span class="theme-tech-pill">Predictive Delay Models</span>
+              <span class="theme-tech-pill">Geolocation APIs</span>
+              <span class="theme-tech-pill">Zero-Trust Ticketing</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+
+          <!-- Theme 05 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">05</span>
+              <span class="theme-category-tag">HYPERLOCAL NETWORKS</span>
+            </div>
+            <h3 class="theme-card-title">ZONE BASED SOCIAL MEDIA APP SPACE</h3>
+            <p class="theme-card-desc">
+              Create localized geo-fenced social environments: college campus pulse channels, stadium cheering hubs,
+              emergency neighborhood beacons, and privacy-preserving proximity feeds without intrusive tracking.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">Geo-Fencing</span>
+              <span class="theme-tech-pill">WebSockets / Realtime</span>
+              <span class="theme-tech-pill">Proximity Mesh</span>
+              <span class="theme-tech-pill">Ephemeral Feeds</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+
+          <!-- Theme 06 -->
+          <article class="theme-card tactical-border">
+            <div class="corner-bracket tr"></div>
+            <div class="corner-bracket bl"></div>
+            <div class="theme-header-row">
+              <span class="theme-num-badge">06</span>
+              <span class="theme-category-tag">AGRICULTURAL RESILIENCE</span>
+            </div>
+            <h3 class="theme-card-title">AGRITECH</h3>
+            <p class="theme-card-desc">
+              Empower farmers with vision AI leaf disease diagnosis, IoT soil moisture telemetry, automated irrigation
+              actuators, supply chain price discovery, and climate resilience forecasting.
+            </p>
+            <div class="theme-tags-list">
+              <span class="theme-tech-pill">Computer Vision / YOLO</span>
+              <span class="theme-tech-pill">IoT Sensors & LoRa</span>
+              <span class="theme-tech-pill">Price Forecasting</span>
+              <span class="theme-tech-pill">Micro-Climate Triage</span>
+            </div>
+            <a href="#poster-spotlight" class="btn btn-outline btn-full">VIEW IN OFFICIAL POSTER</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIZE POOL & AWARDS -->
+    <section class="section-container bg-darker" id="prizes">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ REWARDS VAULT ]</div>
+          <h2 class="section-title">₹30,000+ CASH PRIZE POOL</h2>
+          <p class="section-desc">Substantial cash bounties, certificates of excellence, industry internship
+            opportunities, and trophies for top squads.</p>
+        </div>
+
+        <div class="prize-showcase-grid">
+          <div class="main-prize-card tactical-border">
+            <div class="prize-crown-tag">👑 GRAND CHAMPION REWARD</div>
+            <div class="huge-prize-amount">₹30,000+</div>
+            <div class="prize-pool-subtitle">TOTAL CASH PRIZE POOL + VIIT INCUBATION FAST-TRACK</div>
+            <ul class="perks-list">
+              <li>🏆 <strong>Cash Bounties</strong> awarded directly to top squads across themes</li>
+              <li>📜 <strong>Official Merit Certificates</strong> recognized by NAAC & NBA accredited CSE department
+              </li>
+              <li>🚀 <strong>Incubation & Mentorship Support</strong> under VIIT Institution's Innovation Council (IIC)
+              </li>
+              <li>💼 <strong>Direct Interview Fast-Track</strong> with hackathon sponsors Cloudely, NXTMOVE, NYERAS &
+                TBS</li>
+              <li>🎖️ <strong>Exclusive Avengers / Samartha Commemorative Badges</strong> for every participating
+                4-member squad</li>
+            </ul>
+          </div>
+
+          <div class="side-prize-card tactical-border">
+            <h4 style="font-size: 1.15rem; color: var(--gold-accent); margin-bottom: 0.8rem;">EVENT PARTICIPATION
+              DETAILS</h4>
+            <div
+              style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 0.2rem;">
+              ₹1,000 <span style="font-size: 0.95rem; color: var(--accent);">/ TEAM</span>
+            </div>
+            <div
+              style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1.2rem;">
+              Includes complete 24-hour food, energy drinks, high-speed Wi-Fi, mentorship & lab access.
+            </div>
+
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">TEAM
+                COMPOSITION:</span>
+              <div style="font-family: var(--font-tactical); font-size: 1.1rem; font-weight: 700; color: #fff;">
+                Strictly 4 Members per Squad
+              </div>
+            </div>
+            <button class="btn btn-outline btn-full mt-4" style="opacity: 0.6; cursor: not-allowed;"
+              disabled>REGISTRATIONS CLOSED</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 24-HOUR HACKATHON SCHEDULE & IMPORTANT DATES -->
+    <section class="section-container" id="timeline">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ CRITICAL TIMELINE ]</div>
+          <h2 class="section-title">THE 24-HOUR BATTLE PLAN</h2>
+          <p class="section-desc">Key milestones from the initial September screening round to the October 24-hour grand
+            finale.</p>
+        </div>
+
+        <div class="schedule-tabs-container">
+          <div class="schedule-nav-pills">
+            <button class="schedule-pill-btn active" data-stage="screening">
+              <span class="pill-date">STAGE 1 // 26 - 27 SEPT</span>
+              <span class="pill-title">SCREENING ROUND</span>
+            </button>
+            <button class="schedule-pill-btn" data-stage="grand-finale">
+              <span class="pill-date">STAGE 2 // 10 - 11 OCT</span>
+              <span class="pill-title">24-HOUR FINALE SPRINT</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="timeline-flow-box tactical-border" id="schedule-timeline-container">
+          <div class="timeline-items-list">
+            <div class="timeline-item">
+              <div class="time-col">
+                <span class="time-val">26 SEPT</span>
+                <span class="time-status">DAY 1 SCREENING</span>
+              </div>
+              <div class="marker-col">
+                <div class="marker-dot"></div>
+              </div>
+              <div class="info-col">
+                <h4 class="event-title">Initial Proposal & Architecture Presentation</h4>
+                <p class="event-desc">Teams pitch their initial problem statement, chosen theme, and system architecture
+                  to faculty evaluators.</p>
+                <div class="event-tags"><span class="tag">Abstract Review</span><span class="tag">Theme
+                    Validation</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="time-col">
+                <span class="time-val">27 SEPT</span>
+                <span class="time-status">DAY 2 SCREENING</span>
+              </div>
+              <div class="marker-col">
+                <div class="marker-dot"></div>
+              </div>
+              <div class="info-col">
+                <h4 class="event-title">Screening Results & Shortlisted Squad Announcement</h4>
+                <p class="event-desc">Faculty review board selects the top squads advancing to the 24-hour physical
+                  hackathon on October 10-11.</p>
+                <div class="event-tags"><span class="tag">Finalist Selection</span><span class="tag">Mentor
+                    Allotment</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item highlight-item">
+              <div class="time-col">
+                <span class="time-val">10 OCT</span>
+                <span class="time-status" style="color: var(--accent);">09:00 AM START</span>
+              </div>
+              <div class="marker-col">
+                <div class="marker-dot pulse-green"></div>
+              </div>
+              <div class="info-col">
+                <h4 class="event-title">24-Hour Non-Stop Hackathon Commences</h4>
+                <p class="event-desc">The countdown starts. Teams code for 24 continuous hours inside the VIIT CSE
+                  computer labs with uninterrupted power, high-speed network, and meals.</p>
+                <div class="event-tags"><span class="tag" style="background: rgba(0,255,136,0.2);">24H
+                    SPRINT</span><span class="tag">Mentorship Rounds</span></div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="time-col">
+                <span class="time-val">11 OCT</span>
+                <span class="time-status">09:00 AM FINALE</span>
+              </div>
+              <div class="marker-col">
+                <div class="marker-dot"></div>
+              </div>
+              <div class="info-col">
+                <h4 class="event-title">Code Freeze, Live Evaluation & ₹30,000+ Prize Ceremony</h4>
+                <p class="event-desc">Final live product demonstrations in front of industry judges from Cloudely,
+                  NXTMOVE, NYERAS, and TBS. Winners crowned.</p>
+                <div class="event-tags"><span class="tag">Grand Stage Pitch</span><span class="tag">Trophy
+                    Distribution</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANIZING COMMITTEE & CONTACTS (FROM POSTER) -->
+    <section class="section-container bg-darker" id="coordinators">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ LEADERSHIP DIRECTORY ]</div>
+          <h2 class="section-title">ORGANIZING COMMITTEE & CONTACTS</h2>
+          <p class="section-desc">Reach out to the convenors, faculty co-convenors, or student coordinators for queries
+            regarding registration, themes, or accommodation.</p>
+        </div>
+
+        <!-- Faculty Leadership Block -->
+        <div class="coordinators-tier-block">
+          <div class="tier-heading-label">FACULTY CONVENORS // DEPARTMENT OF CSE</div>
+          <div class="convenor-grid">
+            <div class="convenor-card tactical-border">
+              <div class="faculty-avatar-circle">MM</div>
+              <h4 class="coord-name">Dr. Mohan Mahanty</h4>
+              <div class="coord-role">CONVENOR // DEPT OF CSE, VIIT</div>
+              <a href="tel:+919505078769" class="coord-phone-link">
+                <span>📞</span> +91 95050 78769
+              </a>
+            </div>
+
+            <div class="convenor-card tactical-border">
+              <div class="faculty-avatar-circle">NM</div>
+              <h4 class="coord-name">Dr. S. Naga Mallik Raj</h4>
+              <div class="coord-role">CO-CONVENOR // DEPT OF CSE, VIIT</div>
+              <a href="tel:+918919801144" class="coord-phone-link">
+                <span>📞</span> +91 89198 01144
+              </a>
+            </div>
+
+            <div class="convenor-card tactical-border">
+              <div class="faculty-avatar-circle">SP</div>
+              <h4 class="coord-name">Dr. Ch. Swapna Priya</h4>
+              <div class="coord-role">CO-CONVENOR // DEPT OF CSE, VIIT</div>
+              <a href="tel:+919505176015" class="coord-phone-link">
+                <span>📞</span> +91 95051 76015
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Coordinators Block -->
+        <div class="coordinators-tier-block">
+          <div class="tier-heading-label">STUDENT COORDINATORS // CONTACT FOR QUERIES</div>
+          <div class="student-coord-grid">
+            <div class="student-coord-card">
+              <h5 class="student-name">Mahamed Mastan Jani</h5>
+              <div class="student-sub">Student Coordinator</div>
+              <a href="tel:+918688286621" class="coord-phone-link">
+                <span>📞</span> 86882 86621
+              </a>
+            </div>
+
+            <div class="student-coord-card">
+              <h5 class="student-name">Surya Sathwik</h5>
+              <div class="student-sub">Student Coordinator</div>
+              <a href="tel:+919493545176" class="coord-phone-link">
+                <span>📞</span> 94935 45176
+              </a>
+            </div>
+
+            <div class="student-coord-card">
+              <h5 class="student-name">Savvana Lohitha</h5>
+              <div class="student-sub">Student Coordinator</div>
+              <a href="tel:+919705624519" class="coord-phone-link">
+                <span>📞</span> 97056 24519
+              </a>
+            </div>
+
+            <div class="student-coord-card">
+              <h5 class="student-name">Seepana Jyothirmai</h5>
+              <div class="student-sub">Student Coordinator</div>
+              <a href="tel:+918179879778" class="coord-phone-link">
+                <span>📞</span> 81798 79778
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICIAL SPONSORS (FROM POSTER) & DOCTOR DOOM INDUSTRY PATRON -->
+    <section class="section-container" id="sponsors">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ HACKATHON ALLIANCE // POWERED BY ]</div>
+          <h2 class="section-title">INDUSTRY PARTNERS & SPONSORS</h2>
+          <p class="section-desc">Leading tech organizations supporting Samartha 2026 under Doctor Doom's patronage,
+            delivering ₹30,000+ prize bounties, cloud credits, travel sandboxes, and recruitment fast-tracks.</p>
+        </div>
+
+        <div class="sponsors-showcase-layout">
+          <!-- Removed Doctor Doom Card -->
+          <!-- Right: 4 Industry Partners Grid -->
+          <div class="sponsors-cards-grid">
+            <div class="sponsor-card tactical-border">
+              <div class="corner-bracket tr"></div>
+              <div class="corner-bracket bl"></div>
+              <div class="sponsor-card-header">
+                <span class="sponsor-tier-badge">PREMIER SPONSOR</span>
+                <span class="sponsor-tag-icon">☁️</span>
+              </div>
+              <h3 class="sponsor-brand-name">CLOUDELY</h3>
+              <div class="sponsor-role-tag">Enterprise Cloud Partner</div>
+              <p class="sponsor-card-desc">Providing cloud infrastructure grants, architecture mentoring, and direct
+                engineering interview fast-tracks for top finishers.</p>
+              <div class="sponsor-perks-row">
+                <span class="perk-tag">Cloud Infrastructure</span>
+                <span class="perk-tag">Architecture Mentorship</span>
+                <span class="perk-tag highlight">Hiring Fast-Track</span>
+              </div>
+            </div>
+
+            <div class="sponsor-card tactical-border">
+              <div class="corner-bracket tr"></div>
+              <div class="corner-bracket bl"></div>
+              <div class="sponsor-card-header">
+                <span class="sponsor-tier-badge">INNOVATION SPONSOR</span>
+                <span class="sponsor-tag-icon">🚀</span>
+              </div>
+              <h3 class="sponsor-brand-name">NXTMOVE</h3>
+              <div class="sponsor-role-tag">Travel Tech Innovation Partner</div>
+              <p class="sponsor-card-desc">Powering Theme 01 & 04 with real-time transit telemetry sandboxes, API
+                access, and specialized cash bounties.</p>
+              <div class="sponsor-perks-row">
+                <span class="perk-tag">Transit API Sandboxes</span>
+                <span class="perk-tag">Agentic AI Workflows</span>
+                <span class="perk-tag highlight">Theme Bounties</span>
+              </div>
+            </div>
+
+            <div class="sponsor-card tactical-border">
+              <div class="corner-bracket tr"></div>
+              <div class="corner-bracket bl"></div>
+              <div class="sponsor-card-header">
+                <span class="sponsor-tier-badge">SOLUTIONS SPONSOR</span>
+                <span class="sponsor-tag-icon">💎</span>
+              </div>
+              <h3 class="sponsor-brand-name">NYERAS</h3>
+              <div class="sponsor-role-tag">Digital Solutions Partner</div>
+              <p class="sponsor-card-desc">Accelerating student software solutions with production deployment toolkits,
+                UI/UX evaluation, and internship opportunities.</p>
+              <div class="sponsor-perks-row">
+                <span class="perk-tag">Production Toolkits</span>
+                <span class="perk-tag">UI/UX Judging Panel</span>
+                <span class="perk-tag highlight">Internship Openings</span>
+              </div>
+            </div>
+
+            <div class="sponsor-card tactical-border">
+              <div class="corner-bracket tr"></div>
+              <div class="corner-bracket bl"></div>
+              <div class="sponsor-card-header">
+                <span class="sponsor-tier-badge">VENTURE SPONSOR</span>
+                <span class="sponsor-tag-icon">🏛️</span>
+              </div>
+              <h3 class="sponsor-brand-name">TBS</h3>
+              <div class="sponsor-role-tag">Technology Business Partner</div>
+              <p class="sponsor-card-desc">Connecting hackathon prototypes to commercialization pathways, incubation
+                funding under VIIT IIC, and business scaling guidance.</p>
+              <div class="sponsor-perks-row">
+                <span class="perk-tag">Incubation Fast-Track</span>
+                <span class="perk-tag">VIIT IIC Mentorship</span>
+                <span class="perk-tag highlight">Seed Advisory</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANIZER WAR ROOM CONSOLE -->
+    <section class="section-container bg-darker" id="war-room">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag highlight-tag">[ COMMAND CENTER ]</div>
+          <h2 class="section-title">LIVE HACKATHON OPERATIONS CONSOLE</h2>
+          <p class="section-desc">Control center used by Samartha organizers to monitor 4-member squads, track
+            registration telemetry, and run judging scoring.</p>
+        </div>
+
+        <div class="war-room-terminal tactical-border">
+          <div class="terminal-hud-header">
+            <div class="terminal-lights">
+              <span class="term-dot green"></span>
+              <span class="term-dot yellow"></span>
+              <span class="term-dot red"></span>
+            </div>
+            <div class="terminal-title">SAMARTHA_CSE_OS v2.4 // REAL-TIME EVENT TELEMETRY</div>
+            <div class="terminal-controls">
+              <button class="terminal-btn-small" id="simulate-tick-btn">⚡ SIMULATE TELEMETRY BURST</button>
+            </div>
+          </div>
+
+          <div class="war-room-tabs">
+            <button class="war-tab-btn active" data-tab="telemetry">1. SQUAD TELEMETRY</button>
+            <button class="war-tab-btn" data-tab="rubric">2. OFFICIAL JUDGING MATRIX</button>
+          </div>
+
+          <!-- Tab 1: Telemetry -->
+          <div class="war-tab-content active" id="tab-telemetry">
+            <div class="telemetry-grid">
+              <div class="telemetry-metric-box">
+                <div class="box-label">REGISTERED TEAMS (4 MEMBERS EACH)</div>
+                <div class="box-val highlight-val" id="metric-enlisted">124 <span class="delta-up">+6 today</span></div>
+                <div class="progress-bar-hud">
+                  <div class="progress-fill" style="width: 82%;"></div>
+                </div>
+                <div class="box-footnote">Capacity: 150 Teams (600 Participants Max)</div>
+              </div>
+
+              <div class="telemetry-metric-box">
+                <div class="box-label">TOTAL REGISTERED PARTICIPANTS</div>
+                <div class="box-val">496 <span class="delta-up">Active</span></div>
+                <div class="progress-bar-hud">
+                  <div class="progress-fill" style="width: 82%;"></div>
+                </div>
+                <div class="box-footnote">All verified 4-member configurations</div>
+              </div>
+
+              <div class="telemetry-metric-box">
+                <div class="box-label">PRIZE ESCROW STATUS</div>
+                <div class="box-val">₹30,000+</div>
+                <div class="progress-bar-hud">
+                  <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="box-footnote">Funded by CSE Dept & Sponsors</div>
+              </div>
+
+              <div class="telemetry-metric-box">
+                <div class="box-label">SCREENING READINESS</div>
+                <div class="box-val">94.8%</div>
+                <div class="progress-bar-hud">
+                  <div class="progress-fill" style="width: 94.8%;"></div>
+                </div>
+                <div class="box-footnote">Review panels assigned for Sept 26-27</div>
+              </div>
+            </div>
+
+            <!-- Distribution chart and log -->
+            <div class="chart-and-log-row">
+              <div class="distribution-card tactical-border">
+                <h4>THEME SELECTION DISTRIBUTION</h4>
+                <div class="dist-bar-row">
+                  <span class="dist-label">01. Agentic AI in Travel Tech (28%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 28%;"></div>
+                  </div>
+                </div>
+                <div class="dist-bar-row">
+                  <span class="dist-label">02. Innovation in Education (24%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 24%;"></div>
+                  </div>
+                </div>
+                <div class="dist-bar-row">
+                  <span class="dist-label">06. Agritech (18%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 18%;"></div>
+                  </div>
+                </div>
+                <div class="dist-bar-row">
+                  <span class="dist-label">05. Zone Based Social Media (14%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 14%;"></div>
+                  </div>
+                </div>
+                <div class="dist-bar-row">
+                  <span class="dist-label">04. Travel Tech Software Enhancement (10%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 10%;"></div>
+                  </div>
+                </div>
+                <div class="dist-bar-row">
+                  <span class="dist-label">03. Brand Market (6%)</span>
+                  <div class="dist-bar">
+                    <div class="dist-fill" style="width: 6%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="live-event-stream tactical-border">
+                <div class="stream-header">
+                  <span class="pulse-green"></span> REAL-TIME REGISTRATION DISPATCH
+                </div>
+                <div class="stream-entries" id="live-stream-entries">
+                  <div class="stream-line"><span class="timestamp">[22:30:14]</span> <span
+                      class="actor">VIIT_CSE:</span> Team 'AvengersDoom' registered 4 members for Theme 01.</div>
+                  <div class="stream-line"><span class="timestamp">[22:24:05]</span> <span
+                      class="actor">COORDINATOR:</span> Mahamed Mastan verified ₹1,000 fee receipt for Squad #123.</div>
+                  <div class="stream-line"><span class="timestamp">[22:18:40]</span> <span class="actor">PORTAL:</span>
+                    Screening venue confirmed in CSE Block 3 Labs.</div>
+                  <div class="stream-line"><span class="timestamp">[22:12:00]</span> <span class="actor">SPONSOR:</span>
+                    Cloudely engineers allocated mentorship hours for October 10.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Judging Rubric -->
+          <div class="war-tab-content" id="tab-rubric">
+            <div class="rubric-calculator tactical-border">
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem;">OFFICIAL EVALUATION MATRIX (0 - 100
+                PTS)</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                Adjust criteria sliders below to preview how the CSE evaluation panel scores 24-hour prototypes:
+              </p>
+
+              <div class="rubric-slider-group">
+                <div class="slider-header">
+                  <span>1. INNOVATION & PRACTICAL UTILITY (30%)</span>
+                  <span class="score-display" id="score-resilience">27 / 30</span>
+                </div>
+                <input type="range" min="0" max="30" value="27" class="rubric-slider" id="slider-resilience">
+                <div class="slider-desc">Originality of approach, problem relevance to chosen theme, and uniqueness.
+                </div>
+              </div>
+
+              <div class="rubric-slider-group">
+                <div class="slider-header">
+                  <span>2. TECHNICAL COMPLEXITY & AI INTEGRATION (25%)</span>
+                  <span class="score-display" id="score-technical">23 / 25</span>
+                </div>
+                <input type="range" min="0" max="25" value="23" class="rubric-slider" id="slider-technical">
+                <div class="slider-desc">Algorithm design, API orchestration, clean modular code, and agentic workflows.
+                </div>
+              </div>
+
+              <div class="rubric-slider-group">
+                <div class="slider-header">
+                  <span>3. PROTOTYPE FUNCTIONALITY & DEMO (25%)</span>
+                  <span class="score-display" id="score-impact">24 / 25</span>
+                </div>
+                <input type="range" min="0" max="25" value="24" class="rubric-slider" id="slider-impact">
+                <div class="slider-desc">Does the project work end-to-end live on stage without crashing during the
+                  demo?</div>
+              </div>
+
+              <div class="rubric-slider-group">
+                <div class="slider-header">
+                  <span>4. UI/UX & PITCH PRESENTATION (20%)</span>
+                  <span class="score-display" id="score-readiness">18 / 20</span>
+                </div>
+                <input type="range" min="0" max="20" value="18" class="rubric-slider" id="slider-readiness">
+                <div class="slider-desc">Clarity of 5-minute pitch, user interface polish, and response to jury Q&A.
+                </div>
+              </div>
+
+              <div class="rubric-total-box">
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent);">AGGREGATE SCORE:
+                </div>
+                <div class="total-num" id="total-score-val">92 / 100</div>
+                <div class="total-verdict" id="total-verdict-text">VERDICT: QUALIFIED FOR ₹30,000+ GRAND PODIUM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section-container" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">[ QUESTIONS & ANSWERS ]</div>
+          <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+          <p class="section-desc">Key details regarding team composition, fees, accommodation, and evaluation rules.</p>
+        </div>
+
+        <div class="faq-accordion-container">
+          <div class="faq-item tactical-border">
+            <button class="faq-question">
+              <span class="faq-title">What is the exact team size allowed for Samartha?</span>
+              <span class="faq-chevron">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>As explicitly mandated in the official poster, each team must consist of exactly <strong>4
+                  members</strong>. Individual submissions or teams with less than or more than 4 members are not
+                permitted.</p>
+            </div>
+          </div>
+
+          <div class="faq-item tactical-border">
+            <button class="faq-question">
+              <span class="faq-title">What does the ₹1,000 registration fee cover?</span>
+              <span class="faq-chevron">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The ₹1,000 registration fee per team covers participation for all 4 team members, full catering during
+                the 24-hour hackathon (breakfast, lunch, dinner, high-energy midnight snacks, and coffee), Wi-Fi lab
+                access, official hackathon kit/swag, and verified merit certificates.</p>
+            </div>
+          </div>
+
+          <div class="faq-item tactical-border">
+            <button class="faq-question">
+              <span class="faq-title">What is the difference between the Screening Date and Event Date?</span>
+              <span class="faq-chevron">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The <strong>Screening Round occurs on September 26 - 27, 2026</strong>, where teams present their idea,
+                approach, and system design. Shortlisted squads then enter the <strong>24-Hour Physical Hackathon on
+                  October 10 - 11, 2026</strong>, at VIIT CSE labs to build and pitch the working prototype.</p>
+            </div>
+          </div>
+
+          <div class="faq-item tactical-border">
+            <button class="faq-question">
+              <span class="faq-title">Can students from other colleges or departments participate?</span>
+              <span class="faq-chevron">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes! Samartha welcomes engineering students from CSE, IT, ECE, AI/ML, and interdisciplinary streams
+                across approved colleges and universities. Diverse teams with members skilled in AI, backend, frontend,
+                and design are strongly encouraged.</p>
+            </div>
+          </div>
+
+          <div class="faq-item tactical-border">
+            <button class="faq-question">
+              <span class="faq-title">Who can I contact if I have questions about travel or registration?</span>
+              <span class="faq-chevron">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>You can contact our Student Coordinators: <strong>Mahamed Mastan Jani (8688286621)</strong> or
+                <strong>Surya Sathwik (9493545176)</strong>, or Convenor <strong>Dr. Mohan Mahanty
+                  (9505078769)</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="tactical-footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-link" style="margin-bottom: 1rem;">
+          <div class="brand-logo-frame">
+            <img src="assets/samartha_logo.jpg" alt="SAMARTHA Emblem" class="footer-logo-img">
+          </div>
+          <div class="brand-text-block">
+            <img src="assets/samartha_title_hd.png" alt="SAMARTHA" class="footer-title-img">
+          </div>
+        </div>
+        <p class="footer-p">
+          Assembled by the Department of Computer Science & Engineering, Vignan's Institute of Information Technology
+          (Autonomous), Duvvada, Visakhapatnam.
+        </p>
+        <div class="emergency-code">DEPT OF CSE // NAAC A+ // NBA ACCREDITED</div>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-heading">KEY SECTIONS</h5>
+        <ul class="footer-links">
+          <li><a href="#poster-spotlight">Official Poster & QR Code</a></li>
+          <li><a href="#promo-video">Promotional Video</a></li>
+          <li><a href="#themes">6 Hackathon Themes</a></li>
+          <li><a href="#timeline">24H Timeline (Sept & Oct)</a></li>
+          <li><a href="#prizes">₹30,000+ Prize Pool</a></li>
+          <li><a href="#coordinators">Faculty & Student Contacts</a></li>
+          <li><a href="#war-room">Live Operations Console</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-heading">HACKATHON SPONSORS</h5>
+        <ul class="footer-links">
+          <li><a href="#sponsors">Cloudely</a></li>
+          <li><a href="#sponsors">NXTMOVE</a></li>
+          <li><a href="#sponsors">NYERAS</a></li>
+          <li><a href="#sponsors">TBS</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="footer-heading">EMERGENCY HELPLINE</h5>
+        <p class="footer-p">For urgent inquiries, call our student desk directly:</p>
+        <a href="tel:+918688286621" class="coord-phone-link" style="margin-bottom: 0.8rem;">
+          <span>📞</span> 86882 86621 (Mastan)
+        </a>
+        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent);">
+          ● STATUS: REGISTRATIONS OPEN (SCAN POSTER QR)
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 SAMARTHA HACKATHON. DEPARTMENT OF CSE, VIIT (AUTONOMOUS). ALL RIGHTS RESERVED.</div>
+      <div>DOOMSDAY / AVENGERS THEMED RESILIENCE ENGINE</div>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- MODAL: POSTER HIGH-RES LIGHTBOX & QR VIEWER -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop poster-lightbox-modal" id="poster-modal" role="dialog" aria-modal="true"
+    aria-labelledby="poster-modal-title">
+    <div class="tactical-modal tactical-border">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span class="modal-title" id="poster-modal-title">OFFICIAL SAMARTHA POSTER // REGISTRATIONS CLOSED</span>
+        </div>
+        <button class="modal-close-btn" id="close-poster-btn">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="assets/samartha_poster.jpg" alt="Samartha Official Poster with QR Code" class="lightbox-poster-img">
+        <div class="mt-4" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="assets/samartha_poster.jpg" download="Samartha_Hackathon_Poster.jpg" class="btn btn-gold">⬇️ DOWNLOAD
+            HIGH-RES POSTER</a>
+          <button class="btn btn-outline" id="close-poster-lightbox-btn">CLOSE LIGHTBOX</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=3.2"></script>
+  <script>
+    // Forcefully remove the accreditation bar on mobile to bypass any CSS cache
+    if (window.innerWidth <= 992) {
+      const topBar = document.querySelector('.institution-accreditation-bar');
+      if (topBar) topBar.style.setProperty('display', 'none', 'important');
+    }
+  </script>
+</body>
+
+</html>

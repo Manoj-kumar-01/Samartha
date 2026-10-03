@@ -1,0 +1,21 @@
+{
+  "name": "samartha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^18.0.5",
+    "ejs": "^6.0.1",
+    "env": "^0.0.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.7.0",
+    "mongoose": "^9.10.4"
+  }
+}
