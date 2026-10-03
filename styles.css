@@ -2704,7 +2704,7 @@ body.gateway-mode .floating-quick-register {
    SITE ENTERED STATE: SMOOTH TRANSITION TO FULL WEBSITE
    ========================================================================== */
 body.site-entered {
-  overflow-y: auto !important;
+  overflow-y: visible !important;
   height: auto !important;
 }
 
