@@ -67,7 +67,6 @@ html {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
-  overflow-x: clip;
 }
 
 body {
@@ -2974,7 +2973,6 @@ body.site-entered footer {
 }
 
 body {
-  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
