@@ -55,7 +55,7 @@ async function main() {
       payment: {
         utrId: sub ? (sub.utrId || '') : '',
         amount: sub ? (sub.amount || 1000) : 1000,
-        screenshotPath: sub ? (sub.screenshotPath || '') : '',
+        screenshotData: sub ? (sub.screenshotData || '') : '',
         verifiedAt: sub && sub.verifiedAt ? sub.verifiedAt : null
       },
       attemptsAllowed: sub && sub.attemptsAllowed !== undefined ? sub.attemptsAllowed : 1,

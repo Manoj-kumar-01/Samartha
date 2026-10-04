@@ -29,7 +29,7 @@ const teamSchema = new mongoose.Schema({
   payment: {
     utrId: { type: String, trim: true, uppercase: true, default: '' },
     amount: { type: Number, default: 1000 },
-    screenshotPath: { type: String, default: '' },
+    screenshotData: { type: String, default: '' },
     verifiedAt: { type: Date, default: null }
   },
 

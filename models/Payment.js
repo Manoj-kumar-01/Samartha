@@ -17,7 +17,7 @@ const paymentSchema = new mongoose.Schema({
   members: [memberSchema],
   utrId: { type: String, required: true, trim: true, uppercase: true },
   amount: { type: Number, default: 1000 },
-  screenshotPath: { type: String, required: true },
+  screenshotData: { type: String, required: true },
   status: {
     type: String,
     enum: ['pending', 'verified', 'rejected'],

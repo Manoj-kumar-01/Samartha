@@ -215,17 +215,7 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadsDir);
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const safeTeamId = (req.body.teamId || 'team').replace(/[^a-zA-Z0-9_-]/g, '');
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e4);
-    cb(null, `${safeTeamId}-${uniqueSuffix}${ext || '.png'}`);
-  }
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
@@ -332,7 +322,7 @@ app.post('/api/payment/submit', (req, res) => {
         members,
         utrId: normalizedUtr,
         amount: 1000,
-        screenshotPath: `/uploads/payments/${req.file.filename}`,
+        screenshotData: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
         status: existingEntry ? existingEntry.status : 'pending',
         attemptsAllowed: attemptsAllowed,
         attemptsUsed: attemptsUsed,
@@ -366,7 +356,7 @@ app.post('/api/payment/submit', (req, res) => {
                 payment: {
                   utrId: record.utrId,
                   amount: record.amount,
-                  screenshotPath: record.screenshotPath
+                  screenshotData: record.screenshotData
                 },
                 attemptsUsed: record.attemptsUsed,
                 attemptsAllowed: record.attemptsAllowed,
