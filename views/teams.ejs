@@ -22,6 +22,7 @@
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Syne', sans-serif; color: var(--text); min-height: 100vh;
       background:
@@ -93,13 +94,19 @@
     .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 14px 34px rgba(0, 255, 136, .22); }
     .card:hover::after { transform: translateX(100%); }
 
-    /* Already Registered Team Card Style */
+    /* Already Registered / Confirmed Card Style */
     .card.is-confirmed {
-      border-color: rgba(251, 191, 36, .45);
-      background: linear-gradient(160deg, rgba(17, 40, 28, .95), rgba(251, 191, 36, .06));
+      border-color: rgba(251, 191, 36, .5);
+      background: linear-gradient(160deg, rgba(17, 40, 28, .95), rgba(251, 191, 36, .07));
     }
     .card.is-confirmed:hover {
       border-color: var(--gold); box-shadow: 0 14px 34px rgba(251, 191, 36, .25);
+    }
+
+    /* Unlocked for correction by organizer */
+    .card.is-correction {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, .25);
     }
 
     .rank { position: absolute; top: 1rem; right: 1.1rem; font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; color: var(--gold); text-shadow: 0 0 14px rgba(251, 191, 36, .3); }
@@ -133,6 +140,10 @@
     }
     .card.is-confirmed:hover .card-footer-action span.action-btn {
       background: var(--gold); color: #020805; border-color: var(--gold);
+    }
+
+    .card.is-correction .card-footer-action span.action-btn {
+      background: rgba(0, 240, 255, .15); border-color: var(--cyan); color: var(--cyan);
     }
 
     .empty { text-align: center; color: var(--muted); padding: 4rem 1rem; border: 1px dashed var(--border); border-radius: 10px; font-family: 'JetBrains Mono'; }
@@ -200,6 +211,13 @@
     .dossier-chip .lbl { font-family: 'JetBrains Mono'; font-size: .68rem; color: var(--dim); display: block; margin-bottom: 2px; }
     .dossier-chip .val { font-family: 'Rajdhani'; font-size: 1.05rem; font-weight: 600; color: #e1f2e8; word-break: break-all; }
 
+    /* Unlocked correction alert banner */
+    .correction-banner {
+      background: rgba(0, 240, 255, .1); border: 1px solid var(--cyan); border-radius: 8px;
+      padding: .9rem 1.1rem; margin-bottom: 1.6rem; font-family: 'JetBrains Mono'; font-size: .8rem;
+      color: var(--cyan); line-height: 1.5; display: none;
+    }
+
     /* Already Registered Screen inside Portal */
     .portal-registered-view {
       display: none; text-align: center; padding: 1.5rem 1rem;
@@ -212,12 +230,22 @@
     
     .reg-summary-card {
       background: rgba(10, 27, 18, .8); border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.1rem; max-width: 500px; margin: 0 auto 1.5rem; text-align: left;
+      padding: 1.2rem; max-width: 540px; margin: 0 auto 1.5rem; text-align: left;
       font-family: 'JetBrains Mono'; font-size: .8rem;
     }
-    .reg-summary-row { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+    .reg-summary-row { display: flex; justify-content: space-between; margin-bottom: .45rem; }
     .reg-summary-row span.lbl { color: var(--dim); }
     .reg-summary-row span.val { color: var(--accent); font-weight: 700; }
+
+    /* Submitted Members List in Locked View */
+    .reg-members-box {
+      margin-top: .8rem; padding-top: .8rem; border-top: 1px dashed rgba(0, 255, 136, .2);
+    }
+    .reg-member-item {
+      background: rgba(5, 16, 10, .7); border: 1px solid rgba(0, 255, 136, .1);
+      border-radius: 4px; padding: .4rem .7rem; margin-top: .4rem; font-size: .75rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
 
     /* Active Registration Form inside Portal */
     .portal-form-view { display: none; }
@@ -366,10 +394,13 @@
       <section class="grid" id="teams-grid">
         <% teams.forEach((t, i) => { %>
           <% 
-            const isConfirmed = registeredMap && !!registeredMap[(t.id || '').toUpperCase()];
-            const regInfo = isConfirmed ? registeredMap[(t.id || '').toUpperCase()] : null;
+            const cleanId = (t.id || '').toUpperCase();
+            const reg = registeredMap && registeredMap[cleanId];
+            const isConfirmed = reg && !reg.canSubmit;
+            const isCorrection = reg && reg.canSubmit && reg.attemptsUsed > 0;
           %>
-          <article class="card <%= isConfirmed ? 'is-confirmed' : '' %>" id="card-<%= (t.id || 'team-' + i).replace(/[^a-zA-Z0-9_-]/g, '') %>"
+          <article class="card <%= isConfirmed ? 'is-confirmed' : '' %> <%= isCorrection ? 'is-correction' : '' %>"
+            id="card-<%= (t.id || 'team-' + i).replace(/[^a-zA-Z0-9_-]/g, '') %>"
             style="animation-delay: <%= Math.min(i, 20) * 0.03 %>s"
             data-search="<%= ((t.id || '') + ' ' + (t.name || '') + ' ' + (t.leadName || '') + ' ' + (t.college || '')).toLowerCase() %>"
             data-college="<%= (t.college || '').toLowerCase() %>"
@@ -383,7 +414,8 @@
             data-themename="<%= t.theme || '' %>"
             data-rank="<%= t.rank %>"
             data-confirmed="<%= isConfirmed ? 'true' : 'false' %>"
-            data-reginfo='<%= JSON.stringify(regInfo || {}) %>'
+            data-cansubmit="<%= (!reg || reg.canSubmit) ? 'true' : 'false' %>"
+            data-reginfo='<%= JSON.stringify(reg || {}) %>'
             role="button"
             tabindex="0"
             title="Click to enter <%= t.name %> portal">
@@ -415,6 +447,11 @@
               <% if (isConfirmed) { %>
                 <span class="action-btn">
                   <span>🔒 SQUAD CONFIRMED ✓</span>
+                  <span>→</span>
+                </span>
+              <% } else if (isCorrection) { %>
+                <span class="action-btn">
+                  <span>✏️ UNLOCKED FOR UPDATE</span>
                   <span>→</span>
                 </span>
               <% } else { %>
@@ -476,12 +513,17 @@
         </div>
       </div>
 
+      <!-- Correction Notice Banner (When Atlas allows re-submission) -->
+      <div class="correction-banner" id="p-correction-banner">
+        <span id="p-correction-msg">✏️ UNLOCKED IN DATABASE FOR CORRECTION: Organizers have enabled this squad to update details. Review and submit to re-lock.</span>
+      </div>
+
       <!-- VIEW A: ALREADY REGISTERED (Single-fill lock) -->
       <div class="portal-registered-view" id="portal-registered-view">
         <div class="reg-check-icon">🛡️</div>
         <h3 class="reg-check-title">REGISTRATION COMPLETED & LOCKED</h3>
         <p class="reg-check-desc">
-          This squad has already submitted their registration and payment details. To maintain competitive integrity, each squad is strictly allowed only one submission.
+          This squad has already submitted their registration and payment details. All submissions are recorded in the database.
         </p>
 
         <div class="reg-summary-card">
@@ -489,14 +531,24 @@
           <div class="reg-summary-row"><span class="lbl">Team Name:</span><span class="val" id="p-reg-name">-</span></div>
           <div class="reg-summary-row"><span class="lbl">Payment UTR:</span><span class="val" id="p-reg-utr">-</span></div>
           <div class="reg-summary-row"><span class="lbl">Submission Status:</span><span class="val" style="color:var(--gold);">Under Verification ✓</span></div>
+          <div class="reg-summary-row"><span class="lbl">Attempts Used:</span><span class="val" id="p-reg-attempts">1 of 1 (Locked)</span></div>
+          
+          <div class="reg-members-box">
+            <span style="color:var(--dim); font-size:.7rem; display:block; margin-bottom:4px;">CONFIRMED SQUAD MEMBERS:</span>
+            <div id="p-reg-members-list"></div>
+          </div>
         </div>
 
-        <button type="button" class="btn-portal-close" style="background:var(--accent); color:#020805; border-color:var(--accent); font-size:.85rem; padding:.7rem 1.8rem;" onclick="document.getElementById('portal-overlay').classList.remove('open');">
+        <p style="font-family:'JetBrains Mono'; font-size:.74rem; color:var(--dim); margin-bottom:1.5rem;">
+          ℹ️ If you made any error or mistake in your details, hackathon coordinators can unlock this squad directly in MongoDB Atlas.
+        </p>
+
+        <button type="button" class="btn-portal-close" id="btn-portal-return" style="background:var(--accent); color:#020805; border-color:var(--accent); font-size:.85rem; padding:.75rem 2rem;">
           RETURN TO TEAMS LIST
         </button>
       </div>
 
-      <!-- VIEW B: REGISTRATION FORM (First time entry) -->
+      <!-- VIEW B: REGISTRATION FORM (First time entry OR Unlocked in Atlas) -->
       <div class="portal-form-view" id="portal-form-view">
         <form id="portal-form" enctype="multipart/form-data">
           <!-- Hidden locked inputs -->
@@ -656,9 +708,10 @@
         applyFilter();
       }));
 
-      // ----------------- Team Portal (Modal) Logic -----------------
+      // ----------------- Team Portal Logic -----------------
       const overlay = document.getElementById('portal-overlay');
       const btnClose = document.getElementById('btn-portal-close');
+      const btnReturn = document.getElementById('btn-portal-return');
 
       const pTitle = document.getElementById('p-title');
       const pSubtitle = document.getElementById('p-subtitle');
@@ -667,12 +720,16 @@
       const pDossierEmail = document.getElementById('p-dossier-email');
       const pDossierPhone = document.getElementById('p-dossier-phone');
       const pDossierCollege = document.getElementById('p-dossier-college');
+      const pCorrectionBanner = document.getElementById('p-correction-banner');
+      const pCorrectionMsg = document.getElementById('p-correction-msg');
 
       const formView = document.getElementById('portal-form-view');
       const registeredView = document.getElementById('portal-registered-view');
       const pRegId = document.getElementById('p-reg-id');
       const pRegName = document.getElementById('p-reg-name');
       const pRegUtr = document.getElementById('p-reg-utr');
+      const pRegAttempts = document.getElementById('p-reg-attempts');
+      const pRegMembersList = document.getElementById('p-reg-members-list');
 
       // Hidden form inputs
       const fTeamId = document.getElementById('form-team-id');
@@ -682,6 +739,18 @@
       const fLeadPhone = document.getElementById('form-lead-phone');
       const fCollege = document.getElementById('form-college');
       const fTheme = document.getElementById('form-theme');
+
+      // Member inputs for prefill
+      const m1Name = document.getElementById('m1-name');
+      const m1Email = document.getElementById('m1-email');
+      const m1Phone = document.getElementById('m1-phone');
+      const m2Name = document.getElementById('m2-name');
+      const m2Email = document.getElementById('m2-email');
+      const m2Phone = document.getElementById('m2-phone');
+      const m3Name = document.getElementById('m3-name');
+      const m3Email = document.getElementById('m3-email');
+      const m3Phone = document.getElementById('m3-phone');
+      const fUtr = document.getElementById('f-utr-id');
 
       let currentCard = null;
 
@@ -695,7 +764,7 @@
         const college = card.dataset.collegename || '';
         const theme = card.dataset.themename || '';
         const rank = card.dataset.rank || '';
-        const isConfirmed = card.dataset.confirmed === 'true';
+        const canSubmit = card.dataset.cansubmit === 'true';
 
         let regInfo = {};
         try {
@@ -720,22 +789,66 @@
         fCollege.value = college;
         fTheme.value = theme;
 
-        if (isConfirmed) {
-          // Already registered view (single fill only)
+        const isCorrection = canSubmit && regInfo.attemptsUsed > 0;
+
+        if (!canSubmit) {
+          // Locked view (single fill used, cannot edit unless unlocked in Atlas)
           formView.style.display = 'none';
           registeredView.style.display = 'block';
+          pCorrectionBanner.style.display = 'none';
+
           pRegId.textContent = id;
           pRegName.textContent = name;
           pRegUtr.textContent = regInfo.utrId || 'VERIFIED ON FILE';
+          pRegAttempts.textContent = `${regInfo.attemptsUsed || 1} of ${regInfo.attemptsAllowed || 1} Used (Locked in Atlas)`;
+
+          // Render members list
+          if (pRegMembersList) {
+            pRegMembersList.innerHTML = '';
+            if (regInfo.members && regInfo.members.length) {
+              regInfo.members.forEach((m, idx) => {
+                const item = document.createElement('div');
+                item.className = 'reg-member-item';
+                item.innerHTML = `<span>👤 Member ${idx + 2}: <b>${m.name}</b></span><span>${m.phone || m.email || ''}</span>`;
+                pRegMembersList.appendChild(item);
+              });
+            } else {
+              pRegMembersList.innerHTML = '<span style="color:var(--dim); font-size:.7rem;">Roster details saved on server</span>';
+            }
+          }
         } else {
-          // First time entry view
+          // Editable form view (first time OR unlocked by coordinator in Atlas)
           registeredView.style.display = 'none';
           formView.style.display = 'block';
           const alert = document.getElementById('portal-alert');
           if (alert) alert.style.display = 'none';
+
+          if (isCorrection) {
+            pCorrectionBanner.style.display = 'block';
+            pCorrectionMsg.textContent = `✏️ UNLOCKED IN ATLAS FOR CORRECTION (Attempt ${regInfo.attemptsUsed + 1} of ${regInfo.attemptsAllowed}): Review and update your details below.`;
+            // Pre-fill existing data for easy correction
+            if (regInfo.members && regInfo.members[0]) {
+              m1Name.value = regInfo.members[0].name || '';
+              m1Email.value = regInfo.members[0].email || '';
+              m1Phone.value = regInfo.members[0].phone || '';
+            }
+            if (regInfo.members && regInfo.members[1]) {
+              m2Name.value = regInfo.members[1].name || '';
+              m2Email.value = regInfo.members[1].email || '';
+              m2Phone.value = regInfo.members[1].phone || '';
+            }
+            if (regInfo.members && regInfo.members[2]) {
+              m3Name.value = regInfo.members[2].name || '';
+              m3Email.value = regInfo.members[2].email || '';
+              m3Phone.value = regInfo.members[2].phone || '';
+            }
+            if (regInfo.utrId) fUtr.value = regInfo.utrId;
+          } else {
+            pCorrectionBanner.style.display = 'none';
+          }
+
           setTimeout(() => {
-            const m1 = document.getElementById('m1-name');
-            if (m1) m1.focus();
+            if (m1Name) m1Name.focus();
           }, 200);
         }
 
@@ -743,9 +856,14 @@
         document.body.style.overflow = 'hidden';
       };
 
+      // Ensure scrolling is ALWAYS cleanly restored
       const closeTeamPortal = () => {
         overlay.classList.remove('open');
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (currentCard) {
+          currentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       };
 
       cards.forEach(card => {
@@ -759,6 +877,8 @@
       });
 
       if (btnClose) btnClose.addEventListener('click', closeTeamPortal);
+      if (btnReturn) btnReturn.addEventListener('click', closeTeamPortal);
+
       if (overlay) {
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) closeTeamPortal();
@@ -879,30 +999,53 @@
 
             const data = await res.json();
             if (!res.ok || !data.ok) {
-              throw new Error(data.error || 'Failed to submit registration. Each squad can only submit once.');
+              throw new Error(data.error || 'Failed to submit registration. Each squad has 1 chance.');
             }
 
             // Successfully submitted! Update current card state
             if (currentCard) {
+              currentCard.classList.remove('is-correction');
               currentCard.classList.add('is-confirmed');
               currentCard.dataset.confirmed = 'true';
-              currentCard.dataset.reginfo = JSON.stringify({
+              currentCard.dataset.cansubmit = 'false';
+              const updatedReg = {
                 teamId: data.teamId,
                 teamName: data.teamName,
-                utrId: data.utrId
-              });
+                utrId: data.utrId,
+                attemptsAllowed: 1,
+                attemptsUsed: 1,
+                canSubmit: false,
+                isLocked: true,
+                members: [
+                  { name: m1Name.value.trim(), email: m1Email.value.trim(), phone: m1Phone.value.trim() },
+                  { name: m2Name.value.trim(), email: m2Email.value.trim(), phone: m2Phone.value.trim() },
+                  { name: m3Name.value.trim(), email: m3Email.value.trim(), phone: m3Phone.value.trim() },
+                ]
+              };
+              currentCard.dataset.reginfo = JSON.stringify(updatedReg);
               const actionSpan = currentCard.querySelector('.card-footer-action span.action-btn');
               if (actionSpan) {
                 actionSpan.innerHTML = '<span>🔒 SQUAD CONFIRMED ✓</span><span>→</span>';
               }
             }
 
-            // Switch portal to confirmed view
+            // Switch portal to confirmed locked view
             formView.style.display = 'none';
+            pCorrectionBanner.style.display = 'none';
             registeredView.style.display = 'block';
             pRegId.textContent = data.teamId;
             pRegName.textContent = data.teamName;
             pRegUtr.textContent = data.utrId;
+            pRegAttempts.textContent = '1 of 1 Used (Locked in Atlas)';
+
+            // Render members
+            if (pRegMembersList) {
+              pRegMembersList.innerHTML = `
+                <div class="reg-member-item"><span>👤 Member 2: <b>${m1Name.value.trim()}</b></span><span>${m1Phone.value.trim() || m1Email.value.trim()}</span></div>
+                <div class="reg-member-item"><span>👤 Member 3: <b>${m2Name.value.trim()}</b></span><span>${m2Phone.value.trim() || m2Email.value.trim()}</span></div>
+                <div class="reg-member-item"><span>👤 Member 4: <b>${m3Name.value.trim()}</b></span><span>${m3Phone.value.trim() || m3Email.value.trim()}</span></div>
+              `;
+            }
 
             form.reset();
             if (btnRemoveFile) btnRemoveFile.click();

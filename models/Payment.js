@@ -23,8 +23,13 @@ const paymentSchema = new mongoose.Schema({
     enum: ['pending', 'verified', 'rejected'],
     default: 'pending',
   },
+  attemptsAllowed: { type: Number, default: 1 },
+  attemptsUsed: { type: Number, default: 1 },
+  isLocked: { type: Boolean, default: true },
+  allowResubmit: { type: Boolean, default: false },
   adminNotes: { type: String, default: '' },
   submittedAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 paymentSchema.index({ utrId: 1 });

@@ -52,8 +52,13 @@ function writeLocalSubmission(record) {
   try {
     const dataDir = path.join(__dirname, 'data');
     if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-    const list = readLocalSubmissions();
-    list.unshift(record);
+    let list = readLocalSubmissions();
+    const existingIdx = list.findIndex(s => s.teamId && s.teamId.toUpperCase() === record.teamId.toUpperCase());
+    if (existingIdx !== -1) {
+      list[existingIdx] = { ...list[existingIdx], ...record, updatedAt: new Date() };
+    } else {
+      list.unshift(record);
+    }
     fs.writeFileSync(backupFile, JSON.stringify(list, null, 2));
   } catch (e) {
     console.error('Failed to write local backup:', e.message);
@@ -62,36 +67,64 @@ function writeLocalSubmission(record) {
 
 async function getRegisteredTeamMap() {
   const map = {};
+  // 1. From local backup
   readLocalSubmissions().forEach(s => {
     if (s.teamId) {
-      map[s.teamId.toUpperCase()] = {
+      const id = s.teamId.toUpperCase();
+      const attemptsAllowed = s.attemptsAllowed !== undefined ? Number(s.attemptsAllowed) : 1;
+      const attemptsUsed = s.attemptsUsed !== undefined ? Number(s.attemptsUsed) : 1;
+      const allowResubmit = s.allowResubmit === true;
+      const isLocked = s.isLocked !== undefined ? s.isLocked : (attemptsUsed >= attemptsAllowed && !allowResubmit);
+      const canSubmit = allowResubmit || !isLocked || (attemptsUsed < attemptsAllowed);
+
+      map[id] = {
         teamId: s.teamId,
         teamName: s.teamName,
         submittedAt: s.submittedAt,
         status: s.status || 'pending',
         members: s.members || [],
-        utrId: s.utrId
+        utrId: s.utrId,
+        attemptsAllowed,
+        attemptsUsed,
+        isLocked,
+        allowResubmit,
+        canSubmit
       };
     }
   });
 
+  // 2. From MongoDB Atlas
   if (mongoose.connection.readyState === 1) {
     try {
       const Payment = require('./models/Payment');
-      const docs = await Payment.find({}, 'teamId teamName submittedAt status members utrId');
+      const docs = await Payment.find({});
       docs.forEach(d => {
         if (d.teamId) {
-          map[d.teamId.toUpperCase()] = {
+          const id = d.teamId.toUpperCase();
+          const attemptsAllowed = d.attemptsAllowed !== undefined ? Number(d.attemptsAllowed) : 1;
+          const attemptsUsed = d.attemptsUsed !== undefined ? Number(d.attemptsUsed) : 1;
+          const allowResubmit = d.allowResubmit === true;
+          const isLocked = d.isLocked !== undefined ? d.isLocked : (attemptsUsed >= attemptsAllowed && !allowResubmit);
+          const canSubmit = allowResubmit || !isLocked || (attemptsUsed < attemptsAllowed);
+
+          map[id] = {
             teamId: d.teamId,
             teamName: d.teamName,
             submittedAt: d.submittedAt,
             status: d.status || 'pending',
             members: d.members || [],
-            utrId: d.utrId
+            utrId: d.utrId,
+            attemptsAllowed,
+            attemptsUsed,
+            isLocked,
+            allowResubmit,
+            canSubmit
           };
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      console.warn('MongoDB getRegisteredTeamMap note:', e.message);
+    }
   }
   return map;
 }
@@ -230,13 +263,15 @@ app.post('/api/payment/submit', (req, res) => {
         return res.status(400).json({ ok: false, error: 'Please select a valid team from the shortlist before submitting.' });
       }
 
-      // Check single submission rule: each team can fill only once
+      // Check dynamic submission rule: each team has attemptsAllowed (default 1)
       const cleanTeamId = teamId.trim().toUpperCase();
       const registeredMap = await getRegisteredTeamMap();
-      if (registeredMap[cleanTeamId]) {
+      const existingEntry = registeredMap[cleanTeamId];
+
+      if (existingEntry && !existingEntry.canSubmit) {
         return res.status(400).json({
           ok: false,
-          error: `Registration for team [${teamId}] has already been completed! Each squad is allowed only one submission.`
+          error: `Registration for team [${teamId}] is locked (${existingEntry.attemptsUsed} of ${existingEntry.attemptsAllowed} attempt used). If you made a mistake, coordinators can unlock your squad directly in MongoDB Atlas.`
         });
       }
 
@@ -250,16 +285,16 @@ app.post('/api/payment/submit', (req, res) => {
 
       const normalizedUtr = utrId.trim().toUpperCase();
       const localList = readLocalSubmissions();
-      const duplicateUtrLocal = localList.find(s => s.utrId === normalizedUtr);
+      const duplicateUtrLocal = localList.find(s => s.utrId === normalizedUtr && s.teamId.toUpperCase() !== cleanTeamId);
       if (duplicateUtrLocal) {
-        return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted.' });
+        return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted by another team.' });
       }
 
       if (mongoose.connection.readyState === 1) {
         const Payment = require('./models/Payment');
-        const existingUtr = await Payment.findOne({ utrId: normalizedUtr });
+        const existingUtr = await Payment.findOne({ utrId: normalizedUtr, teamId: { $ne: teamId.trim() } });
         if (existingUtr) {
-          return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted.' });
+          return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted by another team.' });
         }
       }
 
@@ -273,6 +308,9 @@ app.post('/api/payment/submit', (req, res) => {
         { name: member3Name.trim(), email: (member3Email || '').trim(), phone: (member3Phone || '').trim() },
       ];
 
+      const attemptsUsed = existingEntry ? (existingEntry.attemptsUsed + 1) : 1;
+      const attemptsAllowed = existingEntry ? existingEntry.attemptsAllowed : 1;
+
       const record = {
         teamId: teamId.trim(),
         teamName: teamName.trim(),
@@ -285,20 +323,29 @@ app.post('/api/payment/submit', (req, res) => {
         utrId: normalizedUtr,
         amount: 1000,
         screenshotPath: `/uploads/payments/${req.file.filename}`,
-        status: 'pending',
-        submittedAt: new Date(),
+        status: existingEntry ? existingEntry.status : 'pending',
+        attemptsAllowed: attemptsAllowed,
+        attemptsUsed: attemptsUsed,
+        isLocked: true,
+        allowResubmit: false,
+        submittedAt: existingEntry && existingEntry.submittedAt ? existingEntry.submittedAt : new Date(),
+        updatedAt: new Date(),
       };
 
       // 1. Resilient local backup
       writeLocalSubmission(record);
 
-      // 2. MongoDB Atlas save
+      // 2. MongoDB Atlas save / update
       let dbSaved = false;
       let docId = null;
       try {
         if (mongoose.connection.readyState === 1) {
           const Payment = require('./models/Payment');
-          const savedDoc = await Payment.create(record);
+          const savedDoc = await Payment.findOneAndUpdate(
+            { teamId: record.teamId },
+            { $set: record },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+          );
           docId = savedDoc._id;
           dbSaved = true;
         } else {
