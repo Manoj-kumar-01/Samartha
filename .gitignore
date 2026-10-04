@@ -22,3 +22,8 @@ Thumbs.db
 data/*.csv
 !*.example.csv
 !data/*.example.csv
+data/payment_submissions.json
+
+# Uploaded payment receipts & screenshots
+uploads/
+

@@ -94,6 +94,209 @@ app.post('/admin/api/send', requireAdmin, async (req, res) => {
 
 app.get('/admin/api/status', requireAdmin, (req, res) => res.json(getJob()));
 
+// ---------- Payment & Roster Verification (Multer & MongoDB) ----------
+const fs = require('fs');
+const multer = require('multer');
+
+const uploadsDir = path.join(__dirname, 'uploads', 'payments');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadsDir);
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const safeTeamId = (req.body.teamId || 'team').replace(/[^a-zA-Z0-9_-]/g, '');
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e4);
+    cb(null, `${safeTeamId}-${uniqueSuffix}${ext || '.png'}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 8 * 1024 * 1024 }, // 8 MB limit
+  fileFilter: function (req, file, cb) {
+    const allowed = /jpeg|jpg|png|webp|pdf/;
+    const ext = path.extname(file.originalname).toLowerCase().slice(1);
+    const mime = file.mimetype.toLowerCase();
+    if (allowed.test(ext) || allowed.test(mime)) {
+      return cb(null, true);
+    }
+    cb(new Error('Only JPG, PNG, WEBP or PDF receipt files are allowed'));
+  }
+});
+
+const backupFile = path.join(__dirname, 'data', 'payment_submissions.json');
+function readLocalSubmissions() {
+  try {
+    if (fs.existsSync(backupFile)) {
+      return JSON.parse(fs.readFileSync(backupFile, 'utf8'));
+    }
+  } catch (e) {}
+  return [];
+}
+
+function writeLocalSubmission(record) {
+  try {
+    const dataDir = path.join(__dirname, 'data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+    const list = readLocalSubmissions();
+    list.unshift(record);
+    fs.writeFileSync(backupFile, JSON.stringify(list, null, 2));
+  } catch (e) {
+    console.error('Failed to write local backup:', e.message);
+  }
+}
+
+// Public API: Submit Payment & Team Roster
+app.post('/api/payment/submit', (req, res) => {
+  upload.single('screenshot')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ ok: false, error: err.message || 'File upload failed' });
+    }
+
+    try {
+      const {
+        teamId,
+        teamName,
+        teamLeadName,
+        teamLeadEmail,
+        teamLeadPhone,
+        college,
+        theme,
+        member1Name,
+        member1Email,
+        member1Phone,
+        member2Name,
+        member2Email,
+        member2Phone,
+        member3Name,
+        member3Email,
+        member3Phone,
+        utrId
+      } = req.body;
+
+      if (!teamId || !teamName || !teamLeadName || !teamLeadEmail) {
+        return res.status(400).json({ ok: false, error: 'Please select a team card from the shortlist before submitting.' });
+      }
+
+      if (!member1Name || !member2Name || !member3Name) {
+        return res.status(400).json({ ok: false, error: 'Please enter details for all 3 squad members.' });
+      }
+
+      if (!utrId || utrId.trim().length < 6) {
+        return res.status(400).json({ ok: false, error: 'Please enter a valid UPI / UTR Transaction ID (e.g. 12 digits).' });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ ok: false, error: 'Please upload your payment screenshot receipt.' });
+      }
+
+      const members = [
+        { name: member1Name.trim(), email: (member1Email || '').trim(), phone: (member1Phone || '').trim() },
+        { name: member2Name.trim(), email: (member2Email || '').trim(), phone: (member2Phone || '').trim() },
+        { name: member3Name.trim(), email: (member3Email || '').trim(), phone: (member3Phone || '').trim() },
+      ];
+
+      const record = {
+        teamId: teamId.trim(),
+        teamName: teamName.trim(),
+        teamLeadName: teamLeadName.trim(),
+        teamLeadEmail: teamLeadEmail.trim().toLowerCase(),
+        teamLeadPhone: (teamLeadPhone || '').trim(),
+        college: (college || '').trim(),
+        theme: (theme || '').trim(),
+        members,
+        utrId: utrId.trim().toUpperCase(),
+        amount: 1000,
+        screenshotPath: `/uploads/payments/${req.file.filename}`,
+        status: 'pending',
+        submittedAt: new Date(),
+      };
+
+      // 1. Resilient local backup
+      writeLocalSubmission(record);
+
+      // 2. MongoDB Atlas save
+      let dbSaved = false;
+      let docId = null;
+      try {
+        if (mongoose.connection.readyState === 1) {
+          const Payment = require('./models/Payment');
+          const existing = await Payment.findOne({ utrId: record.utrId });
+          if (existing) {
+            return res.status(400).json({ ok: false, error: 'This UTR / Transaction ID has already been submitted.' });
+          }
+          const savedDoc = await Payment.create(record);
+          docId = savedDoc._id;
+          dbSaved = true;
+        } else {
+          console.log('ℹ️ MongoDB Atlas not currently connected (submission safely recorded in local store: data/payment_submissions.json)');
+        }
+      } catch (dbErr) {
+        console.warn('⚠️ MongoDB Atlas note (saved to local backup):', dbErr.message);
+      }
+
+      return res.json({
+        ok: true,
+        message: 'Payment verification & squad roster submitted successfully! Your submission is recorded.',
+        teamId: record.teamId,
+        teamName: record.teamName,
+        utrId: record.utrId,
+        submissionId: docId || record.teamId,
+        savedToAtlas: dbSaved
+      });
+    } catch (serverErr) {
+      console.error('Payment submit error:', serverErr);
+      return res.status(500).json({ ok: false, error: 'Server error processing payment submission. Please try again.' });
+    }
+  });
+});
+
+// Admin APIs for managing payment submissions
+app.get('/admin/api/payments', requireAdmin, async (req, res) => {
+  try {
+    let payments = [];
+    try {
+      const Payment = require('./models/Payment');
+      payments = await Payment.find().sort({ submittedAt: -1 }).lean();
+    } catch (e) {
+      payments = readLocalSubmissions();
+    }
+    if (!payments || !payments.length) {
+      payments = readLocalSubmissions();
+    }
+    res.json({ ok: true, payments });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+app.post('/admin/api/payments/status', requireAdmin, async (req, res) => {
+  try {
+    const { id, status, notes } = req.body;
+    try {
+      const Payment = require('./models/Payment');
+      await Payment.findByIdAndUpdate(id, { status, adminNotes: notes || '' });
+    } catch (e) {}
+
+    const list = readLocalSubmissions();
+    const item = list.find(p => (p._id && p._id == id) || p.teamId == id || p.utrId == id);
+    if (item) {
+      item.status = status;
+      if (notes) item.adminNotes = notes;
+      fs.writeFileSync(backupFile, JSON.stringify(list, null, 2));
+    }
+
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
