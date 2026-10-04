@@ -22,7 +22,6 @@
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Syne', sans-serif; color: var(--text); min-height: 100vh;
       background:
@@ -37,17 +36,10 @@
 
     /* Top bar */
     .topbar { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(14px);
-      background: rgba(2, 8, 5, .82); border-bottom: 1px solid var(--border); }
+      background: rgba(2, 8, 5, .88); border-bottom: 1px solid var(--border); }
     .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
     .brand { font-family: 'Orbitron'; font-weight: 900; letter-spacing: 4px; font-size: 1.15rem;
       color: var(--accent); text-shadow: 0 0 18px var(--accent-glow); display: flex; align-items: center; gap: 8px; }
-    .nav-actions { display: flex; align-items: center; gap: .75rem; }
-    .btn-nav-pay {
-      font-family: 'JetBrains Mono'; font-size: .78rem; font-weight: 700; padding: .55rem 1rem;
-      border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #020805;
-      transition: all .25s var(--ease); display: inline-flex; align-items: center; gap: 6px;
-    }
-    .btn-nav-pay:hover { filter: brightness(1.15); box-shadow: 0 0 20px var(--accent-glow); }
     .back-btn { font-family: 'JetBrains Mono'; font-size: .78rem; font-weight: 700; padding: .55rem 1rem;
       border: 1px solid var(--border); border-radius: 4px; color: var(--accent); transition: all .25s var(--ease); }
     .back-btn:hover { background: var(--accent-dim); border-color: var(--accent); box-shadow: 0 0 18px var(--accent-glow); }
@@ -64,9 +56,9 @@
 
     .hero-action-pill {
       display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.6rem;
-      background: rgba(251, 191, 36, .08); border: 1px solid rgba(251, 191, 36, .35);
+      background: rgba(0, 255, 136, .08); border: 1px solid rgba(0, 255, 136, .35);
       border-radius: 50px; padding: .65rem 1.4rem; font-family: 'JetBrains Mono'; font-size: .8rem;
-      color: var(--gold); text-shadow: 0 0 10px rgba(251, 191, 36, .3); animation: fadeUp .7s .2s var(--ease) both;
+      color: var(--accent); text-shadow: 0 0 10px rgba(0, 255, 136, .3); animation: fadeUp .7s .2s var(--ease) both;
     }
 
     .stats { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; animation: fadeUp .7s .24s var(--ease) both; }
@@ -89,7 +81,7 @@
     .chip.active { background: var(--accent); color: #020805; border-color: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
 
     /* Teams Grid & Clickable Cards */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.1rem; padding-bottom: 2.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.1rem; padding-bottom: 5rem; }
     .card {
       position: relative; background: linear-gradient(160deg, rgba(17, 40, 28, .92), rgba(10, 27, 18, .92));
       border: 1px solid var(--border); border-radius: 10px; padding: 1.3rem 1.3rem 1.1rem; overflow: hidden;
@@ -101,15 +93,13 @@
     .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 14px 34px rgba(0, 255, 136, .22); }
     .card:hover::after { transform: translateX(100%); }
 
-    /* Active Selected State on Card */
-    .card.is-selected {
-      border-color: #00ff88;
-      background: linear-gradient(160deg, rgba(0, 255, 136, .16), rgba(10, 27, 18, .96));
-      box-shadow: 0 0 0 2px #00ff88, 0 16px 36px rgba(0, 255, 136, .35);
-      transform: translateY(-5px) scale(1.015);
+    /* Already Registered Team Card Style */
+    .card.is-confirmed {
+      border-color: rgba(251, 191, 36, .45);
+      background: linear-gradient(160deg, rgba(17, 40, 28, .95), rgba(251, 191, 36, .06));
     }
-    .card.is-selected .sel-indicator {
-      display: flex !important;
+    .card.is-confirmed:hover {
+      border-color: var(--gold); box-shadow: 0 14px 34px rgba(251, 191, 36, .25);
     }
 
     .rank { position: absolute; top: 1rem; right: 1.1rem; font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; color: var(--gold); text-shadow: 0 0 14px rgba(251, 191, 36, .3); }
@@ -125,202 +115,153 @@
     .theme { display: inline-block; font-family: 'JetBrains Mono'; font-size: .68rem; font-weight: 700; color: var(--accent);
       background: var(--accent-dim); border: 1px solid var(--border); padding: .3rem .65rem; border-radius: 4px; }
 
-    /* Clickable action prompt at bottom of card */
+    /* Action button at bottom of card */
     .card-footer-action {
       margin-top: .9rem; padding-top: .75rem; border-top: 1px dashed rgba(0, 255, 136, .18);
       display: flex; align-items: center; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: .73rem;
       color: var(--accent); font-weight: 600;
     }
-    .card:hover .card-footer-action { color: #fff; }
     .card-footer-action span.action-btn {
-      display: inline-flex; align-items: center; gap: 5px; background: rgba(0, 255, 136, .12);
-      padding: .28rem .65rem; border-radius: 4px; border: 1px solid rgba(0, 255, 136, .25);
-      transition: all .2s;
+      display: inline-flex; align-items: center; gap: 6px; background: rgba(0, 255, 136, .12);
+      padding: .3rem .75rem; border-radius: 4px; border: 1px solid rgba(0, 255, 136, .25);
+      transition: all .2s; width: 100%; justify-content: center;
     }
     .card:hover .card-footer-action span.action-btn { background: var(--accent); color: #020805; border-color: var(--accent); }
 
-    .sel-indicator {
-      display: none; align-items: center; gap: 5px; background: #00ff88; color: #020805;
-      font-family: 'JetBrains Mono'; font-size: .7rem; font-weight: 800; padding: .25rem .6rem;
-      border-radius: 4px; letter-spacing: 1px;
+    .card.is-confirmed .card-footer-action span.action-btn {
+      background: rgba(251, 191, 36, .12); border-color: rgba(251, 191, 36, .3); color: var(--gold);
+    }
+    .card.is-confirmed:hover .card-footer-action span.action-btn {
+      background: var(--gold); color: #020805; border-color: var(--gold);
     }
 
     .empty { text-align: center; color: var(--muted); padding: 4rem 1rem; border: 1px dashed var(--border); border-radius: 10px; font-family: 'JetBrains Mono'; }
 
     /* ========================================================
-       PAYMENT & SQUAD CONFIRMATION SECTION
+       IMMERSIVE TEAM ACCESS PORTAL (MODAL)
        ======================================================== */
-    .payment-section {
-      margin-top: 2rem; margin-bottom: 5rem;
-      background: linear-gradient(180deg, rgba(10, 27, 18, .95) 0%, rgba(2, 8, 5, .98) 100%);
-      border: 1px solid rgba(0, 255, 136, .35); border-radius: 16px;
-      padding: 3rem 2.2rem; position: relative; overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .7), 0 0 40px rgba(0, 255, 136, .08);
+    .team-portal-overlay {
+      position: fixed; inset: 0; z-index: 1000; background: rgba(2, 8, 5, .92);
+      backdrop-filter: blur(16px); display: none; align-items: center; justify-content: center;
+      padding: 1.5rem; overflow-y: auto;
     }
-    .payment-section::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent), var(--gold), var(--cyan), transparent);
+    .team-portal-overlay.open { display: flex; }
+
+    .portal-box {
+      background: linear-gradient(175deg, #0d2317 0%, #05100a 100%);
+      border: 1px solid var(--accent); border-radius: 16px;
+      box-shadow: 0 0 60px rgba(0, 255, 136, .28), 0 25px 60px rgba(0, 0, 0, .85);
+      max-width: 860px; width: 100%; max-height: 92vh; overflow-y: auto;
+      padding: 2.2rem; position: relative; animation: portalEnter .35s var(--ease);
     }
 
-    .section-head { text-align: center; max-width: 820px; margin: 0 auto 2.4rem; }
-    .section-head .sec-tag {
-      display: inline-block; font-family: 'JetBrains Mono'; font-size: .75rem; font-weight: 700;
-      letter-spacing: 3px; color: var(--accent); border: 1px solid var(--border);
-      background: var(--accent-dim); padding: .35rem 1rem; border-radius: 30px; margin-bottom: .8rem;
+    .portal-topbar {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; border-bottom: 1px solid rgba(0, 255, 136, .18); padding-bottom: 1.2rem; margin-bottom: 1.8rem;
     }
-    .section-head h2 {
-      font-family: 'Orbitron'; font-weight: 900; font-size: clamp(1.6rem, 4vw, 2.5rem);
-      letter-spacing: 2px; color: #fff; line-height: 1.2;
+    .portal-tag {
+      font-family: 'JetBrains Mono'; font-size: .72rem; font-weight: 700; letter-spacing: 2px;
+      color: var(--accent); background: var(--accent-dim); padding: .25rem .75rem; border-radius: 20px;
+      display: inline-block; margin-bottom: .4rem; border: 1px solid var(--border);
     }
-    .section-head p { color: var(--muted); font-size: .95rem; margin-top: .6rem; line-height: 1.6; }
-
-    /* Team Selection Banner inside payment section */
-    .selection-banner {
-      background: rgba(0, 255, 136, .06); border: 1px solid var(--accent);
-      border-radius: 10px; padding: 1rem 1.4rem; margin-bottom: 2.2rem;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-      animation: pulseGlow 3s infinite alternate;
+    .portal-title {
+      font-family: 'Orbitron'; font-weight: 900; font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      color: #fff; line-height: 1.2; letter-spacing: 1.5px;
     }
-    .selection-banner.no-team {
-      background: rgba(251, 191, 36, .08); border-color: rgba(251, 191, 36, .45);
-      animation: none;
-    }
-    .sel-info { display: flex; align-items: center; gap: .8rem; font-family: 'Rajdhani'; font-size: 1.15rem; font-weight: 600; }
-    .sel-info .status-icon { font-size: 1.4rem; }
-    .sel-info .highlight { color: var(--accent); font-weight: 700; }
-    .selection-banner.no-team .sel-info .highlight { color: var(--gold); }
-    .btn-change-team {
-      font-family: 'JetBrains Mono'; font-size: .75rem; font-weight: 700;
-      background: transparent; color: var(--muted); border: 1px solid var(--border);
-      padding: .45rem .85rem; border-radius: 4px; cursor: pointer; transition: all .2s;
-    }
-    .btn-change-team:hover { color: #fff; border-color: var(--accent); background: var(--accent-dim); }
-
-    /* Split Layout: QR Gateway (Left) & Form (Right) */
-    .pay-grid {
-      display: grid; grid-template-columns: 360px 1fr; gap: 2.4rem; align-items: start;
-    }
-    @media (max-width: 1024px) {
-      .pay-grid { grid-template-columns: 1fr; }
-    }
-
-    /* Left: UPI Payment Card */
-    .qr-card {
-      background: rgba(5, 16, 10, .85); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.8rem; text-align: center;
-      position: sticky; top: 80px;
-    }
-    .qr-badge {
-      display: inline-block; font-family: 'JetBrains Mono'; font-size: .7rem; font-weight: 700;
-      letter-spacing: 2px; color: var(--gold); border: 1px solid rgba(251, 191, 36, .35);
-      background: var(--gold-dim); padding: .3rem .8rem; border-radius: 4px; margin-bottom: 1rem;
-    }
-    .qr-fee { font-family: 'Orbitron'; font-weight: 900; font-size: 2rem; color: #fff; margin-bottom: .2rem; }
-    .qr-fee-sub { font-family: 'JetBrains Mono'; font-size: .72rem; color: var(--dim); margin-bottom: 1.3rem; }
+    .portal-subtitle { font-family: 'Rajdhani'; font-size: 1.05rem; color: var(--muted); margin-top: .2rem; }
     
-    .qr-box {
-      width: 230px; height: 230px; margin: 0 auto 1.2rem; background: #fff;
-      border: 2px solid var(--accent); border-radius: 12px; padding: 10px;
-      box-shadow: 0 0 25px rgba(0, 255, 136, .25); position: relative;
+    .btn-portal-close {
+      background: rgba(255, 77, 109, .1); border: 1px solid rgba(255, 77, 109, .3);
+      color: #ff859c; font-family: 'JetBrains Mono'; font-size: .78rem; font-weight: 700;
+      padding: .5rem 1rem; border-radius: 6px; cursor: pointer; transition: all .2s; flex-shrink: 0;
     }
-    .qr-box img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 6px; }
+    .btn-portal-close:hover { background: #ff4d6d; color: #fff; border-color: #ff4d6d; }
+
+    /* Dossier section (Locked sheet data) */
+    .dossier-wrap {
+      background: rgba(17, 40, 28, .55); border: 1px solid rgba(0, 255, 136, .2);
+      border-radius: 10px; padding: 1.3rem; margin-bottom: 2rem;
+    }
+    .dossier-head {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+      font-family: 'JetBrains Mono'; font-size: .76rem; font-weight: 700; color: var(--gold); letter-spacing: 1px;
+    }
+    .dossier-badge-locked {
+      background: rgba(0, 255, 136, .12); color: var(--accent); border: 1px solid var(--border);
+      padding: .2rem .6rem; border-radius: 4px; font-size: .68rem;
+    }
+    .dossier-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .9rem;
+    }
+    .dossier-chip {
+      background: rgba(5, 16, 10, .7); border: 1px solid rgba(0, 255, 136, .12);
+      border-radius: 6px; padding: .65rem .85rem;
+    }
+    .dossier-chip .lbl { font-family: 'JetBrains Mono'; font-size: .68rem; color: var(--dim); display: block; margin-bottom: 2px; }
+    .dossier-chip .val { font-family: 'Rajdhani'; font-size: 1.05rem; font-weight: 600; color: #e1f2e8; word-break: break-all; }
+
+    /* Already Registered Screen inside Portal */
+    .portal-registered-view {
+      display: none; text-align: center; padding: 1.5rem 1rem;
+      background: rgba(0, 255, 136, .05); border: 1px solid rgba(0, 255, 136, .3);
+      border-radius: 12px; margin-top: 1rem;
+    }
+    .reg-check-icon { font-size: 3rem; margin-bottom: .6rem; }
+    .reg-check-title { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 900; color: var(--accent); margin-bottom: .4rem; }
+    .reg-check-desc { color: var(--muted); font-size: .95rem; line-height: 1.6; max-width: 580px; margin: 0 auto 1.5rem; }
     
-    .upi-pill {
-      background: rgba(17, 40, 28, .8); border: 1px solid var(--border); border-radius: 8px;
-      padding: .65rem .8rem; display: flex; align-items: center; justify-content: space-between;
-      gap: .5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: .8rem;
+    .reg-summary-card {
+      background: rgba(10, 27, 18, .8); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.1rem; max-width: 500px; margin: 0 auto 1.5rem; text-align: left;
+      font-family: 'JetBrains Mono'; font-size: .8rem;
     }
-    .upi-pill span { color: var(--accent); font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .btn-copy {
-      background: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent);
-      border-radius: 4px; padding: .3rem .6rem; font-family: 'JetBrains Mono'; font-size: .7rem;
-      cursor: pointer; transition: all .2s; flex-shrink: 0;
-    }
-    .btn-copy:hover { background: var(--accent); color: #020805; }
+    .reg-summary-row { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+    .reg-summary-row span.lbl { color: var(--dim); }
+    .reg-summary-row span.val { color: var(--accent); font-weight: 700; }
 
-    .apps-row { display: flex; justify-content: center; gap: .7rem; align-items: center; margin-bottom: 1.2rem; }
-    .app-tag { font-family: 'JetBrains Mono'; font-size: .65rem; color: var(--muted); border: 1px solid rgba(255,255,255,.08); padding: .25rem .5rem; border-radius: 4px; }
-
-    .steps-list { text-align: left; font-family: 'Rajdhani'; font-size: .95rem; color: var(--muted); line-height: 1.5; border-top: 1px solid rgba(0, 255, 136, .1); padding-top: 1rem; }
-    .steps-list li { margin-bottom: .45rem; list-style-position: inside; }
-
-    /* Right: The Form */
-    .form-box {
-      background: rgba(5, 16, 10, .75); border: 1px solid var(--border);
-      border-radius: 12px; padding: 2rem;
+    /* Active Registration Form inside Portal */
+    .portal-form-view { display: none; }
+    .form-segment { margin-bottom: 1.8rem; }
+    .form-sec-title {
+      font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; letter-spacing: 1.5px;
+      color: #fff; margin-bottom: .3rem; display: flex; align-items: center; justify-content: space-between;
     }
-    .form-segment { margin-bottom: 2rem; border-bottom: 1px solid rgba(0, 255, 136, .12); padding-bottom: 1.8rem; }
-    .form-segment:last-of-type { border-bottom: none; margin-bottom: 1rem; padding-bottom: 0; }
-    
-    .segment-title {
-      font-family: 'Orbitron'; font-size: 1.05rem; font-weight: 700; letter-spacing: 1.5px;
-      color: #fff; margin-bottom: .4rem; display: flex; align-items: center; justify-content: space-between;
-    }
-    .segment-title span.badge {
-      font-family: 'JetBrains Mono'; font-size: .65rem; font-weight: 700; letter-spacing: 1px;
-      padding: .25rem .6rem; border-radius: 4px;
-    }
-    .badge-locked { background: rgba(0, 255, 136, .12); color: var(--accent); border: 1px solid var(--border); }
-    .badge-user { background: rgba(251, 191, 36, .12); color: var(--gold); border: 1px solid rgba(251, 191, 36, .3); }
-    .segment-desc { font-family: 'JetBrains Mono'; font-size: .75rem; color: var(--dim); margin-bottom: 1.2rem; }
+    .form-sec-sub { font-family: 'JetBrains Mono'; font-size: .74rem; color: var(--dim); margin-bottom: 1rem; }
 
-    .fields-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
-    }
-
-    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .fields-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .9rem; }
+    .form-group { display: flex; flex-direction: column; gap: .35rem; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group label {
       font-family: 'JetBrains Mono'; font-size: .72rem; font-weight: 600; color: var(--muted);
-      letter-spacing: .5px; display: flex; align-items: center; gap: 4px;
     }
     .form-group label .req { color: #ff4d6d; }
-    
-    .input-wrapper { position: relative; }
-    .input-wrapper input, .input-wrapper select {
+    .form-group input {
       width: 100%; background: #07150e; border: 1px solid var(--border); color: #fff;
-      font-family: 'Rajdhani'; font-size: 1.05rem; font-weight: 600; padding: .75rem .95rem;
-      border-radius: 6px; outline: none; transition: all .25s var(--ease);
+      font-family: 'Rajdhani'; font-size: 1.05rem; font-weight: 600; padding: .7rem .9rem;
+      border-radius: 6px; outline: none; transition: all .2s;
     }
-    .input-wrapper input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
 
-    /* Locked / Readonly Input Styling */
-    .input-wrapper input[readonly] {
-      background: rgba(0, 255, 136, .03); border-color: rgba(0, 255, 136, .2);
-      color: #7ef2b5; cursor: not-allowed; padding-right: 2.2rem;
+    .member-card {
+      background: rgba(17, 40, 28, .35); border: 1px solid rgba(0, 255, 136, .12);
+      border-radius: 8px; padding: 1rem; margin-bottom: .85rem;
     }
-    .input-wrapper input[readonly]:focus { border-color: rgba(0, 255, 136, .35); box-shadow: none; }
-    .lock-icon {
-      position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
-      font-size: .9rem; opacity: .6; pointer-events: none;
-    }
-
-    /* Teammate Cards */
-    .teammate-card {
-      background: rgba(17, 40, 28, .4); border: 1px solid rgba(0, 255, 136, .15);
-      border-radius: 8px; padding: 1rem; margin-bottom: .9rem;
-    }
-    .teammate-head {
-      font-family: 'JetBrains Mono'; font-size: .76rem; font-weight: 700; color: var(--gold);
-      letter-spacing: 1px; margin-bottom: .8rem; display: flex; align-items: center; gap: 6px;
+    .member-card-title {
+      font-family: 'JetBrains Mono'; font-size: .75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: 1px; margin-bottom: .75rem;
     }
 
     /* File Dropzone */
     .dropzone {
-      border: 2px dashed rgba(0, 255, 136, .3); border-radius: 8px; padding: 1.6rem 1rem;
+      border: 2px dashed rgba(0, 255, 136, .3); border-radius: 8px; padding: 1.4rem 1rem;
       text-align: center; background: rgba(10, 27, 18, .5); cursor: pointer; transition: all .2s;
       position: relative;
     }
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent); background: rgba(0, 255, 136, .08); box-shadow: 0 0 20px rgba(0, 255, 136, .15);
-    }
-    .dropzone input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-    }
-    .dropzone-icon { font-size: 2rem; margin-bottom: .4rem; }
-    .dropzone-title { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; color: #fff; }
-    .dropzone-sub { font-family: 'JetBrains Mono'; font-size: .72rem; color: var(--dim); margin-top: .2rem; }
-    
+    .dropzone:hover, .dropzone.dragover { border-color: var(--accent); background: rgba(0, 255, 136, .08); }
+    .dropzone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .dropzone-title { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.05rem; color: #fff; }
+    .dropzone-sub { font-family: 'JetBrains Mono'; font-size: .7rem; color: var(--dim); margin-top: .2rem; }
+
     .file-preview {
       display: none; align-items: center; gap: 1rem; margin-top: .8rem;
       background: rgba(0, 255, 136, .08); border: 1px solid var(--accent);
@@ -330,69 +271,36 @@
     .file-details { flex: 1; text-align: left; }
     .file-name { font-family: 'JetBrains Mono'; font-size: .78rem; color: #fff; font-weight: 600; word-break: break-all; }
     .file-size { font-family: 'JetBrains Mono'; font-size: .68rem; color: var(--muted); }
-    .btn-remove-file {
-      background: transparent; border: none; color: #ff4d6d; cursor: pointer;
-      font-size: 1.2rem; padding: .2rem .4rem; transition: transform .2s;
-    }
-    .btn-remove-file:hover { transform: scale(1.2); }
+    .btn-remove-file { background: transparent; border: none; color: #ff4d6d; cursor: pointer; font-size: 1.2rem; }
 
-    /* Submit Button */
-    .btn-submit {
+    .btn-portal-submit {
       width: 100%; padding: 1.1rem; border-radius: 8px; border: none;
       background: linear-gradient(135deg, #00ff88 0%, #00d670 100%);
       color: #020805; font-family: 'Orbitron'; font-weight: 900; font-size: 1rem; letter-spacing: 2px;
       cursor: pointer; transition: all .25s var(--ease); box-shadow: 0 8px 30px rgba(0, 255, 136, .3);
-      display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem;
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1.2rem;
     }
-    .btn-submit:hover:not(:disabled) {
+    .btn-portal-submit:hover:not(:disabled) {
       transform: translateY(-2px); box-shadow: 0 12px 38px rgba(0, 255, 136, .5); filter: brightness(1.1);
     }
-    .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-portal-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    /* Status Alert inside form */
-    .form-alert {
+    .portal-alert {
       padding: .85rem 1.1rem; border-radius: 6px; font-family: 'JetBrains Mono'; font-size: .8rem;
       margin-top: 1rem; display: none; line-height: 1.5;
     }
-    .form-alert.error { background: rgba(255, 77, 109, .15); border: 1px solid #ff4d6d; color: #ff859c; }
-    .form-alert.success { background: rgba(0, 255, 136, .15); border: 1px solid var(--accent); color: var(--accent); }
+    .portal-alert.error { background: rgba(255, 77, 109, .15); border: 1px solid #ff4d6d; color: #ff859c; }
+    .portal-alert.success { background: rgba(0, 255, 136, .15); border: 1px solid var(--accent); color: var(--accent); }
 
-    /* Modal for submission receipt */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(2, 8, 5, .88); backdrop-filter: blur(10px);
-      z-index: 1000; display: none; align-items: center; justify-content: center; padding: 1.5rem;
-    }
-    .modal-box {
-      background: linear-gradient(160deg, #0a1b12, #05100a); border: 1px solid var(--accent);
-      box-shadow: 0 0 50px rgba(0, 255, 136, .35); border-radius: 14px;
-      max-width: 540px; width: 100%; padding: 2.5rem 2rem; text-align: center;
-      position: relative; animation: fadeUp .4s var(--ease);
-    }
-    .modal-icon { font-size: 3.2rem; margin-bottom: .8rem; }
-    .modal-box h3 { font-family: 'Orbitron'; font-weight: 900; font-size: 1.6rem; color: #fff; margin-bottom: .6rem; }
-    .modal-box p { color: var(--muted); font-size: .95rem; line-height: 1.6; margin-bottom: 1.5rem; }
-    .modal-slip {
-      background: rgba(17, 40, 28, .7); border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.1rem; text-align: left; margin-bottom: 1.6rem; font-family: 'JetBrains Mono'; font-size: .8rem;
-    }
-    .modal-slip .row { display: flex; justify-content: space-between; margin-bottom: .45rem; }
-    .modal-slip .row span.lbl { color: var(--dim); }
-    .modal-slip .row span.val { color: var(--accent); font-weight: 700; }
-    .btn-modal-close {
-      font-family: 'JetBrains Mono'; font-weight: 700; font-size: .85rem; padding: .8rem 2rem;
-      border-radius: 6px; background: var(--accent); color: #020805; border: none; cursor: pointer;
-    }
-    .btn-modal-close:hover { filter: brightness(1.1); box-shadow: 0 0 20px var(--accent-glow); }
+    footer { text-align: center; color: var(--dim); font-family: 'JetBrains Mono'; font-size: .72rem; padding: 2rem 1rem; border-top: 1px solid var(--border); }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-    @keyframes pulseGlow { 0% { box-shadow: 0 0 10px rgba(0,255,136,.1); } 100% { box-shadow: 0 0 25px rgba(0,255,136,.25); } }
+    @keyframes portalEnter { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
 
     @media (max-width: 600px) {
       .hero { padding-top: 3rem; }
+      .portal-box { padding: 1.4rem; }
       .stat { min-width: 120px; padding: .8rem 1rem; }
-      .payment-section { padding: 2rem 1.2rem; }
-      .form-box { padding: 1.2rem; }
-      .qr-card { position: static; }
     }
   </style>
 </head>
@@ -404,10 +312,7 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         SAMARTHA
       </a>
-      <div class="nav-actions">
-        <a href="#payment-section" class="btn-nav-pay" id="btn-top-pay">⚡ CONFIRM SQUAD & PAY</a>
-        <a href="/home" class="back-btn" id="back-home-btn">← BACK TO HOME</a>
-      </div>
+      <a href="/home" class="back-btn" id="back-home-btn">← BACK TO HOME</a>
     </div>
   </header>
 
@@ -419,7 +324,7 @@
         <strong style="color:#fff">24-hour finale on October 10 - 11, 2026</strong> at VIIT CSE Labs, Visakhapatnam.</p>
 
       <div class="hero-action-pill">
-        <span>👉 Click your team box below to auto-fill official credentials & confirm squad</span>
+        <span>⚡ Click any squad box below to enter that team's verification portal</span>
       </div>
 
       <div class="stats">
@@ -457,10 +362,14 @@
         <% } %>
       </div>
 
-      <!-- Selected Teams Grid -->
+      <!-- Top 100 Squads Grid -->
       <section class="grid" id="teams-grid">
         <% teams.forEach((t, i) => { %>
-          <article class="card" id="card-<%= (t.id || 'team-' + i).replace(/[^a-zA-Z0-9_-]/g, '') %>"
+          <% 
+            const isConfirmed = registeredMap && !!registeredMap[(t.id || '').toUpperCase()];
+            const regInfo = isConfirmed ? registeredMap[(t.id || '').toUpperCase()] : null;
+          %>
+          <article class="card <%= isConfirmed ? 'is-confirmed' : '' %>" id="card-<%= (t.id || 'team-' + i).replace(/[^a-zA-Z0-9_-]/g, '') %>"
             style="animation-delay: <%= Math.min(i, 20) * 0.03 %>s"
             data-search="<%= ((t.id || '') + ' ' + (t.name || '') + ' ' + (t.leadName || '') + ' ' + (t.college || '')).toLowerCase() %>"
             data-college="<%= (t.college || '').toLowerCase() %>"
@@ -473,9 +382,11 @@
             data-collegename="<%= t.college || '' %>"
             data-themename="<%= t.theme || '' %>"
             data-rank="<%= t.rank %>"
+            data-confirmed="<%= isConfirmed ? 'true' : 'false' %>"
+            data-reginfo='<%= JSON.stringify(regInfo || {}) %>'
             role="button"
             tabindex="0"
-            title="Click to select <%= t.name %> and complete payment">
+            title="Click to enter <%= t.name %> portal">
             
             <span class="rank">#<%= String(t.rank).padStart(2, '0') %></span>
             <h2 class="team"><%= t.id ? t.id + ' — ' : '' %><%= t.name %></h2>
@@ -501,304 +412,214 @@
             <% if (t.theme) { %><span class="theme"><%= t.theme %></span><% } %>
 
             <div class="card-footer-action">
-              <span class="action-btn">
-                <span>⚡ Select & Confirm</span>
-                <span>→</span>
-              </span>
-              <span class="sel-indicator">SELECTED ✓</span>
+              <% if (isConfirmed) { %>
+                <span class="action-btn">
+                  <span>🔒 SQUAD CONFIRMED ✓</span>
+                  <span>→</span>
+                </span>
+              <% } else { %>
+                <span class="action-btn">
+                  <span>⚡ ENTER TEAM PORTAL</span>
+                  <span>→</span>
+                </span>
+              <% } %>
             </div>
           </article>
         <% }) %>
       </section>
       <div class="empty" id="no-results" style="display:none; margin-bottom:4rem;">No teams match your search.</div>
-
-      <!-- ========================================================
-           PAYMENT & SQUAD VERIFICATION SECTION
-           ======================================================== -->
-      <section class="payment-section" id="payment-section">
-        <div class="section-head">
-          <div class="sec-tag">[ STEP 2: FINALE REGISTRATION & PAYMENT ]</div>
-          <h2>SQUAD CONFIRMATION & PAYMENT</h2>
-          <p>
-            Click any team card in the shortlist grid above. Your team credentials from the official screening results will automatically lock into place. Fill in your squad members and upload your payment receipt below.
-          </p>
-        </div>
-
-        <!-- Dynamic Selection Alert Banner -->
-        <div class="selection-banner no-team" id="selection-banner">
-          <div class="sel-info">
-            <span class="status-icon" id="banner-icon">👆</span>
-            <div>
-              <span id="banner-text">Please click your <strong>Team Card</strong> above to activate registration.</span>
-              <div id="banner-sub" style="font-family:'JetBrains Mono'; font-size:.75rem; color:var(--muted); margin-top:2px;">
-                Details are fetched directly from the official screening sheet.
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn-change-team" id="btn-change-team" style="display:none;">
-            Change Team ↑
-          </button>
-        </div>
-
-        <div class="pay-grid">
-          <!-- Left: UPI Gateway Card -->
-          <div class="qr-card">
-            <span class="qr-badge">OFFICIAL UPI GATEWAY</span>
-            <div class="qr-fee">₹1,000</div>
-            <div class="qr-fee-sub">PER SQUAD (₹250 / Hacker • 4 Members)</div>
-
-            <div class="qr-box">
-              <img id="payment-qr-img" src="/assets/payment_qr.jpg" onerror="this.onerror=null; this.src='/assets/website_qr.png';" alt="SAMARTHA 2026 Payment QR">
-            </div>
-
-            <div class="upi-pill">
-              <span id="upi-id-text">9281057369@ybl</span>
-              <button type="button" class="btn-copy" id="btn-copy-upi" title="Copy UPI ID">COPY</button>
-            </div>
-
-            <div class="apps-row">
-              <span class="app-tag">GPay</span>
-              <span class="app-tag">PhonePe</span>
-              <span class="app-tag">Paytm</span>
-              <span class="app-tag">BHIM</span>
-              <span class="app-tag">Cred</span>
-            </div>
-
-            <ul class="steps-list">
-              <li>1. Click your team box above to lock details.</li>
-              <li>2. Scan QR or transfer ₹1,000 to official UPI ID.</li>
-              <li>3. Note the 12-digit UTR / Reference ID.</li>
-              <li>4. Add 3 squad members & upload screenshot.</li>
-            </ul>
-          </div>
-
-          <!-- Right: Verification Form -->
-          <div class="form-box">
-            <form id="payment-form" enctype="multipart/form-data">
-              <!-- SEGMENT 1: Locked Team Information -->
-              <div class="form-segment">
-                <div class="segment-title">
-                  <span>1. TEAM CREDENTIALS</span>
-                  <span class="badge badge-locked">🔒 LOCKED (OFFICIAL SHEET)</span>
-                </div>
-                <div class="segment-desc">
-                  These fields auto-populate when you click your card above. They cannot be altered to maintain screening authenticity.
-                </div>
-
-                <div class="fields-grid">
-                  <div class="form-group">
-                    <label>Team ID <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <input type="text" id="f-team-id" name="teamId" readonly placeholder="Click card above (e.g. AV_001)" required>
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Team Name <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <input type="text" id="f-team-name" name="teamName" readonly placeholder="Select team above" required>
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Team Lead Name <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <input type="text" id="f-lead-name" name="teamLeadName" readonly placeholder="Lead name from sheet" required>
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Team Lead Email <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <input type="email" id="f-lead-email" name="teamLeadEmail" readonly placeholder="Lead email from sheet" required>
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Team Lead Contact</label>
-                    <div class="input-wrapper">
-                      <input type="text" id="f-lead-phone" name="teamLeadPhone" readonly placeholder="Lead phone from sheet">
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label>College Institution</label>
-                    <div class="input-wrapper">
-                      <input type="text" id="f-college" name="college" readonly placeholder="College from sheet">
-                      <span class="lock-icon">🔒</span>
-                    </div>
-                  </div>
-
-                  <input type="hidden" id="f-theme" name="theme">
-                </div>
-              </div>
-
-              <!-- SEGMENT 2: Squad Members (User Entered) -->
-              <div class="form-segment">
-                <div class="segment-title">
-                  <span>2. SQUAD MEMBERS ROSTER</span>
-                  <span class="badge badge-user">✍️ USER DETAILS</span>
-                </div>
-                <div class="segment-desc">
-                  Provide details for the remaining 3 squad members who will accompany the Team Lead (Total 4 Hackers).
-                </div>
-
-                <!-- Teammate 2 -->
-                <div class="teammate-card">
-                  <div class="teammate-head">👤 SQUAD MEMBER 2</div>
-                  <div class="fields-grid">
-                    <div class="form-group">
-                      <label>Full Name <span class="req">*</span></label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member1Name" id="f-m1-name" placeholder="Teammate 2 full name" required>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Email / Roll No</label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member1Email" id="f-m1-email" placeholder="Email or College Roll No">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>WhatsApp / Mobile</label>
-                      <div class="input-wrapper">
-                        <input type="tel" name="member1Phone" id="f-m1-phone" placeholder="10-digit Mobile">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Teammate 3 -->
-                <div class="teammate-card">
-                  <div class="teammate-head">👤 SQUAD MEMBER 3</div>
-                  <div class="fields-grid">
-                    <div class="form-group">
-                      <label>Full Name <span class="req">*</span></label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member2Name" id="f-m2-name" placeholder="Teammate 3 full name" required>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Email / Roll No</label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member2Email" id="f-m2-email" placeholder="Email or College Roll No">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>WhatsApp / Mobile</label>
-                      <div class="input-wrapper">
-                        <input type="tel" name="member2Phone" id="f-m2-phone" placeholder="10-digit Mobile">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Teammate 4 -->
-                <div class="teammate-card">
-                  <div class="teammate-head">👤 SQUAD MEMBER 4</div>
-                  <div class="fields-grid">
-                    <div class="form-group">
-                      <label>Full Name <span class="req">*</span></label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member3Name" id="f-m3-name" placeholder="Teammate 4 full name" required>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Email / Roll No</label>
-                      <div class="input-wrapper">
-                        <input type="text" name="member3Email" id="f-m3-email" placeholder="Email or College Roll No">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>WhatsApp / Mobile</label>
-                      <div class="input-wrapper">
-                        <input type="tel" name="member3Phone" id="f-m3-phone" placeholder="10-digit Mobile">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- SEGMENT 3: Payment Verification & Proof -->
-              <div class="form-segment">
-                <div class="segment-title">
-                  <span>3. PAYMENT PROOF & UTR</span>
-                  <span class="badge badge-user">💳 TRANSACTION</span>
-                </div>
-                <div class="segment-desc">
-                  Enter your 12-digit UPI / Bank Reference Number and upload a clear screenshot of the transaction.
-                </div>
-
-                <div class="fields-grid" style="margin-bottom:1.2rem;">
-                  <div class="form-group full">
-                    <label>UPI / UTR Transaction ID (12 Digits) <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <input type="text" name="utrId" id="f-utr-id" placeholder="e.g. 428719283741 or UPI Reference" maxlength="32" required style="text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono';">
-                    </div>
-                    <span style="font-family:'JetBrains Mono'; font-size:.68rem; color:var(--dim);">Found in your payment app (Google Pay, PhonePe, Paytm) under transaction details.</span>
-                  </div>
-
-                  <div class="form-group full">
-                    <label>Upload Payment Screenshot <span class="req">*</span></label>
-                    <div class="dropzone" id="dropzone">
-                      <input type="file" name="screenshot" id="f-screenshot" accept="image/jpeg,image/png,image/webp,application/pdf" required>
-                      <div class="dropzone-icon">📸</div>
-                      <div class="dropzone-title">Click to Browse or Drag & Drop Screenshot</div>
-                      <div class="dropzone-sub">Supported formats: JPG, PNG, WEBP, PDF (Max 8MB)</div>
-                    </div>
-
-                    <div class="file-preview" id="file-preview">
-                      <img src="" id="file-preview-thumb" class="file-thumb" alt="Preview">
-                      <div class="file-details">
-                        <div class="file-name" id="file-preview-name">receipt.png</div>
-                        <div class="file-size" id="file-preview-size">1.2 MB</div>
-                      </div>
-                      <button type="button" class="btn-remove-file" id="btn-remove-file" title="Remove file">✕</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Status Alert -->
-              <div class="form-alert" id="form-alert"></div>
-
-              <!-- Submit -->
-              <button type="submit" class="btn-submit" id="btn-submit">
-                <span>SUBMIT SQUAD & CONFIRM PAYMENT</span>
-                <span id="submit-spinner" style="display:none;">⏳</span>
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
     <% } %>
   </main>
 
-  <!-- Submission Receipt Modal -->
-  <div class="modal-overlay" id="success-modal">
-    <div class="modal-box">
-      <div class="modal-icon">🎉</div>
-      <h3>REGISTRATION SUBMITTED!</h3>
-      <p>Your team roster and payment receipt have been recorded securely in the SAMARTHA 2026 database.</p>
-      
-      <div class="modal-slip">
-        <div class="row"><span class="lbl">Team ID:</span><span class="val" id="m-team-id">-</span></div>
-        <div class="row"><span class="lbl">Team Name:</span><span class="val" id="m-team-name">-</span></div>
-        <div class="row"><span class="lbl">Transaction UTR:</span><span class="val" id="m-utr-id">-</span></div>
-        <div class="row"><span class="lbl">Amount:</span><span class="val">₹1,000 (4 Members)</span></div>
-        <div class="row"><span class="lbl">Status:</span><span class="val" style="color:var(--gold);">Under Verification ✓</span></div>
+  <!-- ========================================================
+       IMMERSIVE SQUAD ACCESS PORTAL (MODAL)
+       ======================================================== -->
+  <div class="team-portal-overlay" id="portal-overlay" role="dialog" aria-modal="true">
+    <div class="portal-box" id="portal-box">
+      <!-- Portal Top Header -->
+      <div class="portal-topbar">
+        <div>
+          <div class="portal-tag" id="p-tag">[ SQUAD ACCESS TERMINAL ]</div>
+          <h2 class="portal-title" id="p-title">TEAM NAME</h2>
+          <div class="portal-subtitle" id="p-subtitle">VIIT (Autonomous) • Rank #01</div>
+        </div>
+        <button type="button" class="btn-portal-close" id="btn-portal-close" title="Close Terminal (Esc)">✕ CLOSE [ESC]</button>
       </div>
 
-      <p style="font-size:.82rem; color:var(--dim); margin-bottom:1.5rem;">
-        The organizing committee will verify your payment against bank records. Official entry passes will be sent to the Team Lead's email.
-      </p>
+      <!-- Official Screening Dossier (Locked Sheet Data) -->
+      <div class="dossier-wrap">
+        <div class="dossier-head">
+          <span>📋 OFFICIAL SCREENING CREDENTIALS</span>
+          <span class="dossier-badge-locked">🔒 LOCKED (OFFICIAL SHEET)</span>
+        </div>
+        <div class="dossier-grid">
+          <div class="dossier-chip">
+            <span class="lbl">Team ID</span>
+            <span class="val" id="p-dossier-id">-</span>
+          </div>
+          <div class="dossier-chip">
+            <span class="lbl">Team Lead Name</span>
+            <span class="val" id="p-dossier-lead">-</span>
+          </div>
+          <div class="dossier-chip">
+            <span class="lbl">Lead Email</span>
+            <span class="val" id="p-dossier-email">-</span>
+          </div>
+          <div class="dossier-chip">
+            <span class="lbl">Lead Contact</span>
+            <span class="val" id="p-dossier-phone">-</span>
+          </div>
+          <div class="dossier-chip" style="grid-column: 1 / -1;">
+            <span class="lbl">College Institution</span>
+            <span class="val" id="p-dossier-college">-</span>
+          </div>
+        </div>
+      </div>
 
-      <button type="button" class="btn-modal-close" id="btn-modal-close">DONE / CLOSE</button>
+      <!-- VIEW A: ALREADY REGISTERED (Single-fill lock) -->
+      <div class="portal-registered-view" id="portal-registered-view">
+        <div class="reg-check-icon">🛡️</div>
+        <h3 class="reg-check-title">REGISTRATION COMPLETED & LOCKED</h3>
+        <p class="reg-check-desc">
+          This squad has already submitted their registration and payment details. To maintain competitive integrity, each squad is strictly allowed only one submission.
+        </p>
+
+        <div class="reg-summary-card">
+          <div class="reg-summary-row"><span class="lbl">Team ID:</span><span class="val" id="p-reg-id">-</span></div>
+          <div class="reg-summary-row"><span class="lbl">Team Name:</span><span class="val" id="p-reg-name">-</span></div>
+          <div class="reg-summary-row"><span class="lbl">Payment UTR:</span><span class="val" id="p-reg-utr">-</span></div>
+          <div class="reg-summary-row"><span class="lbl">Submission Status:</span><span class="val" style="color:var(--gold);">Under Verification ✓</span></div>
+        </div>
+
+        <button type="button" class="btn-portal-close" style="background:var(--accent); color:#020805; border-color:var(--accent); font-size:.85rem; padding:.7rem 1.8rem;" onclick="document.getElementById('portal-overlay').classList.remove('open');">
+          RETURN TO TEAMS LIST
+        </button>
+      </div>
+
+      <!-- VIEW B: REGISTRATION FORM (First time entry) -->
+      <div class="portal-form-view" id="portal-form-view">
+        <form id="portal-form" enctype="multipart/form-data">
+          <!-- Hidden locked inputs -->
+          <input type="hidden" name="teamId" id="form-team-id">
+          <input type="hidden" name="teamName" id="form-team-name">
+          <input type="hidden" name="teamLeadName" id="form-lead-name">
+          <input type="hidden" name="teamLeadEmail" id="form-lead-email">
+          <input type="hidden" name="teamLeadPhone" id="form-lead-phone">
+          <input type="hidden" name="college" id="form-college">
+          <input type="hidden" name="theme" id="form-theme">
+
+          <!-- Segment 1: Squad Members -->
+          <div class="form-segment">
+            <div class="form-sec-title">
+              <span>ADDITIONAL SQUAD MEMBERS (3 HACKERS)</span>
+              <span style="font-family:'JetBrains Mono'; font-size:.68rem; color:var(--gold);">👤 4 MEMBERS TOTAL</span>
+            </div>
+            <div class="form-sec-sub">
+              Enter the names and contact details of the 3 teammates who will accompany the Team Lead.
+            </div>
+
+            <!-- Member 2 -->
+            <div class="member-card">
+              <div class="member-card-title">👤 SQUAD MEMBER 2</div>
+              <div class="fields-grid">
+                <div class="form-group">
+                  <label>Full Name <span class="req">*</span></label>
+                  <input type="text" name="member1Name" id="m1-name" placeholder="Member 2 full name" required>
+                </div>
+                <div class="form-group">
+                  <label>Email / Roll No</label>
+                  <input type="text" name="member1Email" id="m1-email" placeholder="Email or Roll No">
+                </div>
+                <div class="form-group">
+                  <label>WhatsApp / Mobile</label>
+                  <input type="tel" name="member1Phone" id="m1-phone" placeholder="10-digit Mobile">
+                </div>
+              </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="member-card">
+              <div class="member-card-title">👤 SQUAD MEMBER 3</div>
+              <div class="fields-grid">
+                <div class="form-group">
+                  <label>Full Name <span class="req">*</span></label>
+                  <input type="text" name="member2Name" id="m2-name" placeholder="Member 3 full name" required>
+                </div>
+                <div class="form-group">
+                  <label>Email / Roll No</label>
+                  <input type="text" name="member2Email" id="m2-email" placeholder="Email or Roll No">
+                </div>
+                <div class="form-group">
+                  <label>WhatsApp / Mobile</label>
+                  <input type="tel" name="member2Phone" id="m2-phone" placeholder="10-digit Mobile">
+                </div>
+              </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="member-card">
+              <div class="member-card-title">👤 SQUAD MEMBER 4</div>
+              <div class="fields-grid">
+                <div class="form-group">
+                  <label>Full Name <span class="req">*</span></label>
+                  <input type="text" name="member3Name" id="m3-name" placeholder="Member 4 full name" required>
+                </div>
+                <div class="form-group">
+                  <label>Email / Roll No</label>
+                  <input type="text" name="member3Email" id="m3-email" placeholder="Email or Roll No">
+                </div>
+                <div class="form-group">
+                  <label>WhatsApp / Mobile</label>
+                  <input type="tel" name="member3Phone" id="m3-phone" placeholder="10-digit Mobile">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Segment 2: Payment Verification (NO QR) -->
+          <div class="form-segment">
+            <div class="form-sec-title">
+              <span>PAYMENT PROOF & UTR REFERENCE</span>
+              <span style="font-family:'JetBrains Mono'; font-size:.68rem; color:var(--accent);">💳 ₹1,000 / SQUAD</span>
+            </div>
+            <div class="form-sec-sub">
+              Enter the 12-digit UPI / Bank Reference Number (UTR) from your payment app and upload the receipt screenshot.
+            </div>
+
+            <div class="fields-grid" style="margin-bottom:1rem;">
+              <div class="form-group full">
+                <label>UPI / UTR Transaction ID (12 Digits) <span class="req">*</span></label>
+                <input type="text" name="utrId" id="f-utr-id" placeholder="e.g. 428719283741 or UPI Reference" maxlength="32" required style="text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono';">
+              </div>
+
+              <div class="form-group full">
+                <label>Upload Payment Screenshot Receipt <span class="req">*</span></label>
+                <div class="dropzone" id="dropzone">
+                  <input type="file" name="screenshot" id="f-screenshot" accept="image/jpeg,image/png,image/webp,application/pdf" required>
+                  <div class="dropzone-title">Click to Browse or Drag & Drop Screenshot</div>
+                  <div class="dropzone-sub">Supported formats: JPG, PNG, WEBP, PDF (Max 8MB)</div>
+                </div>
+
+                <div class="file-preview" id="file-preview">
+                  <img src="" id="file-preview-thumb" class="file-thumb" alt="Preview">
+                  <div class="file-details">
+                    <div class="file-name" id="file-preview-name">receipt.png</div>
+                    <div class="file-size" id="file-preview-size">1.2 MB</div>
+                  </div>
+                  <button type="button" class="btn-remove-file" id="btn-remove-file" title="Remove file">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="portal-alert" id="portal-alert"></div>
+
+          <button type="submit" class="btn-portal-submit" id="btn-portal-submit">
+            <span>LOCK IN SQUAD & SUBMIT REGISTRATION</span>
+            <span id="portal-spinner" style="display:none;">⏳</span>
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -806,7 +627,7 @@
 
   <script>
     (() => {
-      // ----------------- Filter & Search Logic -----------------
+      // ----------------- Filter & Search -----------------
       const input = document.getElementById('team-search');
       const chips = document.querySelectorAll('#college-chips .chip');
       const cards = document.querySelectorAll('.card');
@@ -835,100 +656,121 @@
         applyFilter();
       }));
 
-      // ----------------- Team Card Click & Auto-Fill Logic -----------------
-      const paymentSection = document.getElementById('payment-section');
-      const banner = document.getElementById('selection-banner');
-      const bannerIcon = document.getElementById('banner-icon');
-      const bannerText = document.getElementById('banner-text');
-      const bannerSub = document.getElementById('banner-sub');
-      const btnChangeTeam = document.getElementById('btn-change-team');
+      // ----------------- Team Portal (Modal) Logic -----------------
+      const overlay = document.getElementById('portal-overlay');
+      const btnClose = document.getElementById('btn-portal-close');
 
-      // Locked form inputs
-      const fTeamId = document.getElementById('f-team-id');
-      const fTeamName = document.getElementById('f-team-name');
-      const fLeadName = document.getElementById('f-lead-name');
-      const fLeadEmail = document.getElementById('f-lead-email');
-      const fLeadPhone = document.getElementById('f-lead-phone');
-      const fCollege = document.getElementById('f-college');
-      const fTheme = document.getElementById('f-theme');
+      const pTitle = document.getElementById('p-title');
+      const pSubtitle = document.getElementById('p-subtitle');
+      const pDossierId = document.getElementById('p-dossier-id');
+      const pDossierLead = document.getElementById('p-dossier-lead');
+      const pDossierEmail = document.getElementById('p-dossier-email');
+      const pDossierPhone = document.getElementById('p-dossier-phone');
+      const pDossierCollege = document.getElementById('p-dossier-college');
 
-      const selectTeamCard = (card) => {
-        // 1. Remove selected state from all other cards
-        cards.forEach(c => c.classList.remove('is-selected'));
-        card.classList.add('is-selected');
+      const formView = document.getElementById('portal-form-view');
+      const registeredView = document.getElementById('portal-registered-view');
+      const pRegId = document.getElementById('p-reg-id');
+      const pRegName = document.getElementById('p-reg-name');
+      const pRegUtr = document.getElementById('p-reg-utr');
 
-        // 2. Extract official sheet data attributes
-        const teamId = card.dataset.id || '';
-        const teamName = card.dataset.name || '';
-        const leadName = card.dataset.lead || '';
-        const leadEmail = card.dataset.email || '';
-        const leadPhone = card.dataset.phone || '';
+      // Hidden form inputs
+      const fTeamId = document.getElementById('form-team-id');
+      const fTeamName = document.getElementById('form-team-name');
+      const fLeadName = document.getElementById('form-lead-name');
+      const fLeadEmail = document.getElementById('form-lead-email');
+      const fLeadPhone = document.getElementById('form-lead-phone');
+      const fCollege = document.getElementById('form-college');
+      const fTheme = document.getElementById('form-theme');
+
+      let currentCard = null;
+
+      const openTeamPortal = (card) => {
+        currentCard = card;
+        const id = card.dataset.id || '';
+        const name = card.dataset.name || '';
+        const lead = card.dataset.lead || '';
+        const email = card.dataset.email || '';
+        const phone = card.dataset.phone || '';
         const college = card.dataset.collegename || '';
         const theme = card.dataset.themename || '';
+        const rank = card.dataset.rank || '';
+        const isConfirmed = card.dataset.confirmed === 'true';
 
-        // 3. Populate locked fields
-        if (fTeamId) fTeamId.value = teamId;
-        if (fTeamName) fTeamName.value = teamName;
-        if (fLeadName) fLeadName.value = leadName;
-        if (fLeadEmail) fLeadEmail.value = leadEmail;
-        if (fLeadPhone) fLeadPhone.value = leadPhone;
-        if (fCollege) fCollege.value = college;
-        if (fTheme) fTheme.value = theme;
+        let regInfo = {};
+        try {
+          regInfo = JSON.parse(card.dataset.reginfo || '{}');
+        } catch (e) {}
 
-        // 4. Update banner
-        if (banner) {
-          banner.classList.remove('no-team');
-          bannerIcon.textContent = '⚡';
-          bannerText.innerHTML = `Selected: <span class="highlight">[${teamId}] ${teamName}</span> • Lead: <strong>${leadName || 'Verified'}</strong> • College: <strong>${college}</strong>`;
-          bannerSub.textContent = '🔒 Details locked from official screening results. Complete member and payment details below.';
-          if (btnChangeTeam) btnChangeTeam.style.display = 'inline-block';
+        // Populate header & dossier
+        pTitle.textContent = (id ? id + ' // ' : '') + name;
+        pSubtitle.textContent = college + (rank ? ` • Rank #${String(rank).padStart(2, '0')}` : '');
+        pDossierId.textContent = id || 'N/A';
+        pDossierLead.textContent = lead || 'Verified';
+        pDossierEmail.textContent = email || 'Official Sheet Record';
+        pDossierPhone.textContent = phone || 'Official Sheet Record';
+        pDossierCollege.textContent = college || 'VIIT (Autonomous)';
+
+        // Populate hidden form inputs
+        fTeamId.value = id;
+        fTeamName.value = name;
+        fLeadName.value = lead;
+        fLeadEmail.value = email;
+        fLeadPhone.value = phone;
+        fCollege.value = college;
+        fTheme.value = theme;
+
+        if (isConfirmed) {
+          // Already registered view (single fill only)
+          formView.style.display = 'none';
+          registeredView.style.display = 'block';
+          pRegId.textContent = id;
+          pRegName.textContent = name;
+          pRegUtr.textContent = regInfo.utrId || 'VERIFIED ON FILE';
+        } else {
+          // First time entry view
+          registeredView.style.display = 'none';
+          formView.style.display = 'block';
+          const alert = document.getElementById('portal-alert');
+          if (alert) alert.style.display = 'none';
+          setTimeout(() => {
+            const m1 = document.getElementById('m1-name');
+            if (m1) m1.focus();
+          }, 200);
         }
 
-        // 5. Smooth scroll down to payment section
-        if (paymentSection) {
-          paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
 
-        // 6. Focus on Member 2 Name if empty
-        const m1 = document.getElementById('f-m1-name');
-        if (m1 && !m1.value) {
-          setTimeout(() => m1.focus(), 600);
-        }
+      const closeTeamPortal = () => {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
       };
 
       cards.forEach(card => {
-        card.addEventListener('click', () => selectTeamCard(card));
+        card.addEventListener('click', () => openTeamPortal(card));
         card.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            selectTeamCard(card);
+            openTeamPortal(card);
           }
         });
       });
 
-      if (btnChangeTeam) {
-        btnChangeTeam.addEventListener('click', () => {
-          const grid = document.getElementById('teams-grid');
-          if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (btnClose) btnClose.addEventListener('click', closeTeamPortal);
+      if (overlay) {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closeTeamPortal();
         });
       }
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          closeTeamPortal();
+        }
+      });
 
-      // ----------------- Copy UPI ID -----------------
-      const btnCopy = document.getElementById('btn-copy-upi');
-      const upiText = document.getElementById('upi-id-text');
-      if (btnCopy && upiText) {
-        btnCopy.addEventListener('click', () => {
-          navigator.clipboard.writeText(upiText.textContent.trim()).then(() => {
-            const prev = btnCopy.textContent;
-            btnCopy.textContent = 'COPIED! ✓';
-            setTimeout(() => { btnCopy.textContent = prev; }, 2000);
-          }).catch(() => {
-            alert('UPI ID: ' + upiText.textContent.trim());
-          });
-        });
-      }
-
-      // ----------------- File Dropzone & Preview -----------------
+      // ----------------- File Dropzone -----------------
       const fileInput = document.getElementById('f-screenshot');
       const dropzone = document.getElementById('dropzone');
       const filePreview = document.getElementById('file-preview');
@@ -969,9 +811,7 @@
 
       if (fileInput) {
         fileInput.addEventListener('change', (e) => {
-          if (e.target.files && e.target.files[0]) {
-            handleFile(e.target.files[0]);
-          }
+          if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
         });
       }
 
@@ -983,13 +823,12 @@
         });
       }
 
-      // Drag and drop events
       if (dropzone) {
-        ['dragenter', 'dragover'].forEach(name => {
-          dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+        ['dragenter', 'dragover'].forEach(n => {
+          dropzone.addEventListener(n, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
         });
-        ['dragleave', 'drop'].forEach(name => {
-          dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
+        ['dragleave', 'drop'].forEach(n => {
+          dropzone.addEventListener(n, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); });
         });
         dropzone.addEventListener('drop', (e) => {
           if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -999,20 +838,17 @@
         });
       }
 
-      // ----------------- Form Submission to Backend -----------------
-      const form = document.getElementById('payment-form');
-      const alertBox = document.getElementById('form-alert');
-      const btnSubmit = document.getElementById('btn-submit');
-      const spinner = document.getElementById('submit-spinner');
-      const successModal = document.getElementById('success-modal');
-      const btnModalClose = document.getElementById('btn-modal-close');
+      // ----------------- Submit Form to Backend -----------------
+      const form = document.getElementById('portal-form');
+      const alertBox = document.getElementById('portal-alert');
+      const btnSubmit = document.getElementById('btn-portal-submit');
+      const spinner = document.getElementById('portal-spinner');
 
       const showAlert = (msg, isError = true) => {
         if (!alertBox) return;
         alertBox.textContent = msg;
-        alertBox.className = 'form-alert ' + (isError ? 'error' : 'success');
+        alertBox.className = 'portal-alert ' + (isError ? 'error' : 'success');
         alertBox.style.display = 'block';
-        alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       };
 
       if (form) {
@@ -1020,30 +856,18 @@
           e.preventDefault();
           alertBox.style.display = 'none';
 
-          // Validate team selection
-          if (!fTeamId || !fTeamId.value || !fTeamName || !fTeamName.value) {
-            showAlert('Please select your team box from the Top 100 list above before submitting.', true);
-            const grid = document.getElementById('teams-grid');
-            if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return;
-          }
-
-          // Validate UTR
           const utr = document.getElementById('f-utr-id').value.trim();
           if (!utr || utr.length < 6) {
-            showAlert('Please enter a valid UPI / UTR Transaction ID (e.g. 12 digits).', true);
+            showAlert('Please enter a valid 12-digit UPI / UTR Transaction ID.', true);
             return;
           }
 
-          // Validate File
           if (!fileInput.files || !fileInput.files[0]) {
             showAlert('Please upload your payment screenshot receipt.', true);
             return;
           }
 
-          // Prepare FormData
           const formData = new FormData(form);
-
           btnSubmit.disabled = true;
           spinner.style.display = 'inline-block';
 
@@ -1054,35 +878,40 @@
             });
 
             const data = await res.json();
-
             if (!res.ok || !data.ok) {
-              throw new Error(data.error || 'Failed to submit payment details. Please check your inputs.');
+              throw new Error(data.error || 'Failed to submit registration. Each squad can only submit once.');
             }
 
-            // Populate Modal
-            document.getElementById('m-team-id').textContent = data.teamId || fTeamId.value;
-            document.getElementById('m-team-name').textContent = data.teamName || fTeamName.value;
-            document.getElementById('m-utr-id').textContent = data.utrId || utr;
-
-            // Show success modal
-            if (successModal) {
-              successModal.style.display = 'flex';
+            // Successfully submitted! Update current card state
+            if (currentCard) {
+              currentCard.classList.add('is-confirmed');
+              currentCard.dataset.confirmed = 'true';
+              currentCard.dataset.reginfo = JSON.stringify({
+                teamId: data.teamId,
+                teamName: data.teamName,
+                utrId: data.utrId
+              });
+              const actionSpan = currentCard.querySelector('.card-footer-action span.action-btn');
+              if (actionSpan) {
+                actionSpan.innerHTML = '<span>🔒 SQUAD CONFIRMED ✓</span><span>→</span>';
+              }
             }
+
+            // Switch portal to confirmed view
+            formView.style.display = 'none';
+            registeredView.style.display = 'block';
+            pRegId.textContent = data.teamId;
+            pRegName.textContent = data.teamName;
+            pRegUtr.textContent = data.utrId;
 
             form.reset();
             if (btnRemoveFile) btnRemoveFile.click();
           } catch (err) {
-            showAlert(err.message || 'An error occurred during submission. Please try again.', true);
+            showAlert(err.message || 'Error processing registration. Please try again.', true);
           } finally {
             btnSubmit.disabled = false;
             spinner.style.display = 'none';
           }
-        });
-      }
-
-      if (btnModalClose && successModal) {
-        btnModalClose.addEventListener('click', () => {
-          successModal.style.display = 'none';
         });
       }
     })();

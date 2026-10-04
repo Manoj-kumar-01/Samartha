@@ -33,17 +33,87 @@ app.get(['/home', '/main'], (req, res) => {
   res.render('index', { title: 'SAMARTHA 2026 // 24-Hour Hackathon - VIIT CSE' });
 });
 
-// ---------- Selected Teams (public) ----------
+// ---------- Selected Teams & Registration Storage ----------
+const fs = require('fs');
 const { getTeams, getPublicTeams } = require('./lib/teams');
 const { sendOne, sendBulk, getJob, buildHtml } = require('./lib/mailer');
+
+const backupFile = path.join(__dirname, 'data', 'payment_submissions.json');
+function readLocalSubmissions() {
+  try {
+    if (fs.existsSync(backupFile)) {
+      return JSON.parse(fs.readFileSync(backupFile, 'utf8'));
+    }
+  } catch (e) {}
+  return [];
+}
+
+function writeLocalSubmission(record) {
+  try {
+    const dataDir = path.join(__dirname, 'data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+    const list = readLocalSubmissions();
+    list.unshift(record);
+    fs.writeFileSync(backupFile, JSON.stringify(list, null, 2));
+  } catch (e) {
+    console.error('Failed to write local backup:', e.message);
+  }
+}
+
+async function getRegisteredTeamMap() {
+  const map = {};
+  readLocalSubmissions().forEach(s => {
+    if (s.teamId) {
+      map[s.teamId.toUpperCase()] = {
+        teamId: s.teamId,
+        teamName: s.teamName,
+        submittedAt: s.submittedAt,
+        status: s.status || 'pending',
+        members: s.members || [],
+        utrId: s.utrId
+      };
+    }
+  });
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const Payment = require('./models/Payment');
+      const docs = await Payment.find({}, 'teamId teamName submittedAt status members utrId');
+      docs.forEach(d => {
+        if (d.teamId) {
+          map[d.teamId.toUpperCase()] = {
+            teamId: d.teamId,
+            teamName: d.teamName,
+            submittedAt: d.submittedAt,
+            status: d.status || 'pending',
+            members: d.members || [],
+            utrId: d.utrId
+          };
+        }
+      });
+    } catch (e) {}
+  }
+  return map;
+}
 
 app.get('/selected-teams', async (req, res) => {
   try {
     const teams = await getPublicTeams();
-    res.render('teams', { teams, error: null });
+    const registeredMap = await getRegisteredTeamMap();
+    res.render('teams', { teams, registeredMap, error: null });
   } catch (err) {
     console.error('Selected teams load error:', err.message);
-    res.render('teams', { teams: [], error: 'Team list is being updated. Please check back shortly.' });
+    res.render('teams', { teams: [], registeredMap: {}, error: 'Team list is being updated. Please check back shortly.' });
+  }
+});
+
+app.get('/api/team-status/:teamId', async (req, res) => {
+  try {
+    const map = await getRegisteredTeamMap();
+    const id = (req.params.teamId || '').toUpperCase();
+    res.json({ registered: !!map[id], details: map[id] || null });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -95,7 +165,6 @@ app.post('/admin/api/send', requireAdmin, async (req, res) => {
 app.get('/admin/api/status', requireAdmin, (req, res) => res.json(getJob()));
 
 // ---------- Payment & Roster Verification (Multer & MongoDB) ----------
-const fs = require('fs');
 const multer = require('multer');
 
 const uploadsDir = path.join(__dirname, 'uploads', 'payments');
@@ -129,28 +198,6 @@ const upload = multer({
   }
 });
 
-const backupFile = path.join(__dirname, 'data', 'payment_submissions.json');
-function readLocalSubmissions() {
-  try {
-    if (fs.existsSync(backupFile)) {
-      return JSON.parse(fs.readFileSync(backupFile, 'utf8'));
-    }
-  } catch (e) {}
-  return [];
-}
-
-function writeLocalSubmission(record) {
-  try {
-    const dataDir = path.join(__dirname, 'data');
-    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-    const list = readLocalSubmissions();
-    list.unshift(record);
-    fs.writeFileSync(backupFile, JSON.stringify(list, null, 2));
-  } catch (e) {
-    console.error('Failed to write local backup:', e.message);
-  }
-}
-
 // Public API: Submit Payment & Team Roster
 app.post('/api/payment/submit', (req, res) => {
   upload.single('screenshot')(req, res, async (err) => {
@@ -180,7 +227,17 @@ app.post('/api/payment/submit', (req, res) => {
       } = req.body;
 
       if (!teamId || !teamName || !teamLeadName || !teamLeadEmail) {
-        return res.status(400).json({ ok: false, error: 'Please select a team card from the shortlist before submitting.' });
+        return res.status(400).json({ ok: false, error: 'Please select a valid team from the shortlist before submitting.' });
+      }
+
+      // Check single submission rule: each team can fill only once
+      const cleanTeamId = teamId.trim().toUpperCase();
+      const registeredMap = await getRegisteredTeamMap();
+      if (registeredMap[cleanTeamId]) {
+        return res.status(400).json({
+          ok: false,
+          error: `Registration for team [${teamId}] has already been completed! Each squad is allowed only one submission.`
+        });
       }
 
       if (!member1Name || !member2Name || !member3Name) {
@@ -189,6 +246,21 @@ app.post('/api/payment/submit', (req, res) => {
 
       if (!utrId || utrId.trim().length < 6) {
         return res.status(400).json({ ok: false, error: 'Please enter a valid UPI / UTR Transaction ID (e.g. 12 digits).' });
+      }
+
+      const normalizedUtr = utrId.trim().toUpperCase();
+      const localList = readLocalSubmissions();
+      const duplicateUtrLocal = localList.find(s => s.utrId === normalizedUtr);
+      if (duplicateUtrLocal) {
+        return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted.' });
+      }
+
+      if (mongoose.connection.readyState === 1) {
+        const Payment = require('./models/Payment');
+        const existingUtr = await Payment.findOne({ utrId: normalizedUtr });
+        if (existingUtr) {
+          return res.status(400).json({ ok: false, error: 'This UPI / UTR Transaction ID has already been submitted.' });
+        }
       }
 
       if (!req.file) {
@@ -210,7 +282,7 @@ app.post('/api/payment/submit', (req, res) => {
         college: (college || '').trim(),
         theme: (theme || '').trim(),
         members,
-        utrId: utrId.trim().toUpperCase(),
+        utrId: normalizedUtr,
         amount: 1000,
         screenshotPath: `/uploads/payments/${req.file.filename}`,
         status: 'pending',
@@ -226,10 +298,6 @@ app.post('/api/payment/submit', (req, res) => {
       try {
         if (mongoose.connection.readyState === 1) {
           const Payment = require('./models/Payment');
-          const existing = await Payment.findOne({ utrId: record.utrId });
-          if (existing) {
-            return res.status(400).json({ ok: false, error: 'This UTR / Transaction ID has already been submitted.' });
-          }
           const savedDoc = await Payment.create(record);
           docId = savedDoc._id;
           dbSaved = true;
@@ -242,7 +310,7 @@ app.post('/api/payment/submit', (req, res) => {
 
       return res.json({
         ok: true,
-        message: 'Payment verification & squad roster submitted successfully! Your submission is recorded.',
+        message: 'Squad registration and payment verified successfully! Your submission is recorded.',
         teamId: record.teamId,
         teamName: record.teamName,
         utrId: record.utrId,
