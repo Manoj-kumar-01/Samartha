@@ -90,10 +90,7 @@ async function getRegisteredTeamMap() {
       map[id] = {
         teamId: s.teamId,
         teamName: s.teamName,
-        submittedAt: s.submittedAt,
         status: s.status || 'pending',
-        members: s.members || [],
-        utrId: s.utrId,
         attemptsAllowed,
         attemptsUsed,
         isLocked,
@@ -120,10 +117,7 @@ async function getRegisteredTeamMap() {
           map[id] = {
             teamId: d.teamId,
             teamName: d.teamName,
-            submittedAt: d.submittedAt,
             status: d.status || 'pending',
-            members: d.members || [],
-            utrId: d.utrId,
             attemptsAllowed,
             attemptsUsed,
             isLocked,

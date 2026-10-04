@@ -799,22 +799,12 @@
 
           pRegId.textContent = id;
           pRegName.textContent = name;
-          pRegUtr.textContent = regInfo.utrId || 'VERIFIED ON FILE';
+          pRegUtr.textContent = 'VERIFIED ON FILE';
           pRegAttempts.textContent = `${regInfo.attemptsUsed || 1} of ${regInfo.attemptsAllowed || 1} Used (Locked in Atlas)`;
 
           // Render members list
           if (pRegMembersList) {
-            pRegMembersList.innerHTML = '';
-            if (regInfo.members && regInfo.members.length) {
-              regInfo.members.forEach((m, idx) => {
-                const item = document.createElement('div');
-                item.className = 'reg-member-item';
-                item.innerHTML = `<span>👤 Member ${idx + 2}: <b>${m.name}</b></span><span>${m.phone || m.email || ''}</span>`;
-                pRegMembersList.appendChild(item);
-              });
-            } else {
-              pRegMembersList.innerHTML = '<span style="color:var(--dim); font-size:.7rem;">Roster details saved on server</span>';
-            }
+            pRegMembersList.innerHTML = '<span style="color:var(--dim); font-size:.7rem;">Roster details securely verified on server.</span>';
           }
         } else {
           // Editable form view (first time OR unlocked by coordinator in Atlas)
@@ -825,24 +815,7 @@
 
           if (isCorrection) {
             pCorrectionBanner.style.display = 'block';
-            pCorrectionMsg.textContent = `✏️ UNLOCKED IN ATLAS FOR CORRECTION (Attempt ${regInfo.attemptsUsed + 1} of ${regInfo.attemptsAllowed}): Review and update your details below.`;
-            // Pre-fill existing data for easy correction
-            if (regInfo.members && regInfo.members[0]) {
-              m1Name.value = regInfo.members[0].name || '';
-              m1Email.value = regInfo.members[0].email || '';
-              m1Phone.value = regInfo.members[0].phone || '';
-            }
-            if (regInfo.members && regInfo.members[1]) {
-              m2Name.value = regInfo.members[1].name || '';
-              m2Email.value = regInfo.members[1].email || '';
-              m2Phone.value = regInfo.members[1].phone || '';
-            }
-            if (regInfo.members && regInfo.members[2]) {
-              m3Name.value = regInfo.members[2].name || '';
-              m3Email.value = regInfo.members[2].email || '';
-              m3Phone.value = regInfo.members[2].phone || '';
-            }
-            if (regInfo.utrId) fUtr.value = regInfo.utrId;
+            pCorrectionMsg.textContent = `✏️ UNLOCKED IN ATLAS FOR CORRECTION (Attempt ${regInfo.attemptsUsed + 1} of ${regInfo.attemptsAllowed}): Please securely re-enter your corrected details below.`;
           } else {
             pCorrectionBanner.style.display = 'none';
           }
