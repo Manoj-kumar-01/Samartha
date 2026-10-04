@@ -4,6 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +17,9 @@
     "env": "^0.0.2",
     "express": "^5.2.1",
     "mongodb": "^7.7.0",
-    "mongoose": "^9.10.4"
+    "mongoose": "^9.10.4",
+    "nodemailer": "^10.0.14",
+    "qrcode": "^1.5.4",
+    "xlsx": "^0.18.5"
   }
 }

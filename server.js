@@ -23,11 +23,70 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected securely via env'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Basic Route to render EJS
+// Route 1: Spiderman Gateway Page
 app.get('/', (req, res) => {
-  // Renders the 'index.ejs' file in the views directory
-  res.render('index', { title: 'Samartha Backend' });
+  res.render('spiderman', { title: 'SAMARTHA 2026 // Beyond the Multiverse' });
 });
+
+// Route 2: Main Hackathon Website
+app.get(['/home', '/main'], (req, res) => {
+  res.render('index', { title: 'SAMARTHA 2026 // 24-Hour Hackathon - VIIT CSE' });
+});
+
+// ---------- Selected Teams (public) ----------
+const { getTeams, getPublicTeams } = require('./lib/teams');
+const { sendOne, sendBulk, getJob } = require('./lib/mailer');
+
+app.get('/selected-teams', async (req, res) => {
+  try {
+    const teams = await getPublicTeams();
+    res.render('teams', { teams, error: null });
+  } catch (err) {
+    console.error('Selected teams load error:', err.message);
+    res.render('teams', { teams: [], error: 'Team list is being updated. Please check back shortly.' });
+  }
+});
+
+// ---------- Admin: bulk mail (password protected) ----------
+function requireAdmin(req, res, next) {
+  if (!process.env.ADMIN_PASSWORD) return res.status(500).json({ error: 'ADMIN_PASSWORD not set in .env' });
+  if (req.get('x-admin-key') !== process.env.ADMIN_PASSWORD) return res.status(401).json({ error: 'Wrong password' });
+  next();
+}
+
+app.get('/admin', (req, res) => res.render('admin'));
+
+app.get('/admin/api/teams', requireAdmin, async (req, res) => {
+  try {
+    res.json({ teams: await getTeams({ force: true }), sender: process.env.GMAIL_USER || null });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/admin/api/test', requireAdmin, async (req, res) => {
+  try {
+    const { subject, message, to } = req.body;
+    const teams = await getTeams();
+    const sample = teams[0] || { rank: 1, name: 'Sample Team', college: 'Sample College', theme: 'Sample Theme', emails: [] };
+    await sendOne(sample, subject, message, to || process.env.GMAIL_USER);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/admin/api/send', requireAdmin, async (req, res) => {
+  try {
+    const { subject, message } = req.body;
+    if (!subject || !message) return res.status(400).json({ error: 'Subject and message are required' });
+    res.json(await sendBulk(await getTeams({ force: true }), subject, message));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/admin/api/status', requireAdmin, (req, res) => res.json(getJob()));
 
 // Start the server
 app.listen(PORT, () => {

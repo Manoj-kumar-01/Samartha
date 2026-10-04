@@ -504,23 +504,13 @@ function initGatewayPortal(audioSystem) {
       const warpWave = document.createElement('div');
       warpWave.className = 'multiverse-warp-wave';
       document.body.appendChild(warpWave);
-      setTimeout(() => warpWave.remove(), 1000);
     } catch (err) {}
 
-    // 3. Immediate state switch
-    document.body.classList.remove('gateway-mode');
-    document.body.classList.add('site-entered');
-
-    // 4. Clean up gate container
+    // 3. Seamless transition to Main Hackathon Website
     setTimeout(() => {
-      const gate = document.getElementById('enter-world-gate');
-      if (gate) gate.style.display = 'none';
-    }, 550);
-
-    // 5. Smooth scroll to top of site
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 250);
+      const isStatic = window.location.pathname.endsWith('.html');
+      window.location.href = isStatic ? 'home.html' : '/home';
+    }, 450);
   }
 
   enterBtn.addEventListener('click', handleEnter);

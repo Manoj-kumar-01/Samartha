@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin // Mail Selected Teams - SAMARTHA 2026</title>
+  <meta name="description" content="Organizer console to email the official poster and details to selected teams.">
+  <link rel="icon" type="image/jpeg" href="/assets/samartha_logo.jpg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root { --bg:#020805; --surface:#0a1b12; --accent:#00ff88; --accent-dim:rgba(0,255,136,.14); --gold:#fbbf24;
+      --red:#ff4d6d; --border:rgba(0,255,136,.22); --text:#e1f2e8; --muted:#8ea89a; --dim:#4d6859; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Rajdhani',sans-serif; background:radial-gradient(ellipse at top,rgba(0,255,136,.1),transparent 60%),var(--bg);
+      color:var(--text); min-height:100vh; padding:2rem 1rem; font-size:1.05rem; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    h1 { font-family:'Orbitron'; font-weight:900; letter-spacing:3px; color:var(--accent); font-size:1.6rem; margin-bottom:.3rem; }
+    .sub { font-family:'JetBrains Mono'; font-size:.75rem; color:var(--dim); margin-bottom:2rem; }
+    .panel { background:rgba(10,27,18,.85); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin-bottom:1.2rem; }
+    .panel h2 { font-family:'JetBrains Mono'; font-size:.8rem; letter-spacing:2px; color:var(--gold); margin-bottom:1rem; }
+    label { display:block; font-family:'JetBrains Mono'; font-size:.72rem; color:var(--muted); margin:0 0 .4rem; }
+    input, textarea { width:100%; background:#05100a; border:1px solid var(--border); color:#fff; border-radius:6px;
+      padding:.75rem .9rem; font:inherit; outline:none; margin-bottom:1rem; transition:border-color .2s, box-shadow .2s; }
+    input:focus, textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
+    textarea { min-height:300px; font-family:'JetBrains Mono'; font-size:.85rem; line-height:1.6; resize:vertical; }
+    .btn { font-family:'JetBrains Mono'; font-weight:700; font-size:.8rem; padding:.8rem 1.3rem; border-radius:6px; cursor:pointer;
+      border:1px solid var(--accent); background:transparent; color:var(--accent); transition:all .2s; }
+    .btn:hover:not(:disabled) { background:var(--accent-dim); box-shadow:0 0 18px rgba(0,255,136,.35); }
+    .btn.primary { background:var(--accent); color:#020805; }
+    .btn.primary:hover:not(:disabled) { filter:brightness(1.1); }
+    .btn:disabled { opacity:.45; cursor:not-allowed; }
+    .row { display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; }
+    .hint { font-family:'JetBrains Mono'; font-size:.7rem; color:var(--dim); margin:-.5rem 0 1rem; }
+    .hint code { color:var(--accent); }
+    .msg { font-family:'JetBrains Mono'; font-size:.8rem; margin-top:1rem; min-height:1.2em; }
+    .msg.ok { color:var(--accent); } .msg.err { color:var(--red); }
+    .grid2 { display:grid; grid-template-columns:1.3fr 1fr; gap:1.2rem; }
+    table { width:100%; border-collapse:collapse; font-size:.92rem; }
+    th, td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid rgba(0,255,136,.08); vertical-align:top; }
+    th { font-family:'JetBrains Mono'; font-size:.68rem; color:var(--dim); position:sticky; top:0; background:var(--surface); }
+    .tbl { max-height:520px; overflow:auto; }
+    .warn { color:var(--red); font-family:'JetBrains Mono'; font-size:.72rem; }
+    .bar { height:10px; background:#05100a; border:1px solid var(--border); border-radius:6px; overflow:hidden; margin:.8rem 0; }
+    .bar div { height:100%; width:0; background:linear-gradient(90deg,#00b359,var(--accent)); transition:width .4s; }
+    .hidden { display:none; }
+    @media (max-width:900px) { .grid2 { grid-template-columns:1fr; } }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>SAMARTHA // MAIL CONSOLE</h1>
+    <div class="sub">Send the official poster + finale details to all selected teams from the Google Sheet.</div>
+
+    <!-- Login -->
+    <section class="panel" id="login-panel">
+      <h2>[ ORGANIZER LOGIN ]</h2>
+      <form id="login-form" class="row">
+        <input type="password" id="admin-password" placeholder="Admin password" style="flex:1;margin:0" required>
+        <button class="btn primary" id="login-btn" type="submit">UNLOCK</button>
+      </form>
+      <div class="msg" id="login-msg"></div>
+    </section>
+
+    <div id="console" class="hidden">
+      <div class="grid2">
+        <!-- Compose -->
+        <section class="panel">
+          <h2>[ COMPOSE ]</h2>
+          <label for="mail-subject">SUBJECT</label>
+          <input id="mail-subject" value="SAMARTHA 2026: Selection Confirmation - {{team}}">
+          <label for="mail-message">MESSAGE (poster and logo load inline)</label>
+          <textarea id="mail-message">Dear Team {{team}},
+
+Congratulations! 🎉 Your team has been SELECTED for the SAMARTHA 2026 24-Hour Hackathon Finale, organised by the Department of CSE, Vignan's Institute of Information Technology (Autonomous).
+
+📅 Dates: October 10 – 11, 2026
+⏰ Reporting Time: 09:00 AM on October 10 (Hackathon starts at 10:00 AM sharp)
+📍 Venue: CSE Tech Labs, VIIT, Duvvada, Visakhapatnam
+🧩 Theme: {{theme}}
+
+See you at Samartha! ⚡
+
+Regards,
+Organizing Committee, SAMARTHA 2026
+Department of CSE, VIIT</textarea>
+          <div class="hint">Placeholders: <code>{{team}}</code> <code>{{college}}</code> <code>{{theme}}</code> <code>{{rank}}</code></div>
+
+          <label for="test-email">SEND A TEST FIRST (to yourself)</label>
+          <div class="row">
+            <input id="test-email" type="email" placeholder="your@email.com" style="flex:1;margin:0">
+            <button class="btn" id="send-test-btn">SEND TEST</button>
+          </div>
+
+          <div class="row" style="margin-top:1.4rem">
+            <button class="btn primary" id="send-all-btn">🚀 SEND TO ALL SELECTED TEAMS</button>
+          </div>
+
+          <div id="progress" class="hidden">
+            <div class="bar"><div id="progress-fill"></div></div>
+            <div class="msg" id="progress-text" style="margin:0"></div>
+          </div>
+          <div class="msg" id="compose-msg"></div>
+        </section>
+
+        <!-- Recipients -->
+        <section class="panel">
+          <div class="row" style="justify-content:space-between;margin-bottom:1rem">
+            <h2 style="margin:0" id="recipients-title">[ RECIPIENTS ]</h2>
+            <button class="btn" id="reload-btn" style="padding:.45rem .8rem">↻ RELOAD SHEET</button>
+          </div>
+          <div class="tbl">
+            <table>
+              <thead><tr><th>#</th><th>TEAM</th><th>EMAILS</th></tr></thead>
+              <tbody id="recipients-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const $ = id => document.getElementById(id);
+      let key = sessionStorage.getItem('samartha-admin') || '';
+      let teams = [];
+
+      const api = async (url, opts = {}) => {
+        const res = await fetch(url, {
+          ...opts,
+          headers: { 'Content-Type': 'application/json', 'x-admin-key': key, ...(opts.headers || {}) },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+        return data;
+      };
+      const setMsg = (el, text, ok = true) => { el.textContent = text; el.className = 'msg ' + (ok ? 'ok' : 'err'); };
+      const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+      async function loadTeams() {
+        const data = await api('/admin/api/teams');
+        teams = data.teams;
+        if (data.sender && !$('test-email').value) $('test-email').value = data.sender;
+        const withMail = teams.filter(t => t.emails.length).length;
+        $('recipients-title').textContent = `[ RECIPIENTS: ${withMail} / ${teams.length} ]`;
+        $('recipients-body').innerHTML = teams.map(t => `
+          <tr><td>${t.rank}</td><td>${esc(t.id ? t.id + ' - ' + t.name : t.name)}</td>
+          <td>${t.emails.length ? esc(t.emails.join(', ')) : '<span class="warn">NO EMAIL — will be skipped</span>'}</td></tr>`).join('');
+      }
+
+      async function unlock() {
+        try {
+          await loadTeams();
+          sessionStorage.setItem('samartha-admin', key);
+          $('login-panel').classList.add('hidden');
+          $('console').classList.remove('hidden');
+          pollStatus();
+        } catch (err) {
+          sessionStorage.removeItem('samartha-admin');
+          setMsg($('login-msg'), err.message, false);
+        }
+      }
+
+      $('login-form').addEventListener('submit', e => { e.preventDefault(); key = $('admin-password').value; unlock(); });
+      if (key) unlock();
+
+      $('reload-btn').addEventListener('click', () => loadTeams().catch(err => setMsg($('compose-msg'), err.message, false)));
+
+      const payload = () => ({ subject: $('mail-subject').value, message: $('mail-message').value });
+
+      $('send-test-btn').addEventListener('click', async () => {
+        const btn = $('send-test-btn'); btn.disabled = true;
+        setMsg($('compose-msg'), 'Sending test mail...');
+        try {
+          await api('/admin/api/test', { method: 'POST', body: JSON.stringify({ ...payload(), to: $('test-email').value }) });
+          setMsg($('compose-msg'), `✔ Test mail sent to ${$('test-email').value}. Check your inbox.`);
+        } catch (err) { setMsg($('compose-msg'), err.message, false); }
+        btn.disabled = false;
+      });
+
+      $('send-all-btn').addEventListener('click', async () => {
+        const n = teams.filter(t => t.emails.length).length;
+        if (!confirm(`Send this email (with poster) to ${n} teams? This cannot be undone.`)) return;
+        try {
+          const r = await api('/admin/api/send', { method: 'POST', body: JSON.stringify(payload()) });
+          setMsg($('compose-msg'), `Queued ${r.queued} teams${r.skippedNoEmail ? ` (${r.skippedNoEmail} skipped: no email)` : ''}.`);
+          pollStatus();
+        } catch (err) { setMsg($('compose-msg'), err.message, false); }
+      });
+
+      let polling = false;
+      async function pollStatus() {
+        if (polling) return; polling = true;
+        while (true) {
+          let s;
+          try { s = await api('/admin/api/status'); } catch { break; }
+          if (!s.total) break;
+          $('progress').classList.remove('hidden');
+          $('send-all-btn').disabled = s.running;
+          const doneCount = s.sent + s.failed.length;
+          $('progress-fill').style.width = (doneCount / s.total * 100) + '%';
+          $('progress-text').innerHTML = `${s.running ? 'Sending' : 'Finished'}: ${s.sent} sent, ${s.failed.length} failed, ${s.total} total` +
+            s.failed.map(f => `<br><span class="warn">✖ ${esc(f.team)}: ${esc(f.error)}</span>`).join('');
+          if (!s.running) break;
+          await new Promise(r => setTimeout(r, 2000));
+        }
+        polling = false;
+      }
+    })();
+  </script>
+</body>
+
+</html>
