@@ -20,8 +20,35 @@ app.use(express.static(path.join(__dirname)));
 
 // Secure MongoDB Connection using environment variable
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected securely via env'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => {
+    console.log('✅ MongoDB connected securely via env');
+    syncLocalToAtlas();
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    if (err.message.includes('ENOTFOUND')) {
+      console.warn('⚠️ Atlas Hostname Notice: Ensure your MONGO_URI in .env contains your full cluster domain (e.g. cluster0.abcde.mongodb.net) and not just cluster0.mongodb.net.');
+    }
+  });
+
+async function syncLocalToAtlas() {
+  try {
+    const local = readLocalSubmissions();
+    if (!local || !local.length) return;
+    const Payment = require('./models/Payment');
+    console.log(`⏳ Syncing ${local.length} submission(s) to MongoDB Atlas...`);
+    for (const rec of local) {
+      await Payment.findOneAndUpdate(
+        { teamId: rec.teamId },
+        { $set: rec },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+    }
+    console.log(`🎉 Successfully synced ${local.length} submission(s) directly to MongoDB Atlas!`);
+  } catch (e) {
+    console.warn('Atlas auto-sync note:', e.message);
+  }
+}
 
 // Route 1: Spiderman Gateway Page
 app.get('/', (req, res) => {
