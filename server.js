@@ -35,7 +35,7 @@ app.get(['/home', '/main'], (req, res) => {
 
 // ---------- Selected Teams (public) ----------
 const { getTeams, getPublicTeams } = require('./lib/teams');
-const { sendOne, sendBulk, getJob } = require('./lib/mailer');
+const { sendOne, sendBulk, getJob, buildHtml } = require('./lib/mailer');
 
 app.get('/selected-teams', async (req, res) => {
   try {
@@ -55,6 +55,12 @@ function requireAdmin(req, res, next) {
 }
 
 app.get('/admin', (req, res) => res.render('admin'));
+
+app.get('/admin/preview-mail', (req, res) => {
+  const sample = { rank: 1, id: 'AV_001', name: 'ZenithX', college: "Vignan's Institute of Information Technology (VIIT)", theme: 'Generative AI & Agentic Workflows', emails: [] };
+  const sampleMsg = `Dear Team {{team}},\n\nCongratulations! 🎉 Your team has been SELECTED for the SAMARTHA 2026 24-Hour Hackathon Finale, organised by the Department of CSE, Vignan's Institute of Information Technology (Autonomous).\n\n📅 Dates: October 10 – 11, 2026\n⏰ Reporting Time: 09:00 AM on October 10 (Hackathon starts at 10:00 AM sharp)\n📍 Venue: CSE Tech Labs, VIIT, Duvvada, Visakhapatnam\n🧩 Theme: {{theme}}\n\nSee you at Samartha! ⚡\n\nRegards,\nOrganizing Committee, SAMARTHA 2026\nDepartment of CSE, VIIT`;
+  res.send(buildHtml(sampleMsg, sample));
+});
 
 app.get('/admin/api/teams', requireAdmin, async (req, res) => {
   try {
