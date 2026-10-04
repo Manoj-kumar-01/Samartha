@@ -5,6 +5,7 @@
   "main": "script.js",
   "scripts": {
     "start": "node server.js",
+    "seed-db": "node scripts/seed_atlas.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

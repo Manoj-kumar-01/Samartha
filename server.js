@@ -19,10 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname))); 
 
 // Secure MongoDB Connection using environment variable
+const { seedAndSyncDatabase } = require('./lib/syncDb');
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB connected securely via env');
-    syncLocalToAtlas();
+    seedAndSyncDatabase().catch(e => console.warn('Atlas sync error:', e.message));
   })
   .catch(err => {
     console.error('❌ MongoDB connection error:', err.message);
@@ -30,25 +32,6 @@ mongoose.connect(process.env.MONGO_URI)
       console.warn('⚠️ Atlas Hostname Notice: Ensure your MONGO_URI in .env contains your full cluster domain (e.g. cluster0.abcde.mongodb.net) and not just cluster0.mongodb.net.');
     }
   });
-
-async function syncLocalToAtlas() {
-  try {
-    const local = readLocalSubmissions();
-    if (!local || !local.length) return;
-    const Payment = require('./models/Payment');
-    console.log(`⏳ Syncing ${local.length} submission(s) to MongoDB Atlas...`);
-    for (const rec of local) {
-      await Payment.findOneAndUpdate(
-        { teamId: rec.teamId },
-        { $set: rec },
-        { upsert: true, new: true, setDefaultsOnInsert: true }
-      );
-    }
-    console.log(`🎉 Successfully synced ${local.length} submission(s) directly to MongoDB Atlas!`);
-  } catch (e) {
-    console.warn('Atlas auto-sync note:', e.message);
-  }
-}
 
 // Route 1: Spiderman Gateway Page
 app.get('/', (req, res) => {
@@ -368,9 +351,30 @@ app.post('/api/payment/submit', (req, res) => {
       try {
         if (mongoose.connection.readyState === 1) {
           const Payment = require('./models/Payment');
+          const Team = require('./models/Team');
           const savedDoc = await Payment.findOneAndUpdate(
             { teamId: record.teamId },
             { $set: record },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+          );
+          await Team.findOneAndUpdate(
+            { teamId: record.teamId },
+            {
+              $set: {
+                registrationStatus: 'pending',
+                members: record.members,
+                payment: {
+                  utrId: record.utrId,
+                  amount: record.amount,
+                  screenshotPath: record.screenshotPath
+                },
+                attemptsUsed: record.attemptsUsed,
+                attemptsAllowed: record.attemptsAllowed,
+                isLocked: true,
+                allowResubmit: false,
+                updatedAt: new Date()
+              }
+            },
             { upsert: true, new: true, setDefaultsOnInsert: true }
           );
           docId = savedDoc._id;
