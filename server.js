@@ -350,7 +350,7 @@ const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 12 * 1024 * 1024 }, // 12 MB limit
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit (comfortably under MongoDB 16MB document limit)
   fileFilter: function (req, file, cb) {
     const ext = path.extname(file.originalname || '').toLowerCase().replace('.', '');
     const mime = (file.mimetype || '').toLowerCase();
@@ -379,7 +379,10 @@ app.post('/api/payment/submit', (req, res) => {
   upload.single('screenshot')(req, res, async (err) => {
     if (err) {
       console.warn('Multer upload error:', err.message);
-      return res.status(400).json({ ok: false, error: err.message || 'File upload failed. Ensure the receipt is under 12MB.' });
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ ok: false, error: 'Receipt file exceeds 10MB limit. Please upload a receipt screenshot under 10MB.' });
+      }
+      return res.status(400).json({ ok: false, error: err.message || 'File upload failed. Ensure the receipt is under 10MB.' });
     }
 
     try {
