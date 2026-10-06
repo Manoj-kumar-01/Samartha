@@ -1,0 +1,254 @@
+[
+  {
+    "teamId": "AV_045",
+    "teamName": "Techveda",
+    "teamLeadName": "Ch. Jyotsna",
+    "teamLeadEmail": "chilakalapudijyoshna834@gmail.com",
+    "teamLeadPhone": "916281773047",
+    "college": "Vignan's Institute of Information Technology (VIIT)",
+    "theme": "",
+    "members": [
+      {
+        "name": "A.harshitha",
+        "email": "25l31a0525",
+        "phone": "99596 70490"
+      },
+      {
+        "name": "A.yasaswini",
+        "email": "25l31a0510",
+        "phone": "96034 85088"
+      },
+      {
+        "name": "B.tejasravani",
+        "email": "25l31a0549",
+        "phone": "62813 21728"
+      }
+    ],
+    "utrId": "316130858565",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T09:14:24.763Z",
+    "updatedAt": "2026-10-04T09:14:24.763Z"
+  },
+  {
+    "teamId": "AV_079",
+    "teamName": "ROUTEX",
+    "teamLeadName": "Pathakamsetty jhansi",
+    "teamLeadEmail": "jhansisai3009@gmail.com",
+    "teamLeadPhone": "919246801164",
+    "college": "Lendi Institute of Engineering and Technology",
+    "theme": "",
+    "members": [
+      {
+        "name": "Hanumanthu sandhya",
+        "email": "sandhyahanumanthu44@gmail.com",
+        "phone": "+91 83286 35969"
+      },
+      {
+        "name": "Kottali Deekshitha",
+        "email": "deekshithakottali@gmail.com",
+        "phone": "9390545301"
+      },
+      {
+        "name": "Kshatriya Raja vikram singh",
+        "email": "kshatriyarajavikramsingh@gmail.com",
+        "phone": "+91 93473 51326"
+      }
+    ],
+    "utrId": "769646774584",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T10:19:55.783Z",
+    "updatedAt": "2026-10-04T10:19:55.783Z"
+  },
+  {
+    "teamId": "AV_078",
+    "teamName": "Terminal bots",
+    "teamLeadName": "Vanjarapu Eswara Vara Prasad",
+    "teamLeadEmail": "vanjarapueswar123@gmail.com",
+    "teamLeadPhone": "916304228177",
+    "college": "Vignan's Institute of Information Technology (VIIT)",
+    "theme": "",
+    "members": [
+      {
+        "name": "Madapana John",
+        "email": "madapanaj@gmail.com",
+        "phone": "8106814663"
+      },
+      {
+        "name": "Bandaru Gopi",
+        "email": "bandarugopi133@gmail.com",
+        "phone": "8186927982"
+      },
+      {
+        "name": "Duddu Ravi Kumar",
+        "email": "ravikumar.duddu1551@gmail.com",
+        "phone": "7995861984"
+      }
+    ],
+    "utrId": "615065713779",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T10:42:58.459Z",
+    "updatedAt": "2026-10-04T10:42:58.459Z"
+  },
+  {
+    "teamId": "AV_043",
+    "teamName": "Code Avengers",
+    "teamLeadName": "Sonthi SriSeshanjali",
+    "teamLeadEmail": "sonthisriseshanjali@gmail.com",
+    "teamLeadPhone": "919491662259",
+    "college": "Gayatri Vidya Parishad College of Engineering (Autonomous)",
+    "theme": "",
+    "members": [
+      {
+        "name": "Volisetty Veeksha Varshini",
+        "email": "veekshav9@gmail.com",
+        "phone": "6305717126"
+      },
+      {
+        "name": "Vinjamuri Sree Abhignya Shruthi",
+        "email": "vashruthi999@gmail.com",
+        "phone": "9491494959"
+      },
+      {
+        "name": "Gandham sireesha",
+        "email": "sireeshagandham2007@gmail.com",
+        "phone": "8341974056"
+      }
+    ],
+    "utrId": "628619377584",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T10:48:57.103Z",
+    "updatedAt": "2026-10-04T10:48:57.103Z"
+  },
+  {
+    "teamId": "AV_073",
+    "teamName": "Synapse",
+    "teamLeadName": "Majji Jeevan Sai",
+    "teamLeadEmail": "jeevansaimajji@gmail.com",
+    "teamLeadPhone": "919391936673",
+    "college": "Vignan's Institute of Information Technology (VIIT)",
+    "theme": "",
+    "members": [
+      {
+        "name": "M.V.S. Tanooja Sree",
+        "email": "tanoojasreemoturi@gmail.com",
+        "phone": "6281436253"
+      },
+      {
+        "name": "Koilada Ganesh",
+        "email": "ganeshkoilada1247@gmail.com",
+        "phone": "8790627210"
+      },
+      {
+        "name": "Guttula Rama Sai Akhil",
+        "email": "ramasaiakhilguttula@gmail.com",
+        "phone": "8919058520"
+      }
+    ],
+    "utrId": "330266828851",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T12:51:21.519Z",
+    "updatedAt": "2026-10-04T12:51:21.519Z"
+  },
+  {
+    "teamId": "AV_034",
+    "teamName": "Gen Z Devs",
+    "teamLeadName": "Sophiya Tabassum",
+    "teamLeadEmail": "sophieeee1910@gmail.com",
+    "teamLeadPhone": "919441141970",
+    "college": "Vignan's Institute of Engineering for Women (VIEW)",
+    "theme": "",
+    "members": [
+      {
+        "name": "MD. Jahur Musaib",
+        "email": "musaib504@gmail.com",
+        "phone": "77807 01225"
+      },
+      {
+        "name": "Nambala Sri Satya Harshita Reddy",
+        "email": "harshitareddynss@gmail.com",
+        "phone": "90302 51103"
+      },
+      {
+        "name": "Unkili Laasya",
+        "email": "laasyaunkili@gmail.com",
+        "phone": "83319 62331"
+      }
+    ],
+    "utrId": "664325010644",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T12:58:56.854Z",
+    "updatedAt": "2026-10-04T12:58:56.854Z"
+  },
+  {
+    "teamId": "AV_068",
+    "teamName": "Four Brainrots",
+    "teamLeadName": "Tanna Dusyanth",
+    "teamLeadEmail": "dushyanthtanna@gmail.com",
+    "teamLeadPhone": "917675993371",
+    "college": "Vignan's Institute of Information Technology (VIIT)",
+    "theme": "",
+    "members": [
+      {
+        "name": "P.V.S.D.Lohith",
+        "email": "veeralohith46@gmail.com",
+        "phone": "6304769124"
+      },
+      {
+        "name": "Nikhil Runkana",
+        "email": "nikhilrunkana@gmail.com",
+        "phone": "7075154711"
+      },
+      {
+        "name": "Pilla Premsatya",
+        "email": "sathyaprem857@gmail.com",
+        "phone": "9392395757"
+      }
+    ],
+    "utrId": "036012232842",
+    "amount": 1000,
+    "status": "pending",
+    "attemptsAllowed": 1,
+    "attemptsUsed": 1,
+    "isLocked": true,
+    "allowResubmit": false,
+    "adminNotes": "",
+    "submittedAt": "2026-10-04T13:15:13.609Z",
+    "updatedAt": "2026-10-04T13:15:13.609Z"
+  }
+]

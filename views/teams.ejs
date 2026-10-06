@@ -17,7 +17,8 @@
     :root {
       --bg: #020805; --surface: #0a1b12; --surface-2: #11281c;
       --accent: #00ff88; --accent-dim: rgba(0, 255, 136, .14); --accent-glow: rgba(0, 255, 136, .45);
-      --gold: #fbbf24; --gold-dim: rgba(251, 191, 36, .15); --cyan: #00f0ff;
+      --gold: #fbbf24; --gold-dim: rgba(251, 191, 36, .15); --gold-glow: rgba(251, 191, 36, .35);
+      --cyan: #00f0ff; --cyan-dim: rgba(0, 240, 255, .15);
       --border: rgba(0, 255, 136, .22); --text: #e1f2e8; --muted: #8ea89a; --dim: #4d6859;
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
@@ -46,35 +47,63 @@
     .back-btn:hover { background: var(--accent-dim); border-color: var(--accent); box-shadow: 0 0 18px var(--accent-glow); }
 
     /* Hero */
-    .hero { text-align: center; padding: 4.5rem 0 2.5rem; }
+    .hero { text-align: center; padding: 4.5rem 0 2.2rem; }
     .tag { display: inline-block; font-family: 'JetBrains Mono'; font-size: .75rem; letter-spacing: 3px;
       color: var(--gold); border: 1px solid rgba(251, 191, 36, .45); background: rgba(251, 191, 36, .08);
       padding: .4rem 1rem; border-radius: 30px; margin-bottom: 1.4rem; animation: fadeUp .7s var(--ease) both; }
-    h1 { font-family: 'Orbitron'; font-weight: 900; font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 3px; line-height: 1.1;
+    h1 { font-family: 'Orbitron'; font-weight: 900; font-size: clamp(2rem, 6vw, 3.8rem); letter-spacing: 3px; line-height: 1.1;
       background: linear-gradient(135deg, #fff 10%, var(--accent) 60%, var(--cyan));
       -webkit-background-clip: text; background-clip: text; color: transparent; animation: fadeUp .7s .08s var(--ease) both; }
-    .hero p { color: var(--muted); max-width: 680px; margin: 1.2rem auto 0; line-height: 1.7; animation: fadeUp .7s .16s var(--ease) both; }
+    .hero p { color: var(--muted); max-width: 720px; margin: 1.2rem auto 0; line-height: 1.7; animation: fadeUp .7s .16s var(--ease) both; }
 
     .hero-action-pill {
-      display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.6rem;
+      display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.5rem;
       background: rgba(0, 255, 136, .08); border: 1px solid rgba(0, 255, 136, .35);
       border-radius: 50px; padding: .65rem 1.4rem; font-family: 'JetBrains Mono'; font-size: .8rem;
       color: var(--accent); text-shadow: 0 0 10px rgba(0, 255, 136, .3); animation: fadeUp .7s .2s var(--ease) both;
     }
 
     .stats { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; animation: fadeUp .7s .24s var(--ease) both; }
-    .stat { background: rgba(10, 27, 18, .7); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.6rem; min-width: 150px; }
+    .stat { background: rgba(10, 27, 18, .7); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; min-width: 150px; }
     .stat b { display: block; font-family: 'Orbitron'; font-size: 1.7rem; color: var(--accent); }
     .stat span { font-family: 'JetBrains Mono'; font-size: .68rem; color: var(--dim); letter-spacing: 2px; }
 
-    /* Controls */
-    .controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin: 1rem 0 1.6rem; }
+    /* Controls & Quick Filter Tabs */
+    .controls { display: flex; flex-direction: column; gap: 1rem; margin: 1.6rem 0 1.8rem; }
+    
+    .status-filter-row {
+      display: flex; gap: .6rem; flex-wrap: wrap; align-items: center;
+    }
+    .status-tab {
+      font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 700;
+      padding: .6rem 1.1rem; border-radius: 6px; border: 1px solid var(--border);
+      background: rgba(10, 27, 18, .75); color: var(--muted); cursor: pointer; transition: all .2s var(--ease);
+      display: inline-flex; align-items: center; gap: 7px;
+    }
+    .status-tab:hover { color: #fff; border-color: var(--accent); }
+    .status-tab.active {
+      background: var(--accent); color: #020805; border-color: var(--accent);
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+    .status-tab.tab-completed.active {
+      background: #00ff88; color: #020805; border-color: #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, .4);
+    }
+    .status-tab.tab-open.active {
+      background: var(--gold); color: #020805; border-color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .search-filter-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    }
     .search { flex: 1 1 280px; position: relative; }
     .search input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: #fff;
       font-family: 'Rajdhani'; font-size: 1.05rem; font-weight: 600; padding: .85rem 1rem .85rem 2.8rem; border-radius: 6px;
       outline: none; transition: all .25s var(--ease); }
     .search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
     .search::before { content: '⌕'; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1.3rem; }
+    
     .chips { display: flex; gap: .5rem; flex-wrap: wrap; }
     .chip { font-family: 'JetBrains Mono'; font-size: .7rem; font-weight: 700; padding: .5rem .85rem; border-radius: 30px;
       border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s var(--ease); }
@@ -82,64 +111,115 @@
     .chip.active { background: var(--accent); color: #020805; border-color: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
 
     /* Teams Grid & Clickable Cards */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.1rem; padding-bottom: 5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 1.2rem; padding-bottom: 5rem; }
     .card {
       position: relative; background: linear-gradient(160deg, rgba(17, 40, 28, .92), rgba(10, 27, 18, .92));
-      border: 1px solid var(--border); border-radius: 10px; padding: 1.3rem 1.3rem 1.1rem; overflow: hidden;
+      border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; overflow: hidden;
       transition: transform .25s var(--ease), border-color .25s, box-shadow .25s; animation: fadeUp .6s var(--ease) both;
-      cursor: pointer; user-select: none;
+      cursor: pointer; user-select: none; display: flex; flex-direction: column;
     }
     .card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(0, 255, 136, .08), transparent 70%);
       transform: translateX(-100%); transition: transform .7s var(--ease); }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 14px 34px rgba(0, 255, 136, .22); }
     .card:hover::after { transform: translateX(100%); }
 
-    /* Already Registered / Confirmed Card Style */
-    .card.is-confirmed {
-      border-color: rgba(251, 191, 36, .5);
-      background: linear-gradient(160deg, rgba(17, 40, 28, .95), rgba(251, 191, 36, .07));
+    /* Card Header Bar (Status badge + Rank) */
+    .card-header-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .85rem; gap: .5rem;
     }
-    .card.is-confirmed:hover {
+    .badge-status {
+      font-family: 'JetBrains Mono', monospace; font-size: .67rem; font-weight: 700;
+      letter-spacing: 1px; padding: .26rem .65rem; border-radius: 4px;
+      display: inline-flex; align-items: center; gap: 5px; text-transform: uppercase;
+    }
+    .badge-status.badge-verified {
+      background: rgba(0, 255, 136, .16); color: var(--accent); border: 1px solid rgba(0, 255, 136, .5);
+      box-shadow: 0 0 12px rgba(0, 255, 136, .25);
+    }
+    .badge-status.badge-pending {
+      background: rgba(251, 191, 36, .16); color: var(--gold); border: 1px solid rgba(251, 191, 36, .5);
+      box-shadow: 0 0 12px rgba(251, 191, 36, .25);
+    }
+    .badge-status.badge-rejected {
+      background: rgba(255, 77, 109, .16); color: #ff859c; border: 1px solid rgba(255, 77, 109, .45);
+    }
+    .badge-status.badge-correction {
+      background: rgba(0, 240, 255, .16); color: var(--cyan); border: 1px solid rgba(0, 240, 255, .5);
+      box-shadow: 0 0 12px rgba(0, 240, 255, .25);
+    }
+    .badge-status.badge-open {
+      background: rgba(255, 255, 255, .05); color: var(--dim); border: 1px solid rgba(255, 255, 255, .12);
+    }
+    .badge-dot { font-size: .75rem; line-height: 1; }
+
+    /* Card rank */
+    .card .rank {
+      font-family: 'Orbitron'; font-weight: 900; font-size: 1.25rem;
+      color: var(--gold); text-shadow: 0 0 14px rgba(251, 191, 36, .3); margin-left: auto;
+    }
+
+    /* Completed Card Style */
+    .card.is-completed {
+      border-color: rgba(251, 191, 36, .45);
+      background: linear-gradient(160deg, rgba(16, 42, 28, .96), rgba(12, 28, 19, .96));
+    }
+    .card.is-completed:hover {
       border-color: var(--gold); box-shadow: 0 14px 34px rgba(251, 191, 36, .25);
     }
 
-    /* Unlocked for correction by organizer */
-    .card.is-correction {
-      border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0, 240, 255, .25);
+    /* Verified Card Style */
+    .card.is-verified {
+      border-color: rgba(0, 255, 136, .5);
+      background: linear-gradient(160deg, rgba(14, 46, 30, .96), rgba(10, 30, 20, .96));
+    }
+    .card.is-verified:hover {
+      border-color: var(--accent); box-shadow: 0 14px 34px rgba(0, 255, 136, .3);
     }
 
-    .rank { position: absolute; top: 1rem; right: 1.1rem; font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; color: var(--gold); text-shadow: 0 0 14px rgba(251, 191, 36, .3); }
-    .team { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.35rem; color: #fff; padding-right: 3rem; line-height: 1.2; }
-    .college { color: #a4c9b5; font-size: .9rem; margin: .6rem 0 .7rem; display: flex; align-items: flex-start; gap: .5rem; line-height: 1.4; }
+    /* Unlocked for correction */
+    .card.is-correction {
+      border-color: var(--cyan);
+      box-shadow: 0 0 18px rgba(0, 240, 255, .25);
+    }
+
+    .team { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.35rem; color: #fff; line-height: 1.25; margin-bottom: .3rem; }
+    .college { color: #a4c9b5; font-size: .9rem; margin: .4rem 0 .7rem; display: flex; align-items: flex-start; gap: .5rem; line-height: 1.4; }
     .col-icon { font-size: 1rem; line-height: 1.2; flex-shrink: 0; }
     .col-name { color: #d4ede2; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: .3px; }
     
     .lead-badge {
-      font-size: .75rem; color: var(--muted); margin-bottom: .6rem; font-family: 'JetBrains Mono';
+      font-size: .75rem; color: var(--muted); margin-bottom: .5rem; font-family: 'JetBrains Mono';
       display: flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, .25); padding: .25rem .5rem; border-radius: 4px; border: 1px solid rgba(0, 255, 136, .1);
     }
     .theme { display: inline-block; font-family: 'JetBrains Mono'; font-size: .68rem; font-weight: 700; color: var(--accent);
-      background: var(--accent-dim); border: 1px solid var(--border); padding: .3rem .65rem; border-radius: 4px; }
+      background: var(--accent-dim); border: 1px solid var(--border); padding: .3rem .65rem; border-radius: 4px; align-self: flex-start; }
 
     /* Action button at bottom of card */
     .card-footer-action {
-      margin-top: .9rem; padding-top: .75rem; border-top: 1px dashed rgba(0, 255, 136, .18);
+      margin-top: auto; padding-top: .85rem; border-top: 1px dashed rgba(0, 255, 136, .18);
       display: flex; align-items: center; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: .73rem;
-      color: var(--accent); font-weight: 600;
+      font-weight: 600;
     }
     .card-footer-action span.action-btn {
       display: inline-flex; align-items: center; gap: 6px; background: rgba(0, 255, 136, .12);
-      padding: .3rem .75rem; border-radius: 4px; border: 1px solid rgba(0, 255, 136, .25);
+      padding: .4rem .75rem; border-radius: 4px; border: 1px solid rgba(0, 255, 136, .25);
       transition: all .2s; width: 100%; justify-content: center;
     }
     .card:hover .card-footer-action span.action-btn { background: var(--accent); color: #020805; border-color: var(--accent); }
 
-    .card.is-confirmed .card-footer-action span.action-btn {
-      background: rgba(251, 191, 36, .12); border-color: rgba(251, 191, 36, .3); color: var(--gold);
+    .card.is-completed .card-footer-action span.action-btn {
+      background: rgba(251, 191, 36, .12); border-color: rgba(251, 191, 36, .35); color: var(--gold);
     }
-    .card.is-confirmed:hover .card-footer-action span.action-btn {
+    .card.is-completed:hover .card-footer-action span.action-btn {
       background: var(--gold); color: #020805; border-color: var(--gold);
+    }
+
+    .card.is-verified .card-footer-action span.action-btn {
+      background: rgba(0, 255, 136, .14); border-color: rgba(0, 255, 136, .45); color: var(--accent);
+    }
+    .card.is-verified:hover .card-footer-action span.action-btn {
+      background: var(--accent); color: #020805; border-color: var(--accent);
     }
 
     .card.is-correction .card-footer-action span.action-btn {
@@ -225,25 +305,25 @@
       border-radius: 12px; margin-top: 1rem;
     }
     .reg-check-icon { font-size: 3rem; margin-bottom: .6rem; }
-    .reg-check-title { font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 900; color: var(--accent); margin-bottom: .4rem; }
-    .reg-check-desc { color: var(--muted); font-size: .95rem; line-height: 1.6; max-width: 580px; margin: 0 auto 1.5rem; }
+    .reg-check-title { font-family: 'Orbitron'; font-size: 1.35rem; font-weight: 900; color: var(--accent); margin-bottom: .4rem; letter-spacing: 1px; }
+    .reg-check-desc { color: var(--muted); font-size: .95rem; line-height: 1.6; max-width: 600px; margin: 0 auto 1.5rem; }
     
     .reg-summary-card {
-      background: rgba(10, 27, 18, .8); border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.2rem; max-width: 540px; margin: 0 auto 1.5rem; text-align: left;
-      font-family: 'JetBrains Mono'; font-size: .8rem;
+      background: rgba(10, 27, 18, .85); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.3rem; max-width: 580px; margin: 0 auto 1.5rem; text-align: left;
+      font-family: 'JetBrains Mono'; font-size: .82rem;
     }
-    .reg-summary-row { display: flex; justify-content: space-between; margin-bottom: .45rem; }
+    .reg-summary-row { display: flex; justify-content: space-between; margin-bottom: .55rem; align-items: center; }
     .reg-summary-row span.lbl { color: var(--dim); }
     .reg-summary-row span.val { color: var(--accent); font-weight: 700; }
 
     /* Submitted Members List in Locked View */
     .reg-members-box {
-      margin-top: .8rem; padding-top: .8rem; border-top: 1px dashed rgba(0, 255, 136, .2);
+      margin-top: .9rem; padding-top: .9rem; border-top: 1px dashed rgba(0, 255, 136, .2);
     }
     .reg-member-item {
-      background: rgba(5, 16, 10, .7); border: 1px solid rgba(0, 255, 136, .1);
-      border-radius: 4px; padding: .4rem .7rem; margin-top: .4rem; font-size: .75rem;
+      background: rgba(5, 16, 10, .7); border: 1px solid rgba(0, 255, 136, .12);
+      border-radius: 4px; padding: .5rem .8rem; margin-top: .4rem; font-size: .78rem;
       display: flex; justify-content: space-between; align-items: center;
     }
 
@@ -311,7 +391,7 @@
     .btn-portal-submit:hover:not(:disabled) {
       transform: translateY(-2px); box-shadow: 0 12px 38px rgba(0, 255, 136, .5); filter: brightness(1.1);
     }
-    .btn-portal-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-portal-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(.3); }
 
     .portal-alert {
       padding: .85rem 1.1rem; border-radius: 6px; font-family: 'JetBrains Mono'; font-size: .8rem;
@@ -345,6 +425,11 @@
   </header>
 
   <main class="wrap">
+    <%
+      const registeredCount = Object.keys(registeredMap || {}).length;
+      const verifiedCount = Object.values(registeredMap || {}).filter(r => r.status === 'verified' || r.status === 'approved' || r.status === 'completed').length;
+    %>
+
     <section class="hero">
       <div class="tag">[ SCREENING RESULTS // 26 - 27 SEPT ]</div>
       <h1>THE TOP 100 SQUADS</h1>
@@ -352,13 +437,14 @@
         <strong style="color:#fff">24-hour finale on October 10 - 11, 2026</strong> at VIIT CSE Labs, Visakhapatnam.</p>
 
       <div class="hero-action-pill">
-        <span>⚡ Click any squad box below to enter that team's verification portal</span>
+        <span>⚡ Click any squad box below to verify payment & roster details</span>
       </div>
 
       <div class="stats">
-        <div class="stat"><b><%= teams.length %></b><span>SELECTED TEAMS</span></div>
+        <div class="stat"><b><%= teams.length %></b><span>SHORTLISTED SQUADS</span></div>
+        <div class="stat"><b style="color:var(--accent);"><%= registeredCount %> / <%= teams.length %></b><span>REGISTRATIONS COMPLETED</span></div>
+        <div class="stat"><b><%= registeredCount * 4 %></b><span>HACKERS CONFIRMED</span></div>
         <div class="stat"><b><%= new Set(teams.map(t => t.college).filter(Boolean)).size %></b><span>COLLEGES</span></div>
-        <div class="stat"><b><%= teams.length * 4 %></b><span>HACKERS</span></div>
       </div>
     </section>
 
@@ -373,21 +459,31 @@
         const sortedColleges = Object.keys(collegeCounts).sort((a,b) => collegeCounts[b] - collegeCounts[a]);
       %>
       <div class="controls">
-        <label class="search" for="team-search">
-          <input type="search" id="team-search" placeholder="Search by team ID, name, or college (e.g. VIIT, Lendi, GVP, Raghu)..." autocomplete="off">
-        </label>
-        <% if (sortedColleges.length > 1) { %>
-          <div class="chips" id="college-chips">
-            <button class="chip active" data-college="">ALL COLLEGES (<%= teams.length %>)</button>
-            <% sortedColleges.slice(0, 7).forEach(col => { %>
-              <% 
-                let shortCol = col.replace(/\(Autonomous\)|\(AUCE\)|\(VIEW\)|\(VIIT\)|\(NSRIT\)|\(ANITS\)/gi, '').trim();
-                if (shortCol.length > 25) shortCol = shortCol.slice(0, 23) + '…';
-              %>
-              <button class="chip" data-college="<%= col.toLowerCase() %>"><%= shortCol.toUpperCase() %> (<%= collegeCounts[col] %>)</button>
-            <% }) %>
-          </div>
-        <% } %>
+        <!-- Quick Status Filter Tabs -->
+        <div class="status-filter-row" id="status-tabs">
+          <button class="status-tab active" data-status="">ALL SQUADS (<%= teams.length %>)</button>
+          <button class="status-tab tab-completed" data-status="completed">✅ COMPLETED / SUBMITTED (<%= registeredCount %>)</button>
+          <button class="status-tab tab-open" data-status="open">⚡ AWAITING SUBMISSION (<%= teams.length - registeredCount %>)</button>
+        </div>
+
+        <!-- Search & College Chips -->
+        <div class="search-filter-row">
+          <label class="search" for="team-search">
+            <input type="search" id="team-search" placeholder="Search by team ID, name, or college (e.g. VIIT, Lendi, GVP, Raghu)..." autocomplete="off">
+          </label>
+          <% if (sortedColleges.length > 1) { %>
+            <div class="chips" id="college-chips">
+              <button class="chip active" data-college="">ALL COLLEGES</button>
+              <% sortedColleges.slice(0, 6).forEach(col => { %>
+                <% 
+                  let shortCol = col.replace(/\(Autonomous\)|\(AUCE\)|\(VIEW\)|\(VIIT\)|\(NSRIT\)|\(ANITS\)/gi, '').trim();
+                  if (shortCol.length > 22) shortCol = shortCol.slice(0, 20) + '…';
+                %>
+                <button class="chip" data-college="<%= col.toLowerCase() %>"><%= shortCol.toUpperCase() %> (<%= collegeCounts[col] %>)</button>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
       </div>
 
       <!-- Top 100 Squads Grid -->
@@ -396,15 +492,21 @@
           <% 
             const cleanId = (t.id || '').toUpperCase();
             const reg = registeredMap && registeredMap[cleanId];
-            const isConfirmed = reg && !reg.canSubmit;
+            const isCompleted = !!reg;
+            const isVerified = reg && (reg.status === 'verified' || reg.status === 'approved' || reg.status === 'completed');
+            const isPending = reg && (!reg.status || reg.status === 'pending');
+            const isRejected = reg && reg.status === 'rejected';
             const isCorrection = reg && reg.canSubmit && reg.attemptsUsed > 0;
+            const isConfirmed = isCompleted && !isCorrection;
           %>
-          <article class="card <%= isConfirmed ? 'is-confirmed' : '' %> <%= isCorrection ? 'is-correction' : '' %>"
+          <article class="card <%= isCompleted ? 'is-completed' : 'is-unregistered' %> <%= isVerified ? 'is-verified' : '' %> <%= isCorrection ? 'is-correction' : '' %>"
             id="card-<%= (t.id || 'team-' + i).replace(/[^a-zA-Z0-9_-]/g, '') %>"
             style="animation-delay: <%= Math.min(i, 20) * 0.03 %>s"
             data-search="<%= ((t.id || '') + ' ' + (t.name || '') + ' ' + (t.leadName || '') + ' ' + (t.college || '')).toLowerCase() %>"
             data-college="<%= (t.college || '').toLowerCase() %>"
             data-theme="<%= (t.theme || '').toLowerCase() %>"
+            data-status="<%= isCompleted ? 'completed' : 'open' %>"
+            data-regstatus="<%= reg ? (reg.status || 'pending') : 'unregistered' %>"
             data-id="<%= t.id || '' %>"
             data-name="<%= t.name || '' %>"
             data-lead="<%= t.leadName || '' %>"
@@ -413,14 +515,40 @@
             data-collegename="<%= t.college || '' %>"
             data-themename="<%= t.theme || '' %>"
             data-rank="<%= t.rank %>"
+            data-completed="<%= isCompleted ? 'true' : 'false' %>"
             data-confirmed="<%= isConfirmed ? 'true' : 'false' %>"
             data-cansubmit="<%= (!reg || reg.canSubmit) ? 'true' : 'false' %>"
             data-reginfo='<%= JSON.stringify(reg || {}) %>'
             role="button"
             tabindex="0"
             title="Click to enter <%= t.name %> portal">
+
+            <!-- Card Header: Status Tag & Rank -->
+            <div class="card-header-bar">
+              <% if (isVerified) { %>
+                <span class="badge-status badge-verified">
+                  <span class="badge-dot">●</span> COMPLETED // VERIFIED
+                </span>
+              <% } else if (isPending) { %>
+                <span class="badge-status badge-pending">
+                  <span class="badge-dot">✓</span> COMPLETED // UNDER REVIEW
+                </span>
+              <% } else if (isRejected) { %>
+                <span class="badge-status badge-rejected">
+                  <span class="badge-dot">!</span> ACTION REQUIRED // ISSUE
+                </span>
+              <% } else if (isCorrection) { %>
+                <span class="badge-status badge-correction">
+                  <span class="badge-dot">✏️</span> UNLOCKED FOR CORRECTION
+                </span>
+              <% } else { %>
+                <span class="badge-status badge-open">
+                  <span class="badge-dot">⚡</span> REGISTRATION OPEN
+                </span>
+              <% } %>
+              <span class="rank">#<%= String(t.rank).padStart(2, '0') %></span>
+            </div>
             
-            <span class="rank">#<%= String(t.rank).padStart(2, '0') %></span>
             <h2 class="team"><%= t.id ? t.id + ' — ' : '' %><%= t.name %></h2>
             
             <div class="college">
@@ -444,19 +572,24 @@
             <% if (t.theme) { %><span class="theme"><%= t.theme %></span><% } %>
 
             <div class="card-footer-action">
-              <% if (isConfirmed) { %>
+              <% if (isVerified) { %>
                 <span class="action-btn">
-                  <span>🔒 SQUAD CONFIRMED ✓</span>
+                  <span>🔒 SQUAD VERIFIED & CONFIRMED ✓</span>
+                  <span>→</span>
+                </span>
+              <% } else if (isPending) { %>
+                <span class="action-btn">
+                  <span>🛡️ REGISTRATION COMPLETED (DETAILS)</span>
                   <span>→</span>
                 </span>
               <% } else if (isCorrection) { %>
                 <span class="action-btn">
-                  <span>✏️ UNLOCKED FOR UPDATE</span>
+                  <span>✏️ UPDATE / RE-SUBMIT SQUAD</span>
                   <span>→</span>
                 </span>
               <% } else { %>
                 <span class="action-btn">
-                  <span>⚡ ENTER TEAM PORTAL</span>
+                  <span>⚡ COMPLETE REGISTRATION & PAY</span>
                   <span>→</span>
                 </span>
               <% } %>
@@ -464,7 +597,7 @@
           </article>
         <% }) %>
       </section>
-      <div class="empty" id="no-results" style="display:none; margin-bottom:4rem;">No teams match your search.</div>
+      <div class="empty" id="no-results" style="display:none; margin-bottom:4rem;">No teams match your search or filter.</div>
     <% } %>
   </main>
 
@@ -518,37 +651,38 @@
         <span id="p-correction-msg">✏️ UNLOCKED IN DATABASE FOR CORRECTION: Organizers have enabled this squad to update details. Review and submit to re-lock.</span>
       </div>
 
-      <!-- VIEW A: ALREADY REGISTERED (Single-fill lock) -->
+      <!-- VIEW A: ALREADY REGISTERED / COMPLETED -->
       <div class="portal-registered-view" id="portal-registered-view">
-        <div class="reg-check-icon">🛡️</div>
-        <h3 class="reg-check-title">REGISTRATION COMPLETED & LOCKED</h3>
-        <p class="reg-check-desc">
-          This squad has already submitted their registration and payment details. All submissions are recorded in the database.
+        <div class="reg-check-icon" id="p-reg-icon">🛡️</div>
+        <h3 class="reg-check-title" id="p-reg-title">REGISTRATION COMPLETED & RECORDED</h3>
+        <p class="reg-check-desc" id="p-reg-desc">
+          This squad's registration and ₹1,000 fee payment details are securely recorded in the Samartha 2026 database. All squad members are confirmed for the October 10 - 11 finale at VIIT CSE Labs.
         </p>
 
         <div class="reg-summary-card">
           <div class="reg-summary-row"><span class="lbl">Team ID:</span><span class="val" id="p-reg-id">-</span></div>
           <div class="reg-summary-row"><span class="lbl">Team Name:</span><span class="val" id="p-reg-name">-</span></div>
-          <div class="reg-summary-row"><span class="lbl">Payment UTR:</span><span class="val" id="p-reg-utr">-</span></div>
-          <div class="reg-summary-row"><span class="lbl">Submission Status:</span><span class="val" style="color:var(--gold);">Under Verification ✓</span></div>
+          <div class="reg-summary-row"><span class="lbl">Payment UTR ID:</span><span class="val" id="p-reg-utr" style="font-family:'JetBrains Mono'; color:var(--accent);">-</span></div>
+          <div class="reg-summary-row"><span class="lbl">Verification Status:</span><span class="val" id="p-reg-status" style="color:var(--gold);">Submitted & Under Review ✓</span></div>
+          <div class="reg-summary-row"><span class="lbl">Submission Recorded:</span><span class="val" id="p-reg-time" style="color:var(--muted); font-size:.74rem;">-</span></div>
           <div class="reg-summary-row"><span class="lbl">Attempts Used:</span><span class="val" id="p-reg-attempts">1 of 1 (Locked)</span></div>
           
           <div class="reg-members-box">
-            <span style="color:var(--dim); font-size:.7rem; display:block; margin-bottom:4px;">CONFIRMED SQUAD MEMBERS:</span>
+            <span style="color:var(--dim); font-size:.7rem; display:block; margin-bottom:6px; font-weight:700;">CONFIRMED SQUAD ROSTER:</span>
             <div id="p-reg-members-list"></div>
           </div>
         </div>
 
-        <p style="font-family:'JetBrains Mono'; font-size:.74rem; color:var(--dim); margin-bottom:1.5rem;">
-          ℹ️ If you made any error or mistake in your details, hackathon coordinators can unlock this squad directly in MongoDB Atlas.
+        <p style="font-family:'JetBrains Mono'; font-size:.74rem; color:var(--dim); margin-bottom:1.5rem; line-height:1.5;">
+          ℹ️ If you need to update members or modify details, hackathon coordinators can unlock this squad directly in the system.
         </p>
 
-        <button type="button" class="btn-portal-close" id="btn-portal-return" style="background:var(--accent); color:#020805; border-color:var(--accent); font-size:.85rem; padding:.75rem 2rem;">
+        <button type="button" class="btn-portal-close" id="btn-portal-return" style="background:var(--accent); color:#020805; border-color:var(--accent); font-size:.85rem; padding:.75rem 2rem; font-weight:800;">
           RETURN TO TEAMS LIST
         </button>
       </div>
 
-      <!-- VIEW B: REGISTRATION FORM (First time entry OR Unlocked in Atlas) -->
+      <!-- VIEW B: REGISTRATION FORM (First time entry OR Unlocked for correction) -->
       <div class="portal-form-view" id="portal-form-view">
         <form id="portal-form" enctype="multipart/form-data">
           <!-- Hidden locked inputs -->
@@ -628,7 +762,7 @@
             </div>
           </div>
 
-          <!-- Segment 2: Payment Verification (NO QR) -->
+          <!-- Segment 2: Payment Verification -->
           <div class="form-segment">
             <div class="form-sec-title">
               <span>PAYMENT PROOF & UTR REFERENCE</span>
@@ -647,12 +781,13 @@
               <div class="form-group full">
                 <label>Upload Payment Screenshot Receipt <span class="req">*</span></label>
                 <div class="dropzone" id="dropzone">
-                  <input type="file" name="screenshot" id="f-screenshot" accept="image/jpeg,image/png,image/webp,application/pdf" required>
-                  <div class="dropzone-title">Click to Browse or Drag & Drop Screenshot</div>
-                  <div class="dropzone-sub">Supported formats: JPG, PNG, WEBP, PDF (Max 8MB)</div>
+                  <input type="file" name="screenshot" id="f-screenshot" accept="image/*,application/pdf,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif" required>
+                  <div class="dropzone-title">Click to Browse or Drag & Drop Receipt</div>
+                  <div class="dropzone-sub">Supported formats: JPG, PNG, WEBP, HEIC, PDF (Max 12MB)</div>
                 </div>
 
                 <div class="file-preview" id="file-preview">
+                  <div class="file-pdf-icon" id="file-preview-pdf-icon" style="display:none; width:44px; height:44px; border-radius:4px; background:rgba(255,77,109,.15); border:1px solid #ff4d6d; color:#ff859c; font-family:'JetBrains Mono'; font-size:.75rem; font-weight:800; align-items:center; justify-content:center; text-align:center; line-height:1.2; flex-shrink:0;">PDF</div>
                   <img src="" id="file-preview-thumb" class="file-thumb" alt="Preview">
                   <div class="file-details">
                     <div class="file-name" id="file-preview-name">receipt.png</div>
@@ -667,7 +802,7 @@
           <div class="portal-alert" id="portal-alert"></div>
 
           <button type="submit" class="btn-portal-submit" id="btn-portal-submit">
-            <span>LOCK IN SQUAD & SUBMIT REGISTRATION</span>
+            <span id="btn-portal-submit-text">LOCK IN SQUAD & SUBMIT REGISTRATION</span>
             <span id="portal-spinner" style="display:none;">⏳</span>
           </button>
         </form>
@@ -681,19 +816,22 @@
     (() => {
       // ----------------- Filter & Search -----------------
       const input = document.getElementById('team-search');
-      const chips = document.querySelectorAll('#college-chips .chip');
+      const statusTabs = document.querySelectorAll('#status-tabs .status-tab');
+      const collegeChips = document.querySelectorAll('#college-chips .chip');
       const cards = document.querySelectorAll('.card');
       const none = document.getElementById('no-results');
 
       let selectedCol = '';
+      let selectedStatus = '';
+
       const applyFilter = () => {
-        if (!input) return;
-        const q = input.value.trim().toLowerCase();
+        const q = input ? input.value.trim().toLowerCase() : '';
         let shown = 0;
         cards.forEach(c => {
           const matchSearch = !q || c.dataset.search.includes(q);
           const matchCol = !selectedCol || c.dataset.college.includes(selectedCol);
-          const ok = matchSearch && matchCol;
+          const matchStatus = !selectedStatus || c.dataset.status === selectedStatus;
+          const ok = matchSearch && matchCol && matchStatus;
           c.style.display = ok ? '' : 'none';
           if (ok) shown++;
         });
@@ -701,10 +839,20 @@
       };
 
       if (input) input.addEventListener('input', applyFilter);
-      chips.forEach(ch => ch.addEventListener('click', () => {
-        chips.forEach(c => c.classList.remove('active'));
+
+      // Status tab clicking
+      statusTabs.forEach(tab => tab.addEventListener('click', () => {
+        statusTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        selectedStatus = tab.dataset.status || '';
+        applyFilter();
+      }));
+
+      // College chip clicking
+      collegeChips.forEach(ch => ch.addEventListener('click', () => {
+        collegeChips.forEach(c => c.classList.remove('active'));
         ch.classList.add('active');
-        selectedCol = ch.dataset.college;
+        selectedCol = ch.dataset.college || '';
         applyFilter();
       }));
 
@@ -725,9 +873,13 @@
 
       const formView = document.getElementById('portal-form-view');
       const registeredView = document.getElementById('portal-registered-view');
+      const pRegTitle = document.getElementById('p-reg-title');
+      const pRegIcon = document.getElementById('p-reg-icon');
       const pRegId = document.getElementById('p-reg-id');
       const pRegName = document.getElementById('p-reg-name');
       const pRegUtr = document.getElementById('p-reg-utr');
+      const pRegStatus = document.getElementById('p-reg-status');
+      const pRegTime = document.getElementById('p-reg-time');
       const pRegAttempts = document.getElementById('p-reg-attempts');
       const pRegMembersList = document.getElementById('p-reg-members-list');
 
@@ -754,6 +906,8 @@
 
       let currentCard = null;
 
+      const esc = s => String(s || '').replace(/[&<>'"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c]));
+
       const openTeamPortal = (card) => {
         currentCard = card;
         const id = card.dataset.id || '';
@@ -764,6 +918,7 @@
         const college = card.dataset.collegename || '';
         const theme = card.dataset.themename || '';
         const rank = card.dataset.rank || '';
+        const isCompleted = card.dataset.completed === 'true';
         const canSubmit = card.dataset.cansubmit === 'true';
 
         let regInfo = {};
@@ -791,21 +946,54 @@
 
         const isCorrection = canSubmit && regInfo.attemptsUsed > 0;
 
-        if (!canSubmit) {
-          // Locked view (single fill used, cannot edit unless unlocked in Atlas)
+        if (isCompleted && !canSubmit) {
+          // Locked view (Registration completed & recorded)
           formView.style.display = 'none';
           registeredView.style.display = 'block';
           pCorrectionBanner.style.display = 'none';
 
           pRegId.textContent = id;
           pRegName.textContent = name;
-          pRegUtr.textContent = 'VERIFIED ON FILE';
-          pRegAttempts.textContent = `${regInfo.attemptsUsed || 1} of ${regInfo.attemptsAllowed || 1} Used (Locked in Atlas)`;
+          pRegUtr.textContent = regInfo.utrId ? regInfo.utrId : 'RECORDED IN DATABASE ✓';
+          
+          const status = regInfo.status || 'pending';
+          if (status === 'verified' || status === 'approved' || status === 'completed') {
+            pRegStatus.innerHTML = '<span style="color:var(--accent);">✅ VERIFIED & CONFIRMED</span>';
+            pRegIcon.textContent = '✅';
+            pRegTitle.textContent = 'REGISTRATION VERIFIED & CONFIRMED';
+          } else if (status === 'rejected') {
+            pRegStatus.innerHTML = '<span style="color:#ff859c;">⚠️ ISSUE FLAGGED (CONTACT COORDINATORS)</span>';
+            pRegIcon.textContent = '⚠️';
+            pRegTitle.textContent = 'REGISTRATION PENDING CORRECTION';
+          } else {
+            pRegStatus.innerHTML = '<span style="color:var(--gold);">⏳ COMPLETED (UNDER ADMIN REVIEW)</span>';
+            pRegIcon.textContent = '🛡️';
+            pRegTitle.textContent = 'REGISTRATION COMPLETED & SECURED';
+          }
+
+          if (regInfo.submittedAt) {
+            try {
+              pRegTime.textContent = new Date(regInfo.submittedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+            } catch (e) {
+              pRegTime.textContent = 'Recorded on Server';
+            }
+          } else {
+            pRegTime.textContent = 'Recorded on Server';
+          }
+
+          pRegAttempts.textContent = `${regInfo.attemptsUsed || 1} of ${regInfo.attemptsAllowed || 1} Used (Locked in Database)`;
 
           // Render members list
-          if (pRegMembersList) {
-            pRegMembersList.innerHTML = '<span style="color:var(--dim); font-size:.7rem;">Roster details securely verified on server.</span>';
+          let membersHtml = `<div class="reg-member-item"><span>👑 Team Lead: <b>${esc(lead)}</b></span><span style="color:var(--gold);">Official Leader</span></div>`;
+          if (regInfo.members && regInfo.members.length) {
+            regInfo.members.forEach((m, idx) => {
+              membersHtml += `<div class="reg-member-item"><span>👤 Member ${idx + 2}: <b>${esc(m.name || 'Hacker')}</b></span><span style="color:var(--accent);">Confirmed ✓</span></div>`;
+            });
+          } else {
+            membersHtml += `<div class="reg-member-item"><span style="color:var(--dim);">Squad roster confirmed and saved in Atlas.</span></div>`;
           }
+          pRegMembersList.innerHTML = membersHtml;
+
         } else {
           // Editable form view (first time OR unlocked by coordinator in Atlas)
           registeredView.style.display = 'none';
@@ -816,6 +1004,7 @@
           if (isCorrection) {
             pCorrectionBanner.style.display = 'block';
             pCorrectionMsg.textContent = `✏️ UNLOCKED IN ATLAS FOR CORRECTION (Attempt ${regInfo.attemptsUsed + 1} of ${regInfo.attemptsAllowed}): Please securely re-enter your corrected details below.`;
+            if (regInfo.utrId && fUtr) fUtr.value = regInfo.utrId;
           } else {
             pCorrectionBanner.style.display = 'none';
           }
@@ -829,7 +1018,6 @@
         document.body.style.overflow = 'hidden';
       };
 
-      // Ensure scrolling is ALWAYS cleanly restored
       const closeTeamPortal = () => {
         overlay.classList.remove('open');
         document.body.style.overflow = '';
@@ -863,31 +1051,85 @@
         }
       });
 
-      // ----------------- File Dropzone -----------------
+      // ----------------- File Dropzone & Client Compression -----------------
       const fileInput = document.getElementById('f-screenshot');
       const dropzone = document.getElementById('dropzone');
       const filePreview = document.getElementById('file-preview');
       const previewThumb = document.getElementById('file-preview-thumb');
+      const pdfIcon = document.getElementById('file-preview-pdf-icon');
       const previewName = document.getElementById('file-preview-name');
       const previewSize = document.getElementById('file-preview-size');
       const btnRemoveFile = document.getElementById('btn-remove-file');
 
+      const isPdfFile = (file) => {
+        if (!file) return false;
+        const name = (file.name || '').toLowerCase();
+        const type = (file.type || '').toLowerCase();
+        return name.endsWith('.pdf') || type === 'application/pdf' || type.includes('pdf');
+      };
+
+      // Browser Canvas Image Compression to eliminate upload timeouts & Failed to fetch
+      // Strictly skips PDFs and non-images
+      const compressReceiptImage = async (file) => {
+        if (!file || isPdfFile(file)) return file;
+        if (!file.type || !file.type.startsWith('image/')) return file;
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const img = new Image();
+            img.onload = () => {
+              const maxDim = 1600;
+              let w = img.width;
+              let h = img.height;
+              if (w > maxDim || h > maxDim) {
+                if (w > h) {
+                  h = Math.round((h * maxDim) / w);
+                  w = maxDim;
+                } else {
+                  w = Math.round((w * maxDim) / h);
+                  h = maxDim;
+                }
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              canvas.toBlob((blob) => {
+                if (!blob) return resolve(file);
+                const cleanName = (file.name || 'receipt').replace(/\.[^.]+$/, '.jpg');
+                const compressed = new File([blob], cleanName, { type: 'image/jpeg', lastModified: Date.now() });
+                console.log(`Receipt compressed from ${(file.size/1024).toFixed(1)}KB to ${(compressed.size/1024).toFixed(1)}KB`);
+                resolve(compressed);
+              }, 'image/jpeg', 0.84);
+            };
+            img.onerror = () => resolve(file);
+            img.src = ev.target.result;
+          };
+          reader.onerror = () => resolve(file);
+          reader.readAsDataURL(file);
+        });
+      };
+
       const handleFile = (file) => {
         if (!file) return;
-        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
-        if (!validTypes.includes(file.type)) {
-          alert('Please upload a valid JPG, PNG, WEBP image or PDF receipt.');
-          return;
-        }
-        if (file.size > 8 * 1024 * 1024) {
-          alert('File size exceeds 8MB. Please upload a smaller receipt.');
+
+        if (file.size > 12 * 1024 * 1024) {
+          showAlert('File exceeds 12MB limit. Please upload a receipt under 12MB.', true);
+          if (fileInput) fileInput.value = '';
           return;
         }
 
         previewName.textContent = file.name;
-        previewSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        previewSize.textContent = file.size >= 1024 * 1024 
+          ? (file.size / (1024 * 1024)).toFixed(2) + ' MB'
+          : Math.round(file.size / 1024) + ' KB';
 
-        if (file.type.startsWith('image/')) {
+        if (isPdfFile(file)) {
+          if (previewThumb) previewThumb.style.display = 'none';
+          if (pdfIcon) pdfIcon.style.display = 'flex';
+        } else if (file.type && file.type.startsWith('image/')) {
+          if (pdfIcon) pdfIcon.style.display = 'none';
           const reader = new FileReader();
           reader.onload = (e) => {
             previewThumb.src = e.target.result;
@@ -895,7 +1137,8 @@
           };
           reader.readAsDataURL(file);
         } else {
-          previewThumb.style.display = 'none';
+          if (previewThumb) previewThumb.style.display = 'none';
+          if (pdfIcon) pdfIcon.style.display = 'flex';
         }
 
         dropzone.style.display = 'none';
@@ -935,6 +1178,7 @@
       const form = document.getElementById('portal-form');
       const alertBox = document.getElementById('portal-alert');
       const btnSubmit = document.getElementById('btn-portal-submit');
+      const submitText = document.getElementById('btn-portal-submit-text');
       const spinner = document.getElementById('portal-spinner');
 
       const showAlert = (msg, isError = true) => {
@@ -960,45 +1204,79 @@
             return;
           }
 
-          const formData = new FormData(form);
           btnSubmit.disabled = true;
           spinner.style.display = 'inline-block';
+          submitText.textContent = 'OPTIMIZING RECEIPT & SECURING...';
 
           try {
+            // Compress image file in browser to ensure lightning fast upload (leaves PDFs untouched)
+            let fileToSend = fileInput.files[0];
+            if (!isPdfFile(fileToSend)) {
+              try {
+                fileToSend = await compressReceiptImage(fileToSend);
+              } catch (cErr) {
+                console.warn('Compression fallback:', cErr);
+              }
+            }
+
+            const formData = new FormData(form);
+            formData.set('screenshot', fileToSend);
+
+            submitText.textContent = 'RECORDING IN SAMARTHA ATLAS...';
+
             const res = await fetch('/api/payment/submit', {
               method: 'POST',
               body: formData
             });
 
-            const data = await res.json();
+            let data;
+            try {
+              data = await res.json();
+            } catch (jsonErr) {
+              throw new Error('Server returned an unexpected response. Please try again or contact coordinators.');
+            }
+
             if (!res.ok || !data.ok) {
               throw new Error(data.error || 'Failed to submit registration. Each squad has 1 chance.');
             }
 
-            // Successfully submitted! Update current card state
+            // Successfully submitted! Update current card state in UI
             if (currentCard) {
-              currentCard.classList.remove('is-correction');
-              currentCard.classList.add('is-confirmed');
+              currentCard.classList.remove('is-unregistered', 'is-correction');
+              currentCard.classList.add('is-completed');
+              currentCard.dataset.completed = 'true';
               currentCard.dataset.confirmed = 'true';
               currentCard.dataset.cansubmit = 'false';
+              currentCard.dataset.status = 'completed';
+
               const updatedReg = {
                 teamId: data.teamId,
                 teamName: data.teamName,
                 utrId: data.utrId,
+                status: data.status || 'pending',
                 attemptsAllowed: 1,
                 attemptsUsed: 1,
                 canSubmit: false,
                 isLocked: true,
+                submittedAt: new Date(),
                 members: [
-                  { name: m1Name.value.trim(), email: m1Email.value.trim(), phone: m1Phone.value.trim() },
-                  { name: m2Name.value.trim(), email: m2Email.value.trim(), phone: m2Phone.value.trim() },
-                  { name: m3Name.value.trim(), email: m3Email.value.trim(), phone: m3Phone.value.trim() },
+                  { name: m1Name.value.trim() },
+                  { name: m2Name.value.trim() },
+                  { name: m3Name.value.trim() },
                 ]
               };
               currentCard.dataset.reginfo = JSON.stringify(updatedReg);
+
+              // Update badge on card
+              const badgeSpan = currentCard.querySelector('.card-header-bar .badge-status');
+              if (badgeSpan) {
+                badgeSpan.className = 'badge-status badge-pending';
+                badgeSpan.innerHTML = '<span class="badge-dot">✓</span> COMPLETED // UNDER REVIEW';
+              }
+
               const actionSpan = currentCard.querySelector('.card-footer-action span.action-btn');
               if (actionSpan) {
-                actionSpan.innerHTML = '<span>🔒 SQUAD CONFIRMED ✓</span><span>→</span>';
+                actionSpan.innerHTML = '<span>🛡️ REGISTRATION COMPLETED (DETAILS)</span><span>→</span>';
               }
             }
 
@@ -1006,27 +1284,38 @@
             formView.style.display = 'none';
             pCorrectionBanner.style.display = 'none';
             registeredView.style.display = 'block';
+
             pRegId.textContent = data.teamId;
             pRegName.textContent = data.teamName;
             pRegUtr.textContent = data.utrId;
+            pRegStatus.innerHTML = '<span style="color:var(--gold);">⏳ COMPLETED (UNDER ADMIN REVIEW)</span>';
+            pRegTime.textContent = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
             pRegAttempts.textContent = '1 of 1 Used (Locked in Atlas)';
 
             // Render members
             if (pRegMembersList) {
               pRegMembersList.innerHTML = `
-                <div class="reg-member-item"><span>👤 Member 2: <b>${m1Name.value.trim()}</b></span><span>${m1Phone.value.trim() || m1Email.value.trim()}</span></div>
-                <div class="reg-member-item"><span>👤 Member 3: <b>${m2Name.value.trim()}</b></span><span>${m2Phone.value.trim() || m2Email.value.trim()}</span></div>
-                <div class="reg-member-item"><span>👤 Member 4: <b>${m3Name.value.trim()}</b></span><span>${m3Phone.value.trim() || m3Email.value.trim()}</span></div>
+                <div class="reg-member-item"><span>👑 Team Lead: <b>${esc(fLeadName.value)}</b></span><span style="color:var(--gold);">Official Leader</span></div>
+                <div class="reg-member-item"><span>👤 Member 2: <b>${esc(m1Name.value.trim())}</b></span><span style="color:var(--accent);">Confirmed ✓</span></div>
+                <div class="reg-member-item"><span>👤 Member 3: <b>${esc(m2Name.value.trim())}</b></span><span style="color:var(--accent);">Confirmed ✓</span></div>
+                <div class="reg-member-item"><span>👤 Member 4: <b>${esc(m3Name.value.trim())}</b></span><span style="color:var(--accent);">Confirmed ✓</span></div>
               `;
             }
 
             form.reset();
             if (btnRemoveFile) btnRemoveFile.click();
+
           } catch (err) {
-            showAlert(err.message || 'Error processing registration. Please try again.', true);
+            console.error('Submit error:', err);
+            let userMsg = err.message || 'Error processing registration. Please try again.';
+            if (userMsg.includes('Failed to fetch') || userMsg.includes('NetworkError')) {
+              userMsg = 'Network connection interrupted. Your form data is preserved. Please click submit again.';
+            }
+            showAlert(userMsg, true);
           } finally {
             btnSubmit.disabled = false;
             spinner.style.display = 'none';
+            submitText.textContent = 'LOCK IN SQUAD & SUBMIT REGISTRATION';
           }
         });
       }

@@ -22,7 +22,6 @@ Thumbs.db
 data/*.csv
 !*.example.csv
 !data/*.example.csv
-data/payment_submissions.json
 data/atlas_seed_documents.json
 
 # Uploaded payment receipts & screenshots

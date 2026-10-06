@@ -44,7 +44,6 @@ const teamSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-teamSchema.index({ teamId: 1 });
 teamSchema.index({ 'payment.utrId': 1 });
 
 module.exports = mongoose.models.Team || mongoose.model('Team', teamSchema);

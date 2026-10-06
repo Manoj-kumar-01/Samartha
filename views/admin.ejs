@@ -5,72 +5,118 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin // Mail Selected Teams - SAMARTHA 2026</title>
-  <meta name="description" content="Organizer console to email the official poster and details to selected teams.">
+  <title>Admin // Mail & Payments Console - SAMARTHA 2026</title>
+  <meta name="description" content="Organizer console to verify payments and email official details to selected teams.">
   <link rel="icon" type="image/jpeg" href="/assets/samartha_logo.jpg">
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap"
     rel="stylesheet">
   <style>
     :root { --bg:#020805; --surface:#0a1b12; --accent:#00ff88; --accent-dim:rgba(0,255,136,.14); --gold:#fbbf24;
-      --red:#ff4d6d; --border:rgba(0,255,136,.22); --text:#e1f2e8; --muted:#8ea89a; --dim:#4d6859; }
+      --cyan:#00f0ff; --red:#ff4d6d; --border:rgba(0,255,136,.22); --text:#e1f2e8; --muted:#8ea89a; --dim:#4d6859; }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { font-family:'Rajdhani',sans-serif; background:radial-gradient(ellipse at top,rgba(0,255,136,.1),transparent 60%),var(--bg);
       color:var(--text); min-height:100vh; padding:2rem 1rem; font-size:1.05rem; }
-    .wrap { max-width:1100px; margin:0 auto; }
+    .wrap { max-width:1200px; margin:0 auto; }
     h1 { font-family:'Orbitron'; font-weight:900; letter-spacing:3px; color:var(--accent); font-size:1.6rem; margin-bottom:.3rem; }
     .sub { font-family:'JetBrains Mono'; font-size:.75rem; color:var(--dim); margin-bottom:2rem; }
-    .panel { background:rgba(10,27,18,.85); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin-bottom:1.2rem; }
-    .panel h2 { font-family:'JetBrains Mono'; font-size:.8rem; letter-spacing:2px; color:var(--gold); margin-bottom:1rem; }
+    .panel { background:rgba(10,27,18,.85); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin-bottom:1.5rem; }
+    .panel h2 { font-family:'JetBrains Mono'; font-size:.82rem; letter-spacing:2px; color:var(--gold); margin-bottom:1rem; }
     label { display:block; font-family:'JetBrains Mono'; font-size:.72rem; color:var(--muted); margin:0 0 .4rem; }
     input, textarea { width:100%; background:#05100a; border:1px solid var(--border); color:#fff; border-radius:6px;
       padding:.75rem .9rem; font:inherit; outline:none; margin-bottom:1rem; transition:border-color .2s, box-shadow .2s; }
     input:focus, textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
-    textarea { min-height:300px; font-family:'JetBrains Mono'; font-size:.85rem; line-height:1.6; resize:vertical; }
-    .btn { font-family:'JetBrains Mono'; font-weight:700; font-size:.8rem; padding:.8rem 1.3rem; border-radius:6px; cursor:pointer;
-      border:1px solid var(--accent); background:transparent; color:var(--accent); transition:all .2s; }
+    textarea { min-height:220px; font-family:'JetBrains Mono'; font-size:.85rem; line-height:1.6; resize:vertical; }
+    .btn { font-family:'JetBrains Mono'; font-weight:700; font-size:.78rem; padding:.7rem 1.1rem; border-radius:6px; cursor:pointer;
+      border:1px solid var(--accent); background:transparent; color:var(--accent); transition:all .2s; display:inline-flex; align-items:center; gap:6px; }
     .btn:hover:not(:disabled) { background:var(--accent-dim); box-shadow:0 0 18px rgba(0,255,136,.35); }
     .btn.primary { background:var(--accent); color:#020805; }
     .btn.primary:hover:not(:disabled) { filter:brightness(1.1); }
+    .btn.warning { border-color:var(--gold); color:var(--gold); }
+    .btn.warning:hover:not(:disabled) { background:rgba(251,191,36,.15); box-shadow:0 0 15px rgba(251,191,36,.3); }
+    .btn.danger { border-color:var(--red); color:var(--red); }
+    .btn.danger:hover:not(:disabled) { background:rgba(255,77,109,.15); box-shadow:0 0 15px rgba(255,77,109,.3); }
+    .btn.cyan { border-color:var(--cyan); color:var(--cyan); }
+    .btn.cyan:hover:not(:disabled) { background:rgba(0,240,255,.15); box-shadow:0 0 15px rgba(0,240,255,.3); }
     .btn:disabled { opacity:.45; cursor:not-allowed; }
     .row { display:flex; gap:.8rem; flex-wrap:wrap; align-items:center; }
     .hint { font-family:'JetBrains Mono'; font-size:.7rem; color:var(--dim); margin:-.5rem 0 1rem; }
     .hint code { color:var(--accent); }
     .msg { font-family:'JetBrains Mono'; font-size:.8rem; margin-top:1rem; min-height:1.2em; }
     .msg.ok { color:var(--accent); } .msg.err { color:var(--red); }
-    .grid2 { display:grid; grid-template-columns:1.3fr 1fr; gap:1.2rem; }
+    .grid2 { display:grid; grid-template-columns:1.2fr 1fr; gap:1.2rem; }
     table { width:100%; border-collapse:collapse; font-size:.92rem; }
-    th, td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid rgba(0,255,136,.08); vertical-align:top; }
+    th, td { text-align:left; padding:.55rem .6rem; border-bottom:1px solid rgba(0,255,136,.1); vertical-align:middle; }
     th { font-family:'JetBrains Mono'; font-size:.68rem; color:var(--dim); position:sticky; top:0; background:var(--surface); }
-    .tbl { max-height:520px; overflow:auto; }
+    .tbl { max-height:450px; overflow:auto; }
     .warn { color:var(--red); font-family:'JetBrains Mono'; font-size:.72rem; }
     .bar { height:10px; background:#05100a; border:1px solid var(--border); border-radius:6px; overflow:hidden; margin:.8rem 0; }
     .bar div { height:100%; width:0; background:linear-gradient(90deg,#00b359,var(--accent)); transition:width .4s; }
     .hidden { display:none; }
+
+    /* Badge styles */
+    .badge { font-family:'JetBrains Mono'; font-size:.68rem; font-weight:700; padding:.22rem .55rem; border-radius:4px; display:inline-block; }
+    .badge.pending { background:rgba(251,191,36,.15); color:var(--gold); border:1px solid rgba(251,191,36,.4); }
+    .badge.verified { background:rgba(0,255,136,.15); color:var(--accent); border:1px solid rgba(0,255,136,.4); }
+    .badge.rejected { background:rgba(255,77,109,.15); color:var(--red); border:1px solid rgba(255,77,109,.4); }
+
+    /* Image Modal */
+    .img-modal { position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.92); display:none; align-items:center; justify-content:center; padding:1.5rem; }
+    .img-modal.open { display:flex; }
+    .img-modal img { max-width:92vw; max-height:90vh; border-radius:8px; border:2px solid var(--accent); box-shadow:0 0 30px rgba(0,255,136,.4); }
+
     @media (max-width:900px) { .grid2 { grid-template-columns:1fr; } }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <h1>SAMARTHA // MAIL CONSOLE</h1>
-    <div class="sub">Send the official poster + finale details to all selected teams from the Google Sheet.</div>
+    <h1>SAMARTHA // ORGANIZER DASHBOARD</h1>
+    <div class="sub">Verify squad registrations, view payment UTRs, and manage bulk team communications.</div>
 
     <!-- Login -->
     <section class="panel" id="login-panel">
       <h2>[ ORGANIZER LOGIN ]</h2>
       <form id="login-form" class="row">
         <input type="password" id="admin-password" placeholder="Admin password" style="flex:1;margin:0" required>
-        <button class="btn primary" id="login-btn" type="submit">UNLOCK</button>
+        <button class="btn primary" id="login-btn" type="submit">UNLOCK DASHBOARD</button>
       </form>
       <div class="msg" id="login-msg"></div>
     </section>
 
     <div id="console" class="hidden">
+      <!-- Section 1: Payment Submissions & Roster Verification -->
+      <section class="panel" id="payments-panel">
+        <div class="row" style="justify-content:space-between; margin-bottom:1rem;">
+          <h2 style="margin:0;" id="payments-title">[ SQUAD PAYMENT SUBMISSIONS ]</h2>
+          <button class="btn cyan" id="reload-payments-btn">↻ RELOAD PAYMENTS</button>
+        </div>
+
+        <div class="tbl" style="max-height:550px;">
+          <table>
+            <thead>
+              <tr>
+                <th>TEAM ID & NAME</th>
+                <th>LEAD CONTACT</th>
+                <th>CONFIRMED SQUAD (3 MEMBERS)</th>
+                <th>UTR ID & RECEIPT</th>
+                <th>STATUS</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="payments-body">
+              <tr><td colspan="6" style="text-align:center; color:var(--dim); padding:2rem;">Loading payment submissions from Atlas...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="msg" id="payments-msg"></div>
+      </section>
+
+      <!-- Section 2: Email Console & Shortlisted Teams -->
       <div class="grid2">
         <!-- Compose -->
         <section class="panel">
-          <h2>[ COMPOSE ]</h2>
+          <h2>[ EMAIL SHORTLISTED TEAMS ]</h2>
           <label for="mail-subject">SUBJECT</label>
           <input id="mail-subject" value="SAMARTHA 2026: Selection Confirmation - {{team}}">
           <label for="mail-message">MESSAGE (poster and logo load inline)</label>
@@ -85,8 +131,7 @@ Congratulations! 🎉 Your team has been SELECTED for the SAMARTHA 2026 24-Hour 
 
 See you at Samartha! ⚡
 
-🌐 Website & Verification Portal: https://samartha-quov.onrender.com/
-📝 Update any details (Google Form): https://docs.google.com/forms/d/e/1FAIpQLSdbi2ipdu2dNmbOBjA0WDaSGGHrXWVsiPAwwfL_d87_trWaRA/viewform?usp=publish-editor
+🌐 Selected Teams & Registration Portal: https://samartha-quov.onrender.com/selected-teams
 
 Regards,
 Organizing Committee, SAMARTHA 2026
@@ -113,7 +158,7 @@ Department of CSE, VIIT</textarea>
         <!-- Recipients -->
         <section class="panel">
           <div class="row" style="justify-content:space-between;margin-bottom:1rem">
-            <h2 style="margin:0" id="recipients-title">[ RECIPIENTS ]</h2>
+            <h2 style="margin:0" id="recipients-title">[ SHORTLISTED TEAMS ]</h2>
             <button class="btn" id="reload-btn" style="padding:.45rem .8rem">↻ RELOAD SHEET</button>
           </div>
           <div class="tbl">
@@ -127,11 +172,17 @@ Department of CSE, VIIT</textarea>
     </div>
   </div>
 
+  <!-- Image viewer modal -->
+  <div class="img-modal" id="img-modal">
+    <img src="" id="img-modal-src" alt="Payment Screenshot">
+  </div>
+
   <script>
     (() => {
       const $ = id => document.getElementById(id);
       let key = sessionStorage.getItem('samartha-admin') || '';
       let teams = [];
+      let payments = [];
 
       const api = async (url, opts = {}) => {
         const res = await fetch(url, {
@@ -142,15 +193,145 @@ Department of CSE, VIIT</textarea>
         if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
         return data;
       };
+
       const setMsg = (el, text, ok = true) => { el.textContent = text; el.className = 'msg ' + (ok ? 'ok' : 'err'); };
-      const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const esc = s => String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+      // Modal viewer
+      const imgModal = $('img-modal');
+      const imgModalSrc = $('img-modal-src');
+      imgModal.addEventListener('click', () => imgModal.classList.remove('open'));
+
+      window.viewReceipt = async (teamId) => {
+        const btn = document.getElementById(`btn-receipt-${teamId}`);
+        const origText = btn ? btn.innerHTML : '';
+        if (btn) btn.innerHTML = '⏳ Loading...';
+
+        try {
+          const res = await api(`/admin/api/receipt/${teamId}`);
+          if (btn) btn.innerHTML = origText;
+          const data = res.screenshotData || res.filePath || '';
+          if (!data) return alert('No receipt found for this team.');
+
+          const isPdf = data.includes('application/pdf') || /\.pdf$/i.test(data) || data.startsWith('data:application/pdf');
+
+          if (isPdf) {
+            // Open PDF in new tab
+            const win = window.open();
+            if (win) {
+              win.document.write(`
+                <!DOCTYPE html>
+                <html><head><title>Receipt - ${teamId}</title></head>
+                <body style="margin:0; background:#020805; display:flex; flex-direction:column; height:100vh;">
+                  <div style="padding:10px; background:#0a1b12; color:#00ff88; font-family:sans-serif; font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                    <b>SAMARTHA 2026 // RECEIPT DOCUMENT: ${teamId}</b>
+                    <a href="${data}" download="receipt_${teamId}.pdf" style="color:#00ff88; text-decoration:none; border:1px solid #00ff88; padding:4px 10px; border-radius:4px;">⬇ Download PDF</a>
+                  </div>
+                  <iframe src="${data}" style="flex:1; width:100%; border:none;"></iframe>
+                </body></html>
+              `);
+            } else {
+              alert('Popup blocked. Please allow popups to view PDF receipt.');
+            }
+          } else {
+            // Open Image modal
+            imgModalSrc.src = data;
+            imgModal.classList.add('open');
+          }
+        } catch (err) {
+          if (btn) btn.innerHTML = origText;
+          alert('Could not open receipt: ' + err.message);
+        }
+      };
+
+      async function loadPayments() {
+        try {
+          const res = await api('/admin/api/payments');
+          payments = res.payments || [];
+          $('payments-title').textContent = `[ SQUAD PAYMENT SUBMISSIONS: ${payments.length} RECORDED ]`;
+          
+          if (!payments.length) {
+            $('payments-body').innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--dim); padding:2rem;">No squad payments recorded yet.</td></tr>`;
+            return;
+          }
+
+          $('payments-body').innerHTML = payments.map(p => {
+            const status = p.status || 'pending';
+            const statusClass = status === 'verified' ? 'verified' : (status === 'rejected' ? 'rejected' : 'pending');
+            const membersList = (p.members || []).map(m => `<div>👤 <b>${esc(m.name)}</b> <span style="color:var(--dim);font-size:.75rem;">(${esc(m.phone || m.email || '-')})</span></div>`).join('');
+
+            return `
+              <tr id="row-${esc(p.teamId)}">
+                <td>
+                  <b style="color:#fff; font-size:1.05rem;">${esc(p.teamId)}</b><br>
+                  <span style="color:var(--accent); font-weight:700;">${esc(p.teamName)}</span><br>
+                  <span style="color:var(--dim); font-size:.78rem;">${esc(p.college)}</span>
+                </td>
+                <td>
+                  👑 <b>${esc(p.teamLeadName)}</b><br>
+                  <span style="font-family:'JetBrains Mono'; font-size:.78rem; color:var(--muted);">${esc(p.teamLeadEmail)}</span><br>
+                  <span style="font-family:'JetBrains Mono'; font-size:.78rem; color:var(--gold);">${esc(p.teamLeadPhone)}</span>
+                </td>
+                <td style="font-size:.82rem;">
+                  ${membersList || '<span style="color:var(--dim);">No squad members listed</span>'}
+                </td>
+                <td>
+                  <code style="font-size:.9rem; color:var(--accent);">${esc(p.utrId)}</code><br>
+                  <span style="font-size:.75rem; color:var(--muted);">Amount: ₹${p.amount || 1000}</span><br>
+                  <button class="btn" id="btn-receipt-${esc(p.teamId)}" style="padding:.2rem .6rem; font-size:.7rem; margin-top:4px;" onclick="viewReceipt('${esc(p.teamId)}')">📄 View Receipt</button>
+                </td>
+                <td>
+                  <span class="badge ${statusClass}">${status.toUpperCase()}</span>
+                </td>
+                <td>
+                  <div class="row" style="gap:4px;">
+                    <button class="btn primary" style="padding:.25rem .55rem; font-size:.7rem;" onclick="updateStatus('${esc(p.teamId)}', 'verified')">✔ VERIFY</button>
+                    <button class="btn cyan" style="padding:.25rem .55rem; font-size:.7rem;" onclick="unlockSquad('${esc(p.teamId)}')">✏️ UNLOCK</button>
+                    <button class="btn danger" style="padding:.25rem .55rem; font-size:.7rem;" onclick="updateStatus('${esc(p.teamId)}', 'rejected')">✖ REJECT</button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        } catch (err) {
+          setMsg($('payments-msg'), 'Failed to load payments: ' + err.message, false);
+        }
+      }
+
+      window.updateStatus = async (teamId, status) => {
+        if (!confirm(`Set payment status of team ${teamId} to "${status.toUpperCase()}"?`)) return;
+        try {
+          await api('/admin/api/payments/status', {
+            method: 'POST',
+            body: JSON.stringify({ teamId, status })
+          });
+          setMsg($('payments-msg'), `✔ Updated team ${teamId} status to ${status}.`);
+          loadPayments();
+        } catch (err) {
+          setMsg($('payments-msg'), err.message, false);
+        }
+      };
+
+      window.unlockSquad = async (teamId) => {
+        if (!confirm(`Unlock team ${teamId} for correction? This permits the squad to update member/payment details.`)) return;
+        try {
+          await api('/admin/api/payments/unlock', {
+            method: 'POST',
+            body: JSON.stringify({ teamId })
+          });
+          setMsg($('payments-msg'), `✔ Squad ${teamId} unlocked. They can now update details on Selected Teams page.`);
+          loadPayments();
+        } catch (err) {
+          setMsg($('payments-msg'), err.message, false);
+        }
+      };
 
       async function loadTeams() {
         const data = await api('/admin/api/teams');
         teams = data.teams;
         if (data.sender && !$('test-email').value) $('test-email').value = data.sender;
         const withMail = teams.filter(t => t.emails.length).length;
-        $('recipients-title').textContent = `[ RECIPIENTS: ${withMail} / ${teams.length} ]`;
+        $('recipients-title').textContent = `[ SHORTLISTED TEAMS: ${withMail} / ${teams.length} ]`;
         $('recipients-body').innerHTML = teams.map(t => `
           <tr><td>${t.rank}</td><td>${esc(t.id ? t.id + ' - ' + t.name : t.name)}</td>
           <td>${t.emails.length ? esc(t.emails.join(', ')) : '<span class="warn">NO EMAIL — will be skipped</span>'}</td></tr>`).join('');
@@ -159,6 +340,7 @@ Department of CSE, VIIT</textarea>
       async function unlock() {
         try {
           await loadTeams();
+          await loadPayments();
           sessionStorage.setItem('samartha-admin', key);
           $('login-panel').classList.add('hidden');
           $('console').classList.remove('hidden');
@@ -173,6 +355,7 @@ Department of CSE, VIIT</textarea>
       if (key) unlock();
 
       $('reload-btn').addEventListener('click', () => loadTeams().catch(err => setMsg($('compose-msg'), err.message, false)));
+      $('reload-payments-btn').addEventListener('click', () => loadPayments());
 
       const payload = () => ({ subject: $('mail-subject').value, message: $('mail-message').value });
 
