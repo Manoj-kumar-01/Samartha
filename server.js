@@ -91,7 +91,7 @@ function readLocalSubmissions() {
       const data = JSON.parse(fs.readFileSync(backupFile, 'utf8'));
       if (Array.isArray(data)) return data;
     }
-  } catch (e) {}
+  } catch (e) { }
   return [];
 }
 
@@ -270,7 +270,7 @@ app.get('/api/health', async (req, res) => {
       const Team = require('./models/Team');
       paymentCount = await Payment.countDocuments();
       teamCount = await Team.countDocuments();
-    } catch (e) {}
+    } catch (e) { }
   }
   const localList = readLocalSubmissions();
   res.json({
@@ -350,11 +350,11 @@ const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit (comfortably under MongoDB 16MB document limit)
+  limits: { fileSize: 12 * 1024 * 1024 }, // 12 MB limit
   fileFilter: function (req, file, cb) {
     const ext = path.extname(file.originalname || '').toLowerCase().replace('.', '');
     const mime = (file.mimetype || '').toLowerCase();
-    
+
     // Check extension
     const allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'pdf', 'heic', 'heif'];
     if (allowedExts.includes(ext)) {
@@ -379,10 +379,7 @@ app.post('/api/payment/submit', (req, res) => {
   upload.single('screenshot')(req, res, async (err) => {
     if (err) {
       console.warn('Multer upload error:', err.message);
-      if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(400).json({ ok: false, error: 'Receipt file exceeds 10MB limit. Please upload a receipt screenshot under 10MB.' });
-      }
-      return res.status(400).json({ ok: false, error: err.message || 'File upload failed. Ensure the receipt is under 10MB.' });
+      return res.status(400).json({ ok: false, error: err.message || 'File upload failed. Ensure the receipt is under 12MB.' });
     }
 
     try {
